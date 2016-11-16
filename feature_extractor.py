@@ -19,8 +19,8 @@ testing_data, testing_labels = load_data(data_path='test_images.npy', labels_pat
 # Parameters
 learning_rate = 0.001
 training_iters = 200
-batch_size = 20
-display_step = 5
+batch_size = 49
+display_step = 1
 
 # Network Parameters
 n_input = 147456  # 49152  # MNIST data input (img shape: 28*28)
@@ -78,19 +78,19 @@ def conv_net(x, weights, biases, dropout):
 # Store layers weight & bias
 weights = {
     # 5x5 conv, 1 input, 32 outputs
-    'wc1': tf.Variable(tf.random_normal([5, 5, 1, 32])),
+    'wc1': tf.Variable(tf.random_normal([8, 8, 1, 32])),
     # 5x5 conv, 32 inputs, 64 outputs
-    'wc2': tf.Variable(tf.random_normal([5, 5, 32, 64])),
+    'wc2': tf.Variable(tf.random_normal([8, 8, 32, 162])),
     # fully connected, 7*7*64 inputs, 1024 outputs
-    'wd1': tf.Variable(tf.random_normal([7 * 7 * 64, 1024])),
+    'wd1': tf.Variable(tf.random_normal([8 * 8 * 81, 2056])),
     # 1024 inputs, 10 outputs (class prediction)
-    'out': tf.Variable(tf.random_normal([1024, n_classes]))
+    'out': tf.Variable(tf.random_normal([2056, n_classes]))
 }
 
 biases = {
     'bc1': tf.Variable(tf.random_normal([32])),
-    'bc2': tf.Variable(tf.random_normal([64])),
-    'bd1': tf.Variable(tf.random_normal([1024])),
+    'bc2': tf.Variable(tf.random_normal([81])),
+    'bd1': tf.Variable(tf.random_normal([2056])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 

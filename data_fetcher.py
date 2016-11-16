@@ -57,16 +57,16 @@ def make_images():
     images = []
     counter = 0
     for i in train_labels:
-        if counter > 1000:
+        if counter > 2000:
             break
-        if counter > 0:
+        if counter > 1000:
             if counter % 100 == 0:
                 print("Image:", i, "iteration:", counter)
             img = load_image(i)
             images.append(img)
         counter += 1
     images = np.array(images)
-    np.save('learn_images.npy', np.array(images))
+    np.save('test_images.npy', np.array(images))
     return images
 
 
