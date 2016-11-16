@@ -50,7 +50,7 @@ def maxpool2d(x, k=2):
 # Create model
 def conv_net(x, weights, biases, dropout):
     # Reshape input picture
-    x = tf.reshape(x, shape=[-1, 256, 192, 1])
+    x = tf.reshape(x, shape=[-1, 256, 192, 3])
 
     # Convolution Layer
     conv1 = conv2d(x, weights['wc1'], biases['bc1'])
@@ -78,11 +78,11 @@ def conv_net(x, weights, biases, dropout):
 # Store layers weight & bias
 weights = {
     # 5x5 conv, 1 input, 32 outputs
-    'wc1': tf.Variable(tf.random_normal([8, 8, 1, 32])),
+    'wc1': tf.Variable(tf.random_normal([5, 5, 3, 32])),
     # 5x5 conv, 32 inputs, 64 outputs
-    'wc2': tf.Variable(tf.random_normal([8, 8, 32, 162])),
+    'wc2': tf.Variable(tf.random_normal([5, 5, 32, 81])),
     # fully connected, 7*7*64 inputs, 1024 outputs
-    'wd1': tf.Variable(tf.random_normal([8 * 8 * 81, 2056])),
+    'wd1': tf.Variable(tf.random_normal([7 * 7 * 81, 2056])),
     # 1024 inputs, 10 outputs (class prediction)
     'out': tf.Variable(tf.random_normal([2056, n_classes]))
 }
