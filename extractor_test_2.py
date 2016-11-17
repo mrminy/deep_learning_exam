@@ -1,12 +1,16 @@
 #!/usr/bin/env python
+"""
+https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
+"""
 
 import tensorflow as tf
 import numpy as np
 
-from data_fetcher import load_data
+from data_fetcher import load_data, convert_to_one_hot
 
 batch_size = 32
-test_size = 64
+test_size = 32
+TRAIN = True
 
 
 def init_weights(shape):
@@ -41,31 +45,33 @@ def model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden):
     return pyx
 
 
-training_data, trY = load_data()
-teX, teY = load_data(data_path='test_images.npy', labels_path='test_one_hot.npy')
+trX, trY = load_data(data_path='train_images_small.npy', labels_path='train_one_hot.npy')
+teX, teY = load_data(data_path='test_images_small.npy', labels_path='test_one_hot.npy')
 
-trX = training_data.reshape(-1, 256, 192, 3)  # 28x28x1 input img
-teX = teX.reshape(-1, 256, 192, 3)  # 28x28x1 input img
+trX = trX.reshape(-1, 64, 48, 3)  # 28x28x1 input img
+teX = teX.reshape(-1, 64, 48, 3)  # 28x28x1 input img
 
-X = tf.placeholder("float", [None, 256, 192, 3])
+X = tf.placeholder("float", [None, 64, 48, 3])
 Y = tf.placeholder("float", [None, 16825])
 
 w = init_weights([3, 3, 3, 32])  # 3x3x1 conv, 32 outputs
 w2 = init_weights([3, 3, 32, 64])  # 3x3x32 conv, 64 outputs
 w3 = init_weights([3, 3, 64, 128])  # 3x3x32 conv, 128 outputs
-w4 = init_weights([128 * 4 * 4 * 48, 6000])  # FC 128 * 4 * 4 inputs, 625 outputs
-w_o = init_weights([6000, 16825])  # FC 625 inputs, 10 outputs (labels)
+w4 = init_weights([128 * 4 * 4 * 3, 2000])  # FC 128 * 4 * 4 inputs, 625 outputs
+w_o = init_weights([2000, 16825])  # FC 625 inputs, 10 outputs (labels)
 
 p_keep_conv = tf.placeholder("float")
 p_keep_hidden = tf.placeholder("float")
 py_x = model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden)
 
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
-train_op = tf.train.AdamOptimizer(learning_rate=0.001).minimize(cost)
-# train_op = tf.train.RMSPropOptimizer(0.001, 0.9).minimize(cost)
+# train_op = tf.train.AdamOptimizer(learning_rate=0.001).minimize(cost)
+train_op = tf.train.RMSPropOptimizer(0.001, 0.9).minimize(cost)
 
 correct_pred = tf.pow((Y - py_x), 2)
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+saver = tf.train.Saver()
 
 # Launch the graph in a session
 config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
@@ -73,32 +79,41 @@ with tf.Session(config=config) as sess:
     # you need to initialize all variables
     tf.initialize_all_variables().run()
 
-    for i in range(10):
-        # training_batch = zip(range(0, len(trX), batch_size),
-        #                      range(batch_size, len(trX) + 1, batch_size))
-        idexes = np.arange(len(training_data))
-        for _ in range(5):
-            idx = np.random.choice(idexes, batch_size, replace=True)
-            batch_x = trX[idx]
-            batch_y = trY[idx]
-            cost = sess.run(train_op, feed_dict={X: batch_x, Y: batch_y, p_keep_conv: 0.8, p_keep_hidden: 0.5})
+    if TRAIN:
+        for i in range(20):
+            training_batch = zip(range(0, len(trX), batch_size),
+                                 range(batch_size, len(trX) + 1, batch_size))
+            print("Batches:", int(len(trX)/batch_size))
+            for start, end in training_batch:
+                batch_x = trX[start:end]
+                batch_y = convert_to_one_hot(trY[start:end])
+                sess.run(train_op, feed_dict={X: batch_x, Y: batch_y,
+                                              p_keep_conv: 0.8, p_keep_hidden: 0.5})
+            test_indices = np.arange(len(teX))  # Get A Test Batch
+            np.random.shuffle(test_indices)
+            test_indices = test_indices[0:test_size]
+
+            saver.save(sess, 'feature_extractor_model.ckpt', global_step=i + 1)
+
+            print(i, "Cost:", cost, "Acc:", sess.run(accuracy,
+                                                     feed_dict={X: teX[test_indices], Y: teY[test_indices],
+                                                                p_keep_conv: 1.0,
+                                                                p_keep_hidden: 1.0}))
 
         test_indices = np.arange(len(teX))  # Get A Test Batch
         np.random.shuffle(test_indices)
         test_indices = test_indices[0:test_size]
+        print("Final acc:", sess.run(accuracy,
+                                     feed_dict={X: teX[test_indices], Y: teY[test_indices], p_keep_conv: 1.0,
+                                                p_keep_hidden: 1.0}))
 
-        print(i, "Cost:", cost, "Acc:", sess.run(accuracy,
-                                                 feed_dict={X: teX[test_indices], Y: teY[test_indices],
-                                                            p_keep_conv: 1.0,
-                                                            p_keep_hidden: 1.0}))
-
-    test_indices = np.arange(len(teX))  # Get A Test Batch
-    np.random.shuffle(test_indices)
-    test_indices = test_indices[0:test_size]
-    print("Final acc:", sess.run(accuracy,
-                                 feed_dict={X: teX[test_indices], Y: teY[test_indices], p_keep_conv: 1.0,
-                                            p_keep_hidden: 1.0}))
-
-    index = np.argmax(teY[0])
-    print(teY[0][index])
-    print(sess.run(py_x, feed_dict={X: [teX[0]], p_keep_conv: 1.0, p_keep_hidden: 1.0})[0][index])
+        index = np.argmax(teY[0])
+        print(teY[0][index])
+        print(sess.run(py_x, feed_dict={X: [teX[0]], p_keep_conv: 1.0, p_keep_hidden: 1.0})[0][index])
+    else:
+        ckpt = tf.train.get_checkpoint_state('feature_extractor_model.ckpt')
+        if ckpt and ckpt.model_checkpoint_path:
+            saver.restore(sess, ckpt.model_checkpoint_path)
+            print("Loaded model successfully")
+        else:
+            print("No model found, exiting...")

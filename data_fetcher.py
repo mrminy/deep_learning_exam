@@ -1,3 +1,5 @@
+from resizeimage import resizeimage
+
 from front import generate_dict_from_directory
 import numpy as np
 import pickle
@@ -18,55 +20,75 @@ def check_nr_of_labels():
     return len(all_labels), all_labels
 
 
-def make_one_hot_labels():
+def make_one_hot_labels(train=True, save_file='train_one_hot.npy'):
     nr_of_labels, all_lables = check_nr_of_labels()
     print("Located all labels")
-    train_labels = generate_dict_from_directory()
+    if not train:
+        train_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
+                                                    directory='./validate/txt')
+    else:
+        train_labels = generate_dict_from_directory()
+
     labels = []
     counter = 0
     for i in train_labels:
-        if counter > 2000:
-            break
-        if counter > 1000:
+        if counter >= 0:
             if counter % 1000 == 0:
                 print("Image:", i, "iteration:", counter)
-            one_hot = np.zeros(nr_of_labels)
-            for lable in train_labels[i]:
-                one_hot[all_lables.index(lable)] = 1.
-            labels.append(one_hot)
+            one_hot_indexes = []
+            for label in train_labels[i]:
+                if label in all_lables:
+                    one_hot_indexes.append(all_lables.index(label))
+            labels.append(one_hot_indexes)
         counter += 1
     labels = np.array(labels)
-    np.save("test_one_hot.npy", np.array(labels))
+    np.save(save_file, labels)
 
 
-def load_image(img_name):
+def convert_to_one_hot(one_hot_indexes):
+    nr_of_labels = 16825  # Nr of different labels
+    one_hots = []
+    for indexes in one_hot_indexes:
+        one_hot = np.zeros(nr_of_labels)
+        one_hot[indexes] = 1.
+        one_hots.append(one_hot)
+    return np.array(one_hots)
+
+
+def load_image(img_name, train=True):
     arr = []
-    for filename in glob.glob('train/pics/*/' + img_name + '.jpg'):
+    path = 'train/pics/*/'
+    if not train:
+        path = 'validate/pics/*/'
+    for filename in glob.glob(path + img_name + '.jpg'):
         arr.append(Image.open(filename))
-    if len(arr) == 1:
-        return np.array(arr[0]).flatten()
-    if len(arr) > 1:
-        print("longer than 1", len(arr), arr[0].fp.name)
-        return np.array(arr[0]).flatten()
+    if len(arr) >= 1:
+        img = pre_process_image(arr[0].copy())
+        return np.array(img).flatten()
     return None
 
 
-def make_images():
+def pre_process_image(img):
+    return resizeimage.resize_cover(img, [64, 48])
+
+
+def make_images(train=True, save_file='train_images_small.npy'):
     # TODO try to restore the array from before
-    train_labels = generate_dict_from_directory()
+    if not train:
+        train_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
+                                                    directory='./validate/txt')
+    else:
+        train_labels = generate_dict_from_directory()
     images = []
     counter = 0
     for i in train_labels:
-        if counter > 2000:
-            break
-        if counter > 1000:
-            if counter % 100 == 0:
-                print("Image:", i, "iteration:", counter)
-            img = load_image(i)
-            images.append(img)
+        if counter % 100 == 0:
+            print("Image:", i, "iteration:", counter)
+        img = load_image(i, train=train)
+        images.append(img)
         counter += 1
     images = np.array(images)
-    np.save('test_images.npy', np.array(images))
+    np.save(save_file, images)
     return images
 
 
@@ -83,9 +105,5 @@ def load_data(data_path='learn_images.npy', labels_path='learn_one_hot.npy'):
 
 
 if __name__ == '__main__':
-    # make_one_hot_labels()
-    make_images()
-    # labels = load_one_hot()
-    # print("s")
-    # data, labels = load_data()
-    # print("test")
+    # make_one_hot_labels(train=False, save_file='test_one_hot.npy')
+    make_images(train=False, save_file='test_images_small.npy')
