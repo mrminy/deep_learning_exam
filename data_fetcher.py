@@ -55,16 +55,23 @@ def convert_to_one_hot(one_hot_indexes):
     return np.array(one_hots)
 
 
-def load_image(img_name, train=True):
+def find_img_path(partial_path, img_name):
+    for filename in glob.glob(partial_path + img_name + '.jpg'):
+        return filename
+    return None
+
+
+def load_image(img_name, train=True, path=None):
     arr = []
-    path = 'train/pics/*/'
-    if not train:
-        path = 'validate/pics/*/'
+    if path is None:
+        path = 'train/pics/*/'
+        if not train:
+            path = 'validate/pics/*/'
     for filename in glob.glob(path + img_name + '.jpg'):
         arr.append(Image.open(filename))
     if len(arr) >= 1:
         img = pre_process_image(arr[0].copy())
-        return np.array(img).flatten()
+        return np.true_divide(np.array(img).flatten(), 255)
     return None
 
 
@@ -73,7 +80,6 @@ def pre_process_image(img):
 
 
 def make_images(train=True, save_file='train_images_small.npy'):
-    # TODO try to restore the array from before
     if not train:
         train_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
                                                     directory='./validate/txt')
@@ -104,6 +110,29 @@ def load_data(data_path='learn_images.npy', labels_path='learn_one_hot.npy'):
     return load_images(data_path), load_one_hot_labels(labels_path)
 
 
+def generate_pair_similarity_index(dict):
+    score_db = []
+    for query in dict:
+        print("Generating for:", query)
+        scores = []
+        for test in dict:
+            if query != test:
+                # Find score
+                score = 0.0
+                scores.append((test, score))
+        score_db.append(np.array(scores))
+    score_db = np.array(score_db)
+    np.save('score_db.npy', score_db)
+
+
 if __name__ == '__main__':
+    training_labels = pickle.load(open('./validate/pickle/combined.pickle', 'rb'))
+    generate_pair_similarity_index(training_labels)
+
     # make_one_hot_labels(train=False, save_file='test_one_hot.npy')
-    make_images(train=False, save_file='test_images_small.npy')
+    # make_images(train=False, save_file='test_images_small.npy')
+    # path = 'data/small_size/train_images_small.npy'
+    # image_set = load_images(path=path)
+    # image_set = np.true_divide(image_set, 255)
+    # np.save(path, image_set)
+    print("done saving")

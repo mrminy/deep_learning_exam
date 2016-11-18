@@ -34,8 +34,9 @@ def test(queries=list(), location='./test'):
     for query in queries:
 
         # This is the image. Just opening if here for the fun of it; not used later
-        image = Image.open(location + '/pics/' + query + '.jpg')
-        image.show()
+        # TODO
+        # image = Image.open(location + '/pics/' + query + '.jpg')
+        # image.show()
 
         # Generate a random list of 50 entries
         cluster = [training_labels[random.randint(0, len(training_labels) - 1)] for idx in range(50)]

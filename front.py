@@ -144,7 +144,7 @@ if __name__ == "__main__":
     train()
 
     # Generate random queries, just to run the "test"-function. These are elements from the TEST-SET folder
-    test_labels = generate_dict_from_directory(pickle_file='./test/pickle/combined.pickle', directory='./test/txt/')
+    test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle', directory='./validate/txt/')
     test_ids = list(test_labels.keys())
     all_labels = {**test_labels, **train_labels}
     no_test_images = len(test_ids)
