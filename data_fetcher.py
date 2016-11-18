@@ -110,24 +110,73 @@ def load_data(data_path='learn_images.npy', labels_path='learn_one_hot.npy'):
     return load_images(data_path), load_one_hot_labels(labels_path)
 
 
-def generate_pair_similarity_index(dict):
-    score_db = []
-    for query in dict:
-        print("Generating for:", query)
-        scores = []
-        for test in dict:
-            if query != test:
-                # Find score
-                score = 0.0
-                scores.append((test, score))
-        score_db.append(np.array(scores))
-    score_db = np.array(score_db)
-    np.save('score_db.npy', score_db)
+# def generate_pair_similarity_index(db):
+#     score_db = {}
+#     for i, query in enumerate(db):
+#         if i % 1000 == 0:
+#             print(i, "- Generating for:", query)
+#         scores = []
+#         Find score
+# if query in db.keys():
+#     target_dict = dict(db[query])
+#     for test in db:
+#         if query != test:
+#             scores.append((test, calculate_score(target_dict, test, db)))
+#     score_db.append(np.array(scores))
+# else:
+#     print("Could not find any dict!")
+#     score_db.append(None)
+# score_db = np.array(score_db)
+# print(len(score_db))
+# np.save('train_score_db.npy', score_db)
+
+def calculate_score_batch(query_batch, test_batch, db):
+    y = []
+    for i, q in enumerate(query_batch):
+        y.append([calculate_score(q, test_batch[i], db)])
+    return np.array(y)
+
+
+def calculate_score(query, test, db):
+    if query in db.keys():
+        target_dict = dict(db[query])
+    else:
+        print("Could not find target dict for", query)
+        return 0.0
+    current_score = 0.0
+    best_score = sum(target_dict.values())
+
+    # Avoid problems with div zero. If best_score is 0.0 we will
+    # get 0.0 anyway, then best_score makes no difference
+    if best_score == 0.0:
+        best_score = 1.0
+
+    if test in db.keys():
+        selected_dict = dict(db[test])
+    else:
+        print("Couldn't find " + test + " in the dict keys.")
+        selected_dict = {}
+
+    # Extract the shared elements
+    common_elements = list(set(selected_dict.keys()) &
+                           set(target_dict.keys()))
+    if len(common_elements) > 0:
+        # for each shared element, the potential score is the
+        # level of certainty in the element for each of the
+        # images, multiplied together
+        element_scores = [selected_dict[element] * target_dict[element] for element in common_elements]
+        # We sum the contributions, and that's it
+        current_score += sum(element_scores) / best_score
+    else:
+        # If there are no shared elements,
+        # we won't add anything
+        pass
+    return current_score
 
 
 if __name__ == '__main__':
     training_labels = pickle.load(open('./validate/pickle/combined.pickle', 'rb'))
-    generate_pair_similarity_index(training_labels)
+    # generate_pair_similarity_index(training_labels)
 
     # make_one_hot_labels(train=False, save_file='test_one_hot.npy')
     # make_images(train=False, save_file='test_images_small.npy')

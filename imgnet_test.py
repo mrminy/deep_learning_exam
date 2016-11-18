@@ -45,14 +45,16 @@ class ImageFeatureExtractor:
         self.create_graph()
 
         self.sess = None
+        self.graph_def = None
+        self.graph = None
 
     def create_graph(self):
         """Creates a graph from saved GraphDef file and returns a saver."""
         # Creates graph from saved graph_def.pb.
         graph_f = tf.gfile.FastGFile(os.path.join(self.FLAGS.model_dir, 'classify_image_graph_def.pb'), 'rb')
-        graph_def = tf.GraphDef()
-        graph_def.ParseFromString(graph_f.read())
-        _ = tf.import_graph_def(graph_def, name='')
+        self.graph_def = tf.GraphDef()
+        self.graph_def.ParseFromString(graph_f.read())
+        self.graph = tf.import_graph_def(self.graph_def, name='')
 
     def run_inference_on_image(self, image, path='validate/pics/*/', print_prediction=False):
         """Runs inference on an image.
@@ -70,7 +72,9 @@ class ImageFeatureExtractor:
             image_data = tf.gfile.FastGFile(image, 'rb').read()
 
             if self.sess is None:
-                self.sess = tf.Session()
+                # config = tf.ConfigProto()
+                # config.gpu_options.allow_growth = True
+                self.sess = tf.Session(graph=self.graph)
                 # Some useful tensors:
                 # 'softmax:0': A tensor containing the normalized prediction across
                 #   1000 labels.
@@ -107,7 +111,9 @@ class ImageFeatureExtractor:
         """
         preds = []
         if self.sess is None:
-            self.sess = tf.Session()
+            # config = tf.ConfigProto()
+            # config.gpu_options.allow_growth = True
+            self.sess = tf.Session(graph=self.graph)
 
         softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
         for image in images:
