@@ -1,0 +1,6 @@
+model_checkpoint_path: "diff_net.ckpt-5"
+all_model_checkpoint_paths: "diff_net.ckpt-1"
+all_model_checkpoint_paths: "diff_net.ckpt-2"
+all_model_checkpoint_paths: "diff_net.ckpt-3"
+all_model_checkpoint_paths: "diff_net.ckpt-4"
+all_model_checkpoint_paths: "diff_net.ckpt-5"

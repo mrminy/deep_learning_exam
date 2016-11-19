@@ -1,0 +1,2422 @@
+relu, [4096, 500, 50, 1], no dropout, mse, rmsprop(0.001 0.9)
+/usr/bin/python3.5 /home/mikkel/deep_learning_exam/diffnet.py
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcublas.so locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcudnn.so locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcufft.so locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:111] successfully opened CUDA library libcurand.so locally
+Loading and preprocessing data...
+Building done graph...
+I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:925] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:951] Found device 0 with properties: 
+name: GeForce GTX 980
+major: 5 minor: 2 memoryClockRate (GHz) 1.2155
+pciBusID 0000:01:00.0
+Total memory: 3.93GiB
+Free memory: 3.37GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:972] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 980, pci bus id: 0000:01:00.0)
+I tensorflow/core/common_runtime/direct_session.cc:252] Device mapping:
+
+Device mapping: no known devices.
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Const: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_17: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_16: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_15: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_14: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_13: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_12: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_11: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_10: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_9: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_8: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_7: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_6: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_5: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_4: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/epsilon: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/momentum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/decay: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/learning_rate: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_17: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_16: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_14: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_13: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_11: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_10: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_8: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_7: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_5: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_4: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Prod_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Maximum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Fill: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/random_uniform/min: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/random_uniform/sub: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/random_uniform/min: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/random_uniform/sub: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/random_uniform/min: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/random_uniform/sub: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_15: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_5/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_5/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_5: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_5/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_12: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_4/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_4/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_4: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_4/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_9: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_3/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_3/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_3/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_6: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_2/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_2/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_2/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_1/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_1/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_all: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/save: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/read: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Variable/Assign: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] init: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Placeholder_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Square: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Square: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Square: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Placeholder_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] concat: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] MatMul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Add: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Relu: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/truediv_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/Div: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/random_uniform/RandomUniform: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/random_uniform/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/random_uniform: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/add: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/Floor: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Add_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Relu_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/truediv_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/Div: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/random_uniform/RandomUniform: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/random_uniform/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/random_uniform: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/add: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/Floor: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] MatMul_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Add_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Relu_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/truediv_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/Div: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/random_uniform/RandomUniform: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/random_uniform/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/random_uniform: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/add: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/Floor: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] sub: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Square: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Prod: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/floordiv: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Cast: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Tile: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Square_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Square_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/mul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_2/Div_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Relu_2_grad/ReluGrad: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/update_Variable_5/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_2_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_2_grad/MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_2_grad/MatMul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_2_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_2_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/update_Variable_2/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_2_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/mul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout_1/Div_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Relu_1_grad/ReluGrad: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/update_Variable_4/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_1_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_1_grad/MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_1_grad/MatMul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_1_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_1_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/update_Variable_1/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_1_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/mul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/dropout/Div_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Relu_grad/ReluGrad: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/update_Variable_3/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Add_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_grad/MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_grad/MatMul: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp/update_Variable/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] RMSProp: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/MatMul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/sub_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_17/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_17/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_16/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_16/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_15/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_15/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_14/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_14/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_13/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_13/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_12/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_12/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_11/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_11/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_10/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_10/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_9/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_9/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_8/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_8/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_7/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_7/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_6/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_6/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_5/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_5/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_4/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_4/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_3/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_3/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_2/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_2/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_1/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice_1/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/restore_slice/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/save/shapes_and_slices: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] save/save/tensor_names: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] zeros_5: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const_6: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] zeros_4: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const_5: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] zeros_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const_4: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] zeros_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const_3: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] zeros_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] zeros: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Maximum/y: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Const_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Const: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Shape_2: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Mean_grad/Reshape/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Const: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Const: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_2/random_uniform/max: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout_1/random_uniform/max: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] dropout/random_uniform/max: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] concat/concat_dim: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_5/stddev: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_5/mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_5/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_4/stddev: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_4/mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_4/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_3/stddev: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_3/mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_3/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_2/stddev: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_2/mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_2/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_1/stddev: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_1/mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal_1/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal/stddev: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal/mean: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] random_normal/shape: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Placeholder_1: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] Placeholder: /job:localhost/replica:0/task:0/cpu:0
+I tensorflow/core/common_runtime/simple_placer.cc:819] gradients/Square_grad/mul/x: /job:localhost/replica:0/task:0/cpu:0
+save/Const: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_17: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_16: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_15: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_14: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_13: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_12: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_11: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_10: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_9: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_8: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_7: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_6: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_5: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_4: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_3: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_2: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_1: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/epsilon: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/momentum: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/decay: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/learning_rate: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_17: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_16: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_14: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_13: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_11: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_10: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_8: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_7: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_5: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_4: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable/RMSProp_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_2: /job:localhost/replica:0/task:0/cpu:0
+Variable/RMSProp_1/read: /job:localhost/replica:0/task:0/cpu:0
+Variable/RMSProp_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable/RMSProp: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_1: /job:localhost/replica:0/task:0/cpu:0
+Variable/RMSProp/read: /job:localhost/replica:0/task:0/cpu:0
+Variable/RMSProp/Assign: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Prod_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Maximum: /job:localhost/replica:0/task:0/cpu:0
+gradients/Fill: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/random_uniform/min: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/random_uniform/sub: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/random_uniform/min: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/random_uniform/sub: /job:localhost/replica:0/task:0/cpu:0
+dropout/random_uniform/min: /job:localhost/replica:0/task:0/cpu:0
+dropout/random_uniform/sub: /job:localhost/replica:0/task:0/cpu:0
+Variable_5: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_15: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/read: /job:localhost/replica:0/task:0/cpu:0
+random_normal_5/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+random_normal_5/mul: /job:localhost/replica:0/task:0/cpu:0
+random_normal_5: /job:localhost/replica:0/task:0/cpu:0
+Variable_5/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_4: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_12: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/read: /job:localhost/replica:0/task:0/cpu:0
+random_normal_4/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+random_normal_4/mul: /job:localhost/replica:0/task:0/cpu:0
+random_normal_4: /job:localhost/replica:0/task:0/cpu:0
+Variable_4/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_3: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_9: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/read: /job:localhost/replica:0/task:0/cpu:0
+random_normal_3/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+random_normal_3/mul: /job:localhost/replica:0/task:0/cpu:0
+random_normal_3: /job:localhost/replica:0/task:0/cpu:0
+Variable_3/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_2: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_6: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/read: /job:localhost/replica:0/task:0/cpu:0
+random_normal_2/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+random_normal_2/mul: /job:localhost/replica:0/task:0/cpu:0
+random_normal_2: /job:localhost/replica:0/task:0/cpu:0
+Variable_2/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable_1: /job:localhost/replica:0/task:0/cpu:0
+save/Assign_3: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/read: /job:localhost/replica:0/task:0/cpu:0
+random_normal_1/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+random_normal_1/mul: /job:localhost/replica:0/task:0/cpu:0
+random_normal_1: /job:localhost/replica:0/task:0/cpu:0
+Variable_1/Assign: /job:localhost/replica:0/task:0/cpu:0
+Variable: /job:localhost/replica:0/task:0/cpu:0
+save/Assign: /job:localhost/replica:0/task:0/cpu:0
+save/restore_all: /job:localhost/replica:0/task:0/cpu:0
+save/save: /job:localhost/replica:0/task:0/cpu:0
+save/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+Variable/read: /job:localhost/replica:0/task:0/cpu:0
+random_normal/RandomStandardNormal: /job:localhost/replica:0/task:0/cpu:0
+random_normal/mul: /job:localhost/replica:0/task:0/cpu:0
+random_normal: /job:localhost/replica:0/task:0/cpu:0
+Variable/Assign: /job:localhost/replica:0/task:0/cpu:0
+init: /job:localhost/replica:0/task:0/cpu:0
+Placeholder_3: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Square: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Square: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Square: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+Placeholder_2: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+concat: /job:localhost/replica:0/task:0/cpu:0
+MatMul: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+Add: /job:localhost/replica:0/task:0/cpu:0
+Relu: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/truediv_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+dropout/Div: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+dropout/Shape: /job:localhost/replica:0/task:0/cpu:0
+dropout/random_uniform/RandomUniform: /job:localhost/replica:0/task:0/cpu:0
+dropout/random_uniform/mul: /job:localhost/replica:0/task:0/cpu:0
+dropout/random_uniform: /job:localhost/replica:0/task:0/cpu:0
+dropout/add: /job:localhost/replica:0/task:0/cpu:0
+dropout/Floor: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+dropout/mul: /job:localhost/replica:0/task:0/cpu:0
+MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+Add_1: /job:localhost/replica:0/task:0/cpu:0
+Relu_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/truediv_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/Div: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/Shape: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/random_uniform/RandomUniform: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/random_uniform/mul: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/random_uniform: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/add: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/Floor: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/mul: /job:localhost/replica:0/task:0/cpu:0
+MatMul_2: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+Add_2: /job:localhost/replica:0/task:0/cpu:0
+Relu_2: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/truediv_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/Div: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/Shape: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/random_uniform/RandomUniform: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/random_uniform/mul: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/random_uniform: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/add: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/Floor: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/BroadcastGradientArgs: /job:localhost/replica:0/task:0/cpu:0
+sub: /job:localhost/replica:0/task:0/cpu:0
+Square: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Shape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Prod: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/floordiv: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Cast: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Tile: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+gradients/Square_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/Square_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Neg: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/mul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_2/Div_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/Relu_2_grad/ReluGrad: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/update_Variable_5/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_2_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_2_grad/MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_2_grad/MatMul: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_2_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_2_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/update_Variable_2/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_2_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/mul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout_1/Div_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/Relu_1_grad/ReluGrad: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/update_Variable_4/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_1_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_1_grad/MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_1_grad/MatMul: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_1_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_1_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/update_Variable_1/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_1_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/mul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/mul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/mul: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/truediv: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/dropout/Div_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/Relu_grad/ReluGrad: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/Sum_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/Reshape_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/Sum: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/Reshape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/update_Variable_3/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+gradients/Add_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_grad/MatMul_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_grad/MatMul: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_grad/tuple/group_deps: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_grad/tuple/control_dependency_1: /job:localhost/replica:0/task:0/cpu:0
+RMSProp/update_Variable/ApplyRMSProp: /job:localhost/replica:0/task:0/cpu:0
+RMSProp: /job:localhost/replica:0/task:0/cpu:0
+gradients/MatMul_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+gradients/sub_grad/tuple/control_dependency: /job:localhost/replica:0/task:0/cpu:0
+Mean: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_17/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_17/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_16/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_16/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_15/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_15/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_14/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_14/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_13/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_13/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_12/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_12/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_11/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_11/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_10/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_10/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_9/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_9/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_8/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_8/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_7/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_7/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_6/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_6/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_5/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_5/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_4/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_4/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_3/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_3/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_2/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_2/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_1/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice_1/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice/shape_and_slice: /job:localhost/replica:0/task:0/cpu:0
+save/restore_slice/tensor_name: /job:localhost/replica:0/task:0/cpu:0
+save/save/shapes_and_slices: /job:localhost/replica:0/task:0/cpu:0
+save/save/tensor_names: /job:localhost/replica:0/task:0/cpu:0
+zeros_5: /job:localhost/replica:0/task:0/cpu:0
+Const_6: /job:localhost/replica:0/task:0/cpu:0
+zeros_4: /job:localhost/replica:0/task:0/cpu:0
+Const_5: /job:localhost/replica:0/task:0/cpu:0
+zeros_3: /job:localhost/replica:0/task:0/cpu:0
+Const_4: /job:localhost/replica:0/task:0/cpu:0
+zeros_2: /job:localhost/replica:0/task:0/cpu:0
+Const_3: /job:localhost/replica:0/task:0/cpu:0
+zeros_1: /job:localhost/replica:0/task:0/cpu:0
+Const_2: /job:localhost/replica:0/task:0/cpu:0
+zeros: /job:localhost/replica:0/task:0/cpu:0
+Const_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Maximum/y: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Const_1: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Const: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Shape_2: /job:localhost/replica:0/task:0/cpu:0
+gradients/Mean_grad/Reshape/shape: /job:localhost/replica:0/task:0/cpu:0
+gradients/Const: /job:localhost/replica:0/task:0/cpu:0
+gradients/Shape: /job:localhost/replica:0/task:0/cpu:0
+Const: /job:localhost/replica:0/task:0/cpu:0
+dropout_2/random_uniform/max: /job:localhost/replica:0/task:0/cpu:0
+dropout_1/random_uniform/max: /job:localhost/replica:0/task:0/cpu:0
+dropout/random_uniform/max: /job:localhost/replica:0/task:0/cpu:0
+concat/concat_dim: /job:localhost/replica:0/task:0/cpu:0
+random_normal_5/stddev: /job:localhost/replica:0/task:0/cpu:0
+random_normal_5/mean: /job:localhost/replica:0/task:0/cpu:0
+random_normal_5/shape: /job:localhost/replica:0/task:0/cpu:0
+random_normal_4/stddev: /job:localhost/replica:0/task:0/cpu:0
+random_normal_4/mean: /job:localhost/replica:0/task:0/cpu:0
+random_normal_4/shape: /job:localhost/replica:0/task:0/cpu:0
+random_normal_3/stddev: /job:localhost/replica:0/task:0/cpu:0
+random_normal_3/mean: /job:localhost/replica:0/task:0/cpu:0
+random_normal_3/shape: /job:localhost/replica:0/task:0/cpu:0
+random_normal_2/stddev: /job:localhost/replica:0/task:0/cpu:0
+random_normal_2/mean: /job:localhost/replica:0/task:0/cpu:0
+random_normal_2/shape: /job:localhost/replica:0/task:0/cpu:0
+random_normal_1/stddev: /job:localhost/replica:0/task:0/cpu:0
+random_normal_1/mean: /job:localhost/replica:0/task:0/cpu:0
+random_normal_1/shape: /job:localhost/replica:0/task:0/cpu:0
+random_normal/stddev: /job:localhost/replica:0/task:0/cpu:0
+random_normal/mean: /job:localhost/replica:0/task:0/cpu:0
+random_normal/shape: /job:localhost/replica:0/task:0/cpu:0
+Placeholder_1: /job:localhost/replica:0/task:0/cpu:0
+Placeholder: /job:localhost/replica:0/task:0/cpu:0
+gradients/Square_grad/mul/x: /job:localhost/replica:0/task:0/cpu:0
+Starting training...
+Total nr of batches: 1554
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 980, pci bus id: 0000:01:00.0)
+W tensorflow/core/framework/op_def_util.cc:332] Op BatchNormWithGlobalNormalization is deprecated. It will cease to work in GraphDef version 9. Use tf.nn.batch_normalization().
+Batch index: 0 Cost: 4.23823e+06 	Validation accuracy: 0.0100832
+Batch index: 5 Cost: 0.0175155 	Validation accuracy: 0.0076409
+Batch index: 10 Cost: 0.00126661 	Validation accuracy: 0.0185818
+Batch index: 15 Cost: 0.00129145 	Validation accuracy: 0.023885
+Batch index: 20 Cost: 0.000837735 	Validation accuracy: 0.000725562
+Batch index: 25 Cost: 0.000174439 	Validation accuracy: 0.0
+Batch index: 30 Cost: 0.0029122 	Validation accuracy: 0.00605547
+Batch index: 35 Cost: 0.00594717 	Validation accuracy: 0.000193496
+Batch index: 40 Cost: 0.00396367 	Validation accuracy: 0.00347627
+Batch index: 45 Cost: 0.000412908 	Validation accuracy: 0.0206944
+Batch index: 50 Cost: 0.00328602 	Validation accuracy: 0.0057528
+Batch index: 55 Cost: 0.00105276 	Validation accuracy: 0.00710986
+Batch index: 60 Cost: 0.00426658 	Validation accuracy: 0.036977
+Batch index: 65 Cost: 0.000832487 	Validation accuracy: 0.00066252
+Batch index: 70 Cost: 0.00143414 	Validation accuracy: 0.00643789
+Batch index: 75 Cost: 0.00638815 	Validation accuracy: 0.00696923
+Batch index: 80 Cost: 0.00308771 	Validation accuracy: 0.00552973
+Batch index: 85 Cost: 0.0013195 	Validation accuracy: 0.000676073
+Batch index: 90 Cost: 0.0125028 	Validation accuracy: 0.00313267
+Batch index: 95 Cost: 0.00785818 	Validation accuracy: 0.00132132
+Batch index: 100 Cost: 0.0138004 	Validation accuracy: 0.019249
+Batch index: 105 Cost: 0.00033711 	Validation accuracy: 0.00177363
+Batch index: 110 Cost: 0.000808888 	Validation accuracy: 0.00274383
+Batch index: 115 Cost: 0.00849033 	Validation accuracy: 0.000423799
+Batch index: 120 Cost: 0.00855272 	Validation accuracy: 0.00301699
+Batch index: 125 Cost: 0.00234515 	Validation accuracy: 0.000675003
+Batch index: 130 Cost: 0.0018213 	Validation accuracy: 0.00232051
+Batch index: 135 Cost: 0.00654846 	Validation accuracy: 8.09401e-05
+Batch index: 140 Cost: 0.0132069 	Validation accuracy: 0.000651369
+Batch index: 145 Cost: 0.00532541 	Validation accuracy: 0.00449219
+Batch index: 150 Cost: 0.00676581 	Validation accuracy: 0.00644342
+Batch index: 155 Cost: 0.00239903 	Validation accuracy: 0.000862722
+Batch index: 160 Cost: 0.0128567 	Validation accuracy: 0.00232438
+Batch index: 165 Cost: 0.00211119 	Validation accuracy: 0.00167691
+Batch index: 170 Cost: 0.00664276 	Validation accuracy: 0.00524705
+Batch index: 175 Cost: 0.00181546 	Validation accuracy: 0.0028125
+Batch index: 180 Cost: 0.00404711 	Validation accuracy: 0.00803408
+Batch index: 185 Cost: 0.00205458 	Validation accuracy: 0.001205
+Batch index: 190 Cost: 0.00746499 	Validation accuracy: 0.00192403
+Batch index: 195 Cost: 0.005879 	Validation accuracy: 0.0387301
+Batch index: 200 Cost: 0.00870656 	Validation accuracy: 0.00271711
+Batch index: 205 Cost: 0.0105294 	Validation accuracy: 0.00685659
+Batch index: 210 Cost: 0.00384847 	Validation accuracy: 0.00205147
+Batch index: 215 Cost: 0.000307587 	Validation accuracy: 0.0106021
+Batch index: 220 Cost: 0.0048056 	Validation accuracy: 0.000744234
+Batch index: 225 Cost: 0.00539969 	Validation accuracy: 0.00499174
+Batch index: 230 Cost: 0.00269032 	Validation accuracy: 0.000519506
+Batch index: 235 Cost: 0.0148584 	Validation accuracy: 0.00404942
+Batch index: 240 Cost: 0.00728975 	Validation accuracy: 0.000341827
+Batch index: 245 Cost: 0.00171877 	Validation accuracy: 0.0260872
+Batch index: 250 Cost: 0.0145123 	Validation accuracy: 0.000592639
+Batch index: 255 Cost: 0.00282275 	Validation accuracy: 0.0
+Batch index: 260 Cost: 0.00271633 	Validation accuracy: 0.00244072
+Batch index: 265 Cost: 0.00556849 	Validation accuracy: 0.0104492
+Batch index: 270 Cost: 0.0181449 	Validation accuracy: 0.00479251
+Batch index: 275 Cost: 0.00448354 	Validation accuracy: 0.00183759
+Batch index: 280 Cost: 0.00448549 	Validation accuracy: 0.00116752
+Batch index: 285 Cost: 0.00435331 	Validation accuracy: 0.000752266
+Batch index: 290 Cost: 0.00216325 	Validation accuracy: 0.00229658
+Batch index: 295 Cost: 0.00561671 	Validation accuracy: 0.000226475
+Batch index: 300 Cost: 0.00197515 	Validation accuracy: 0.00299598
+Batch index: 305 Cost: 0.00670028 	Validation accuracy: 0.00249556
+Batch index: 310 Cost: 0.00154113 	Validation accuracy: 0.0167769
+Batch index: 315 Cost: 0.00773687 	Validation accuracy: 0.0011331
+Batch index: 320 Cost: 0.00671699 	Validation accuracy: 0.0041831
+Batch index: 325 Cost: 0.00957323 	Validation accuracy: 0.000619506
+Batch index: 330 Cost: 0.0174247 	Validation accuracy: 0.00299389
+Batch index: 335 Cost: 0.00244216 	Validation accuracy: 0.000398142
+Batch index: 340 Cost: 0.00072448 	Validation accuracy: 0.0032311
+Batch index: 345 Cost: 0.0021432 	Validation accuracy: 0.00863126
+Batch index: 350 Cost: 0.00899999 	Validation accuracy: 0.00456028
+Batch index: 355 Cost: 0.00179921 	Validation accuracy: 0.0107372
+Batch index: 360 Cost: 0.00153941 	Validation accuracy: 0.00264942
+Batch index: 365 Cost: 0.0100698 	Validation accuracy: 0.0163249
+Batch index: 370 Cost: 0.0055029 	Validation accuracy: 0.0310746
+Batch index: 375 Cost: 0.000654101 	Validation accuracy: 0.00120544
+Batch index: 380 Cost: 0.00925667 	Validation accuracy: 0.000516828
+Batch index: 385 Cost: 0.00510623 	Validation accuracy: 0.000532572
+Batch index: 390 Cost: 0.00166563 	Validation accuracy: 0.0
+Batch index: 395 Cost: 4.51103e-05 	Validation accuracy: 0.000418058
+Batch index: 400 Cost: 0.00313772 	Validation accuracy: 0.00160161
+Batch index: 405 Cost: 0.000662412 	Validation accuracy: 0.00281698
+Batch index: 410 Cost: 0.00209461 	Validation accuracy: 0.00116607
+Batch index: 415 Cost: 0.00285697 	Validation accuracy: 0.00392254
+Batch index: 420 Cost: 0.0101684 	Validation accuracy: 0.00133352
+Batch index: 425 Cost: 0.000929238 	Validation accuracy: 0.00183856
+Batch index: 430 Cost: 0.0100161 	Validation accuracy: 0.00348606
+Batch index: 435 Cost: 0.00139964 	Validation accuracy: 0.000724114
+Batch index: 440 Cost: 0.00696229 	Validation accuracy: 0.00881469
+Batch index: 445 Cost: 0.00188964 	Validation accuracy: 0.00149499
+Batch index: 450 Cost: 0.000499661 	Validation accuracy: 0.00966038
+Batch index: 455 Cost: 0.00167751 	Validation accuracy: 0.00183336
+Batch index: 460 Cost: 0.00115073 	Validation accuracy: 0.00192361
+Batch index: 465 Cost: 0.00208245 	Validation accuracy: 0.0133437
+Batch index: 470 Cost: 0.00555145 	Validation accuracy: 0.00232821
+Batch index: 475 Cost: 0.00443564 	Validation accuracy: 0.003281
+Batch index: 480 Cost: 0.00238127 	Validation accuracy: 0.000111836
+Batch index: 485 Cost: 0.0121403 	Validation accuracy: 0.00639894
+Batch index: 490 Cost: 0.00242856 	Validation accuracy: 0.000395508
+Batch index: 495 Cost: 0.00136562 	Validation accuracy: 0.0077416
+Batch index: 500 Cost: 0.00465082 	Validation accuracy: 0.003024
+Batch index: 505 Cost: 0.00391359 	Validation accuracy: 0.000681462
+Batch index: 510 Cost: 0.00029313 	Validation accuracy: 0.0012008
+Batch index: 515 Cost: 0.00318688 	Validation accuracy: 0.00276187
+Batch index: 520 Cost: 0.00236803 	Validation accuracy: 0.00187943
+Batch index: 525 Cost: 0.00140554 	Validation accuracy: 0.003143
+Batch index: 530 Cost: 0.00272506 	Validation accuracy: 0.00575136
+Batch index: 535 Cost: 0.00406993 	Validation accuracy: 0.000698577
+Batch index: 540 Cost: 0.00928222 	Validation accuracy: 0.000306063
+Batch index: 545 Cost: 0.0135371 	Validation accuracy: 0.00119987
+Batch index: 550 Cost: 0.00153113 	Validation accuracy: 0.0
+Batch index: 555 Cost: 0.00333651 	Validation accuracy: 0.000290653
+Batch index: 560 Cost: 0.00128074 	Validation accuracy: 0.00812617
+Batch index: 565 Cost: 0.00494844 	Validation accuracy: 0.00145627
+Batch index: 570 Cost: 0.00249428 	Validation accuracy: 0.0121039
+Batch index: 575 Cost: 0.00129063 	Validation accuracy: 0.00205082
+Batch index: 580 Cost: 0.00435333 	Validation accuracy: 0.00162913
+Batch index: 585 Cost: 0.000819925 	Validation accuracy: 0.00445876
+Batch index: 590 Cost: 0.015237 	Validation accuracy: 0.00299943
+Batch index: 595 Cost: 0.00335346 	Validation accuracy: 0.00293477
+Batch index: 600 Cost: 0.000693324 	Validation accuracy: 0.00274349
+Batch index: 605 Cost: 0.014777 	Validation accuracy: 0.00167914
+Batch index: 610 Cost: 0.00509785 	Validation accuracy: 0.000203239
+Batch index: 615 Cost: 0.0084503 	Validation accuracy: 0.000484852
+Batch index: 620 Cost: 0.00282246 	Validation accuracy: 0.00177402
+Batch index: 625 Cost: 0.0100799 	Validation accuracy: 0.00546513
+Batch index: 630 Cost: 0.00647596 	Validation accuracy: 0.00233495
+Batch index: 635 Cost: 0.00725018 	Validation accuracy: 0.00248749
+Batch index: 640 Cost: 0.0066078 	Validation accuracy: 0.00128713
+Batch index: 645 Cost: 0.00095279 	Validation accuracy: 0.000104013
+Batch index: 650 Cost: 0.0168804 	Validation accuracy: 0.00109994
+Batch index: 655 Cost: 0.00223541 	Validation accuracy: 0.0125093
+Batch index: 660 Cost: 0.0050328 	Validation accuracy: 0.000292127
+Batch index: 665 Cost: 0.0008793 	Validation accuracy: 0.0
+Batch index: 670 Cost: 0.000643706 	Validation accuracy: 0.0199124
+Batch index: 675 Cost: 0.00214242 	Validation accuracy: 0.000882
+Batch index: 680 Cost: 0.00406144 	Validation accuracy: 0.00319606
+Batch index: 685 Cost: 0.00327774 	Validation accuracy: 0.0218575
+Batch index: 690 Cost: 0.015403 	Validation accuracy: 0.00491949
+Batch index: 695 Cost: 0.00220299 	Validation accuracy: 0.0003125
+Batch index: 700 Cost: 0.00634859 	Validation accuracy: 0.00946783
+Batch index: 705 Cost: 0.00171559 	Validation accuracy: 0.0024888
+Batch index: 710 Cost: 0.00460899 	Validation accuracy: 0.00155861
+Batch index: 715 Cost: 0.00264454 	Validation accuracy: 0.00469986
+Batch index: 720 Cost: 0.00127149 	Validation accuracy: 0.00138469
+Batch index: 725 Cost: 0.0130682 	Validation accuracy: 0.00123167
+Batch index: 730 Cost: 0.00447009 	Validation accuracy: 0.00110993
+Batch index: 735 Cost: 0.00190255 	Validation accuracy: 0.00212287
+Batch index: 740 Cost: 0.00692775 	Validation accuracy: 0.000170252
+Batch index: 745 Cost: 0.00940638 	Validation accuracy: 0.00828107
+Batch index: 750 Cost: 0.00612934 	Validation accuracy: 0.00444276
+Batch index: 755 Cost: 0.00806644 	Validation accuracy: 0.000124824
+Batch index: 760 Cost: 0.00461464 	Validation accuracy: 0.0159514
+Batch index: 765 Cost: 0.000922875 	Validation accuracy: 0.00270082
+Batch index: 770 Cost: 0.000903911 	Validation accuracy: 0.00949508
+Batch index: 775 Cost: 0.0105987 	Validation accuracy: 0.000185969
+Batch index: 780 Cost: 0.00508603 	Validation accuracy: 0.000847751
+Batch index: 785 Cost: 0.00281476 	Validation accuracy: 0.0
+Batch index: 790 Cost: 0.0107615 	Validation accuracy: 0.00342166
+Batch index: 795 Cost: 0.00752897 	Validation accuracy: 0.00055624
+Batch index: 800 Cost: 0.000661714 	Validation accuracy: 0.000850781
+Batch index: 805 Cost: 0.000223358 	Validation accuracy: 0.000935514
+Batch index: 810 Cost: 1.85791e-05 	Validation accuracy: 0.00852502
+Batch index: 815 Cost: 0.0134039 	Validation accuracy: 0.0010267
+Batch index: 820 Cost: 0.00581039 	Validation accuracy: 0.000594179
+Batch index: 825 Cost: 0.00222015 	Validation accuracy: 0.0078207
+Batch index: 830 Cost: 0.00193445 	Validation accuracy: 0.0194358
+Batch index: 835 Cost: 0.00859147 	Validation accuracy: 0.0102773
+Batch index: 840 Cost: 0.00632274 	Validation accuracy: 0.0
+Batch index: 845 Cost: 0.00280274 	Validation accuracy: 0.0
+Batch index: 850 Cost: 0.0115143 	Validation accuracy: 0.00184858
+Batch index: 855 Cost: 0.00525103 	Validation accuracy: 0.00108399
+Batch index: 860 Cost: 0.00281382 	Validation accuracy: 0.00233241
+Batch index: 865 Cost: 0.000480856 	Validation accuracy: 0.000653799
+Batch index: 870 Cost: 0.00382957 	Validation accuracy: 0.00881618
+Batch index: 875 Cost: 0.00163398 	Validation accuracy: 0.00107968
+Batch index: 880 Cost: 0.00462603 	Validation accuracy: 0.00178523
+Batch index: 885 Cost: 0.00136069 	Validation accuracy: 0.00307955
+Batch index: 890 Cost: 0.000952205 	Validation accuracy: 0.000239258
+Batch index: 895 Cost: 0.00518261 	Validation accuracy: 0.00101567
+Batch index: 900 Cost: 0.00524431 	Validation accuracy: 0.00146912
+Batch index: 905 Cost: 0.0028497 	Validation accuracy: 0.00766512
+Batch index: 910 Cost: 0.00325 	Validation accuracy: 0.010257
+Batch index: 915 Cost: 0.0012557 	Validation accuracy: 0.0
+Batch index: 920 Cost: 0.00582072 	Validation accuracy: 0.000358737
+Batch index: 925 Cost: 0.012868 	Validation accuracy: 0.000160089
+Batch index: 930 Cost: 0.00998024 	Validation accuracy: 0.00561363
+Batch index: 935 Cost: 0.00974933 	Validation accuracy: 0.0
+Batch index: 940 Cost: 0.0039717 	Validation accuracy: 0.000438621
+Batch index: 945 Cost: 0.000101619 	Validation accuracy: 0.0029484
+Batch index: 950 Cost: 0.00723234 	Validation accuracy: 0.00501457
+Batch index: 955 Cost: 0.00147708 	Validation accuracy: 0.00552876
+Batch index: 960 Cost: 0.000392752 	Validation accuracy: 0.00240069
+Batch index: 965 Cost: 0.00750685 	Validation accuracy: 0.0124844
+Batch index: 970 Cost: 0.00371107 	Validation accuracy: 0.00101692
+Batch index: 975 Cost: 0.00786681 	Validation accuracy: 0.000354123
+Batch index: 980 Cost: 0.00374294 	Validation accuracy: 0.000222121
+Batch index: 985 Cost: 0.00442917 	Validation accuracy: 0.0151161
+Batch index: 990 Cost: 0.0077226 	Validation accuracy: 0.029758
+Batch index: 995 Cost: 0.00367355 	Validation accuracy: 0.00342556
+Batch index: 1000 Cost: 0.00575136 	Validation accuracy: 0.000288909
+Batch index: 1005 Cost: 0.00117441 	Validation accuracy: 0.0
+Batch index: 1010 Cost: 0.0127986 	Validation accuracy: 0.00140138
+Batch index: 1015 Cost: 0.00437393 	Validation accuracy: 0.0142364
+Batch index: 1020 Cost: 0.00195884 	Validation accuracy: 0.00145919
+Batch index: 1025 Cost: 0.00141342 	Validation accuracy: 0.00768435
+Batch index: 1030 Cost: 0.00281288 	Validation accuracy: 0.0108108
+Batch index: 1035 Cost: 0.00410685 	Validation accuracy: 0.00052514
+Batch index: 1040 Cost: 0.00393481 	Validation accuracy: 0.00358146
+Batch index: 1045 Cost: 0.00216595 	Validation accuracy: 0.00185921
+Batch index: 1050 Cost: 0.00343253 	Validation accuracy: 0.00127016
+Batch index: 1055 Cost: 0.00350783 	Validation accuracy: 0.000973351
+Batch index: 1060 Cost: 0.000299806 	Validation accuracy: 0.000418327
+Batch index: 1065 Cost: 0.00385239 	Validation accuracy: 0.00555723
+Batch index: 1070 Cost: 0.012503 	Validation accuracy: 0.0113008
+Batch index: 1075 Cost: 0.00127441 	Validation accuracy: 0.00218198
+Batch index: 1080 Cost: 0.0238439 	Validation accuracy: 0.00023351
+Batch index: 1085 Cost: 0.00130371 	Validation accuracy: 0.00452752
+Batch index: 1090 Cost: 0.0116099 	Validation accuracy: 0.00151583
+Batch index: 1095 Cost: 0.00418231 	Validation accuracy: 0.00222403
+Batch index: 1100 Cost: 0.000872988 	Validation accuracy: 0.00045
+Batch index: 1105 Cost: 0.0107436 	Validation accuracy: 0.0153407
+Batch index: 1110 Cost: 0.00119212 	Validation accuracy: 0.0
+Batch index: 1115 Cost: 0.00156698 	Validation accuracy: 0.0
+Batch index: 1120 Cost: 0.00197323 	Validation accuracy: 0.00283895
+Batch index: 1125 Cost: 0.000891183 	Validation accuracy: 0.00335188
+Batch index: 1130 Cost: 0.0120838 	Validation accuracy: 0.00673752
+Batch index: 1135 Cost: 0.00321648 	Validation accuracy: 0.0081417
+Batch index: 1140 Cost: 0.00693319 	Validation accuracy: 0.00973747
+Batch index: 1145 Cost: 0.00329839 	Validation accuracy: 0.000172176
+Batch index: 1150 Cost: 0.00261155 	Validation accuracy: 0.00173229
+Batch index: 1155 Cost: 0.00918542 	Validation accuracy: 0.00524176
+Batch index: 1160 Cost: 0.000189823 	Validation accuracy: 0.00188062
+Batch index: 1165 Cost: 0.0149131 	Validation accuracy: 0.0265625
+Batch index: 1170 Cost: 0.0103584 	Validation accuracy: 0.00264548
+Batch index: 1175 Cost: 0.000216122 	Validation accuracy: 0.00258508
+Batch index: 1180 Cost: 0.000264624 	Validation accuracy: 0.00390078
+Batch index: 1185 Cost: 0.00272301 	Validation accuracy: 0.0104814
+Batch index: 1190 Cost: 0.00174819 	Validation accuracy: 0.00322224
+Batch index: 1195 Cost: 0.0148996 	Validation accuracy: 0.0107412
+Batch index: 1200 Cost: 0.00233808 	Validation accuracy: 0.0147802
+Batch index: 1205 Cost: 0.00420402 	Validation accuracy: 0.00511451
+Batch index: 1210 Cost: 0.00614496 	Validation accuracy: 0.000682891
+Batch index: 1215 Cost: 0.000639065 	Validation accuracy: 0.0116382
+Batch index: 1220 Cost: 0.00545549 	Validation accuracy: 0.000217014
+Batch index: 1225 Cost: 0.0060595 	Validation accuracy: 0.00112794
+Batch index: 1230 Cost: 0.000770964 	Validation accuracy: 0.0189169
+Batch index: 1235 Cost: 0.00383238 	Validation accuracy: 9.29752e-05
+Batch index: 1240 Cost: 0.00189019 	Validation accuracy: 0.00112783
+Batch index: 1245 Cost: 0.00116765 	Validation accuracy: 0.0107626
+Batch index: 1250 Cost: 0.00222421 	Validation accuracy: 0.00456036
+Batch index: 1255 Cost: 0.00440217 	Validation accuracy: 0.000158025
+Batch index: 1260 Cost: 0.00169216 	Validation accuracy: 0.00376023
+Batch index: 1265 Cost: 0.00414096 	Validation accuracy: 0.00985353
+Batch index: 1270 Cost: 0.0027554 	Validation accuracy: 0.000358254
+Batch index: 1275 Cost: 0.00346415 	Validation accuracy: 0.00329469
+Batch index: 1280 Cost: 0.00781995 	Validation accuracy: 0.00222588
+Batch index: 1285 Cost: 0.00894575 	Validation accuracy: 0.0117545
+Batch index: 1290 Cost: 0.00212259 	Validation accuracy: 0.000555556
+Batch index: 1295 Cost: 0.00159705 	Validation accuracy: 0.000307087
+Batch index: 1300 Cost: 0.00997691 	Validation accuracy: 0.00281814
+Batch index: 1305 Cost: 0.00067677 	Validation accuracy: 0.0380228
+Batch index: 1310 Cost: 0.00483056 	Validation accuracy: 0.000983245
+Batch index: 1315 Cost: 0.0046625 	Validation accuracy: 0.0147008
+Batch index: 1320 Cost: 0.00485135 	Validation accuracy: 0.00338004
+Batch index: 1325 Cost: 0.00214836 	Validation accuracy: 3.528e-05
+Batch index: 1330 Cost: 0.000935444 	Validation accuracy: 0.00302076
+Batch index: 1335 Cost: 0.00355868 	Validation accuracy: 0.00220913
+Batch index: 1340 Cost: 0.00103608 	Validation accuracy: 0.00723668
+Batch index: 1345 Cost: 0.00185153 	Validation accuracy: 0.00835058
+Batch index: 1350 Cost: 0.0241398 	Validation accuracy: 0.00452841
+Batch index: 1355 Cost: 0.00752224 	Validation accuracy: 0.00715888
+Batch index: 1360 Cost: 0.00689515 	Validation accuracy: 0.0120541
+Batch index: 1365 Cost: 0.0112002 	Validation accuracy: 0.00306536
+Batch index: 1370 Cost: 0.00124558 	Validation accuracy: 0.00671642
+Batch index: 1375 Cost: 0.00365573 	Validation accuracy: 0.00272896
+Batch index: 1380 Cost: 0.00179854 	Validation accuracy: 0.0210565
+Batch index: 1385 Cost: 0.00395678 	Validation accuracy: 0.0042992
+Batch index: 1390 Cost: 0.00370686 	Validation accuracy: 0.0
+Batch index: 1395 Cost: 0.00196012 	Validation accuracy: 0.0234075
+Batch index: 1400 Cost: 0.00766224 	Validation accuracy: 0.00124206
+Batch index: 1405 Cost: 0.00472631 	Validation accuracy: 0.00383904
+Batch index: 1410 Cost: 0.00363042 	Validation accuracy: 0.000362766
+Batch index: 1415 Cost: 0.00141314 	Validation accuracy: 0.00827716
+Batch index: 1420 Cost: 0.00415419 	Validation accuracy: 0.00375027
+Batch index: 1425 Cost: 0.00170314 	Validation accuracy: 0.00110384
+Batch index: 1430 Cost: 0.004868 	Validation accuracy: 0.0003125
+Batch index: 1435 Cost: 0.000850711 	Validation accuracy: 0.00118828
+Batch index: 1440 Cost: 0.0026178 	Validation accuracy: 0.00871299
+Batch index: 1445 Cost: 0.00236322 	Validation accuracy: 0.0153125
+Batch index: 1450 Cost: 0.00311575 	Validation accuracy: 0.0015046
+Batch index: 1455 Cost: 0.00534303 	Validation accuracy: 0.000465384
+Batch index: 1460 Cost: 0.00229367 	Validation accuracy: 8.42502e-05
+Batch index: 1465 Cost: 0.00116225 	Validation accuracy: 0.0271161
+Batch index: 1470 Cost: 0.00422463 	Validation accuracy: 0.00153583
+Batch index: 1475 Cost: 0.000424822 	Validation accuracy: 0.0068634
+Batch index: 1480 Cost: 0.00534821 	Validation accuracy: 0.0177486
+Batch index: 1485 Cost: 0.00242672 	Validation accuracy: 0.000462244
+Batch index: 1490 Cost: 0.012114 	Validation accuracy: 0.00259444
+Batch index: 1495 Cost: 0.00370807 	Validation accuracy: 0.00557619
+Batch index: 1500 Cost: 0.00435301 	Validation accuracy: 0.000123208
+Batch index: 1505 Cost: 0.00957011 	Validation accuracy: 0.000619383
+Batch index: 1510 Cost: 0.00378644 	Validation accuracy: 0.00101825
+Batch index: 1515 Cost: 0.0119791 	Validation accuracy: 0.000859795
+Batch index: 1520 Cost: 0.00350825 	Validation accuracy: 0.00276262
+Batch index: 1525 Cost: 0.00664018 	Validation accuracy: 0.0063322
+Batch index: 1530 Cost: 0.00422807 	Validation accuracy: 0.0161751
+Batch index: 1535 Cost: 0.00725557 	Validation accuracy: 0.000438587
+Batch index: 1540 Cost: 0.0044452 	Validation accuracy: 0.00532591
+Batch index: 1545 Cost: 0.00555647 	Validation accuracy: 0.0
+Batch index: 1550 Cost: 0.00898427 	Validation accuracy: 0.003544
+Epoch: 001 total trained pairs: 000001554 	test error = 0.00031183
+Batch index: 0 Cost: 0.00484615 	Validation accuracy: 0.00170683
+Batch index: 5 Cost: 0.00100494 	Validation accuracy: 0.00185473
+Batch index: 10 Cost: 0.00307018 	Validation accuracy: 0.000435367
+Batch index: 15 Cost: 0.00119259 	Validation accuracy: 0.00961594
+Batch index: 20 Cost: 0.0100332 	Validation accuracy: 0.000650659
+Batch index: 25 Cost: 0.000426352 	Validation accuracy: 0.00637648
+Batch index: 30 Cost: 0.00169766 	Validation accuracy: 0.0021755
+Batch index: 35 Cost: 0.00134088 	Validation accuracy: 0.00307972
+Batch index: 40 Cost: 0.00215298 	Validation accuracy: 0.0
+Batch index: 45 Cost: 0.00218105 	Validation accuracy: 0.0
+Batch index: 50 Cost: 0.00478133 	Validation accuracy: 0.00295576
+Batch index: 55 Cost: 0.00215486 	Validation accuracy: 0.00244591
+Batch index: 60 Cost: 0.00160486 	Validation accuracy: 0.00798233
+Batch index: 65 Cost: 0.00346792 	Validation accuracy: 0.000688992
+Batch index: 70 Cost: 0.00311655 	Validation accuracy: 0.0163767
+Batch index: 75 Cost: 0.00745804 	Validation accuracy: 0.000420397
+Batch index: 80 Cost: 0.00343021 	Validation accuracy: 0.00324072
+Batch index: 85 Cost: 0.00269871 	Validation accuracy: 0.0028032
+Batch index: 90 Cost: 0.00735166 	Validation accuracy: 0.00158203
+Batch index: 95 Cost: 0.0108885 	Validation accuracy: 0.000263879
+Batch index: 100 Cost: 0.000904676 	Validation accuracy: 0.000254494
+Batch index: 105 Cost: 0.00086761 	Validation accuracy: 0.00166423
+Batch index: 110 Cost: 0.000976562 	Validation accuracy: 0.00128145
+Batch index: 115 Cost: 2.64922e-05 	Validation accuracy: 0.0
+Batch index: 120 Cost: 0.00670127 	Validation accuracy: 0.00982604
+Batch index: 125 Cost: 0.000842211 	Validation accuracy: 0.00855737
+Batch index: 130 Cost: 0.00327167 	Validation accuracy: 0.00840885
+Batch index: 135 Cost: 0.00454115 	Validation accuracy: 0.00518083
+Batch index: 140 Cost: 0.00378599 	Validation accuracy: 0.000698917
+Batch index: 145 Cost: 0.00161868 	Validation accuracy: 0.00436708
+Batch index: 150 Cost: 0.00242614 	Validation accuracy: 0.00204955
+Batch index: 155 Cost: 0.00144543 	Validation accuracy: 0.00158807
+Batch index: 160 Cost: 0.000472447 	Validation accuracy: 0.00619729
+Batch index: 165 Cost: 0.00569764 	Validation accuracy: 0.00730906
+Batch index: 170 Cost: 0.00161349 	Validation accuracy: 0.00272969
+Batch index: 175 Cost: 0.00129426 	Validation accuracy: 0.000259105
+Batch index: 180 Cost: 0.00656956 	Validation accuracy: 0.00246051
+Batch index: 185 Cost: 0.00492935 	Validation accuracy: 0.0
+Batch index: 190 Cost: 0.0060521 	Validation accuracy: 0.0100293
+Batch index: 195 Cost: 0.00596181 	Validation accuracy: 0.00343809
+Batch index: 200 Cost: 0.00664382 	Validation accuracy: 0.00171323
+Batch index: 205 Cost: 0.00587167 	Validation accuracy: 0.00055639
+Batch index: 210 Cost: 0.00222425 	Validation accuracy: 0.021127
+Batch index: 215 Cost: 0.00504078 	Validation accuracy: 0.00182866
+Batch index: 220 Cost: 0.00382323 	Validation accuracy: 0.000284981
+Batch index: 225 Cost: 0.00863916 	Validation accuracy: 0.00186357
+Batch index: 230 Cost: 0.00297317 	Validation accuracy: 0.0
+Batch index: 235 Cost: 0.000414898 	Validation accuracy: 0.00112702
+Batch index: 240 Cost: 0.00855937 	Validation accuracy: 0.00348452
+Batch index: 245 Cost: 0.00235141 	Validation accuracy: 0.00428669
+Batch index: 250 Cost: 0.00583085 	Validation accuracy: 0.00457858
+Batch index: 255 Cost: 0.00205611 	Validation accuracy: 0.0
+Batch index: 260 Cost: 0.00414062 	Validation accuracy: 0.0
+Batch index: 265 Cost: 0.00332317 	Validation accuracy: 0.00881186
+Batch index: 270 Cost: 0.00129803 	Validation accuracy: 0.000719115
+Batch index: 275 Cost: 0.00146998 	Validation accuracy: 0.00164306
+Batch index: 280 Cost: 0.00059934 	Validation accuracy: 0.019938
+Batch index: 285 Cost: 0.00306931 	Validation accuracy: 0.00247751
+Batch index: 290 Cost: 0.005108 	Validation accuracy: 0.00398748
+Batch index: 295 Cost: 0.0136388 	Validation accuracy: 0.00399233
+Batch index: 300 Cost: 0.0108019 	Validation accuracy: 0.000161741
+Batch index: 305 Cost: 0.00373706 	Validation accuracy: 0.0106731
+Batch index: 310 Cost: 0.0125439 	Validation accuracy: 0.00147153
+Batch index: 315 Cost: 0.0028862 	Validation accuracy: 0.000320833
+Batch index: 320 Cost: 0.00349344 	Validation accuracy: 0.00239959
+Batch index: 325 Cost: 0.000539508 	Validation accuracy: 0.00631364
+Batch index: 330 Cost: 0.00752052 	Validation accuracy: 0.00227762
+Batch index: 335 Cost: 0.00452806 	Validation accuracy: 0.0469341
+Batch index: 340 Cost: 0.00238321 	Validation accuracy: 0.00970198
+Batch index: 345 Cost: 0.00494556 	Validation accuracy: 0.00357451
+Batch index: 350 Cost: 0.00133921 	Validation accuracy: 0.0091125
+Batch index: 355 Cost: 0.00334919 	Validation accuracy: 0.01388
+Batch index: 360 Cost: 0.0123206 	Validation accuracy: 0.0
+Batch index: 365 Cost: 0.00301318 	Validation accuracy: 0.0250302
+Batch index: 370 Cost: 0.000715514 	Validation accuracy: 0.00498741
+Batch index: 375 Cost: 0.0146818 	Validation accuracy: 0.00077967
+Batch index: 380 Cost: 0.00570829 	Validation accuracy: 0.000748285
+Batch index: 385 Cost: 0.00694191 	Validation accuracy: 0.000822995
+Batch index: 390 Cost: 0.00517951 	Validation accuracy: 0.000138889
+Batch index: 395 Cost: 0.0026926 	Validation accuracy: 0.00293281
+Batch index: 400 Cost: 0.000619759 	Validation accuracy: 0.00106446
+Batch index: 405 Cost: 0.00545946 	Validation accuracy: 0.000557148
+Batch index: 410 Cost: 0.00599502 	Validation accuracy: 0.00207512
+Batch index: 415 Cost: 0.00909248 	Validation accuracy: 0.00270448
+Batch index: 420 Cost: 0.00146583 	Validation accuracy: 0.00354173
+Batch index: 425 Cost: 0.0102278 	Validation accuracy: 0.01097
+Batch index: 430 Cost: 0.00801569 	Validation accuracy: 0.00667208
+Batch index: 435 Cost: 0.00547977 	Validation accuracy: 0.00413173
+Batch index: 440 Cost: 0.00569403 	Validation accuracy: 0.00283565
+Batch index: 445 Cost: 0.00680528 	Validation accuracy: 0.000457103
+Batch index: 450 Cost: 0.000357129 	Validation accuracy: 0.000987654
+Batch index: 455 Cost: 0.0108377 	Validation accuracy: 0.00165943
+Batch index: 460 Cost: 0.00190274 	Validation accuracy: 0.00137524
+Batch index: 465 Cost: 0.00833996 	Validation accuracy: 0.0121387
+Batch index: 470 Cost: 0.00224963 	Validation accuracy: 0.00120594
+Batch index: 475 Cost: 0.00552358 	Validation accuracy: 0.0107636
+Batch index: 480 Cost: 0.00173568 	Validation accuracy: 0.0
+Batch index: 485 Cost: 0.00326133 	Validation accuracy: 0.0
+Batch index: 490 Cost: 0.00106359 	Validation accuracy: 0.0
+Batch index: 495 Cost: 0.0108175 	Validation accuracy: 0.00510617
+Batch index: 500 Cost: 0.00698204 	Validation accuracy: 0.000692266
+Batch index: 505 Cost: 0.000915412 	Validation accuracy: 0.0141645
+Batch index: 510 Cost: 0.00165397 	Validation accuracy: 0.00613868
+Batch index: 515 Cost: 0.0158838 	Validation accuracy: 0.000175781
+Batch index: 520 Cost: 0.00259236 	Validation accuracy: 0.00212985
+Batch index: 525 Cost: 0.00282285 	Validation accuracy: 0.000167667
+Batch index: 530 Cost: 0.00307571 	Validation accuracy: 0.00295508
+Batch index: 535 Cost: 0.00376806 	Validation accuracy: 0.000225316
+Batch index: 540 Cost: 0.00314818 	Validation accuracy: 0.00781982
+Batch index: 545 Cost: 0.00234897 	Validation accuracy: 0.0102708
+Batch index: 550 Cost: 0.013111 	Validation accuracy: 0.00355969
+Batch index: 555 Cost: 0.00707654 	Validation accuracy: 0.0183563
+Batch index: 560 Cost: 0.00391506 	Validation accuracy: 0.00183397
+Batch index: 565 Cost: 0.00149749 	Validation accuracy: 0.00439242
+Batch index: 570 Cost: 0.0044349 	Validation accuracy: 0.00228067
+Batch index: 575 Cost: 0.00395915 	Validation accuracy: 0.0115679
+Batch index: 580 Cost: 0.00664123 	Validation accuracy: 0.00462841
+Batch index: 585 Cost: 0.0127134 	Validation accuracy: 0.0078193
+Batch index: 590 Cost: 0.00264664 	Validation accuracy: 0.0196699
+Batch index: 595 Cost: 0.011096 	Validation accuracy: 0.00120141
+Batch index: 600 Cost: 0.00648131 	Validation accuracy: 0.0003125
+Batch index: 605 Cost: 0.00110146 	Validation accuracy: 0.00342654
+Batch index: 610 Cost: 0.00222261 	Validation accuracy: 0.0045944
+Batch index: 615 Cost: 0.00809255 	Validation accuracy: 0.000182231
+Batch index: 620 Cost: 0.00214652 	Validation accuracy: 0.00125047
+Batch index: 625 Cost: 0.00288808 	Validation accuracy: 0.00720507
+Batch index: 630 Cost: 0.00152093 	Validation accuracy: 0.00536999
+Batch index: 635 Cost: 0.00963903 	Validation accuracy: 0.0
+Batch index: 640 Cost: 0.00545358 	Validation accuracy: 0.00463874
+Batch index: 645 Cost: 0.00386252 	Validation accuracy: 0.00640511
+Batch index: 650 Cost: 0.00188412 	Validation accuracy: 0.00306536
+Batch index: 655 Cost: 0.0181115 	Validation accuracy: 0.00125385
+Batch index: 660 Cost: 0.000381149 	Validation accuracy: 0.000550001
+Batch index: 665 Cost: 0.00262937 	Validation accuracy: 0.00580111
+Batch index: 670 Cost: 0.0178878 	Validation accuracy: 0.000921568
+Batch index: 675 Cost: 0.00175915 	Validation accuracy: 0.00422488
+Batch index: 680 Cost: 0.00333575 	Validation accuracy: 0.00204511
+Batch index: 685 Cost: 0.00737953 	Validation accuracy: 0.00149046
+Batch index: 690 Cost: 0.00281129 	Validation accuracy: 0.00127284
+Batch index: 695 Cost: 0.00371605 	Validation accuracy: 0.000571873
+Batch index: 700 Cost: 0.000300481 	Validation accuracy: 0.0116892
+Batch index: 705 Cost: 0.00200802 	Validation accuracy: 0.00145377
+Batch index: 710 Cost: 0.00513476 	Validation accuracy: 0.000230541
+Batch index: 715 Cost: 0.00052399 	Validation accuracy: 0.00056333
+Batch index: 720 Cost: 0.00379851 	Validation accuracy: 0.00114631
+Batch index: 725 Cost: 0.00340538 	Validation accuracy: 0.00118228
+Batch index: 730 Cost: 3.90625e-05 	Validation accuracy: 0.0
+Batch index: 735 Cost: 0.00192396 	Validation accuracy: 0.00390302
+Batch index: 740 Cost: 0.00213337 	Validation accuracy: 0.000709518
+Batch index: 745 Cost: 0.00645727 	Validation accuracy: 0.00129751
+Batch index: 750 Cost: 0.0148437 	Validation accuracy: 0.000411126
+Batch index: 755 Cost: 0.00159699 	Validation accuracy: 0.00905438
+Batch index: 760 Cost: 0.0172833 	Validation accuracy: 0.00685126
+Batch index: 765 Cost: 0.00607127 	Validation accuracy: 0.0107678
+Batch index: 770 Cost: 0.00424193 	Validation accuracy: 0.0366582
+Batch index: 775 Cost: 0.0103186 	Validation accuracy: 0.00282487
+Batch index: 780 Cost: 0.00155722 	Validation accuracy: 0.00321376
+Batch index: 785 Cost: 0.00409215 	Validation accuracy: 0.00246887
+Batch index: 790 Cost: 0.0133869 	Validation accuracy: 0.000833681
+Batch index: 795 Cost: 0.00356777 	Validation accuracy: 0.0211307
+Batch index: 800 Cost: 0.011349 	Validation accuracy: 0.0272346
+Batch index: 805 Cost: 0.00838876 	Validation accuracy: 0.0
+Batch index: 810 Cost: 0.00322841 	Validation accuracy: 0.000584332
+Batch index: 815 Cost: 0.010029 	Validation accuracy: 0.0063008
+Batch index: 820 Cost: 0.0108676 	Validation accuracy: 0.00304489
+Batch index: 825 Cost: 0.0142699 	Validation accuracy: 0.000224221
+Batch index: 830 Cost: 0.00649382 	Validation accuracy: 0.000218237
+Batch index: 835 Cost: 0.0044895 	Validation accuracy: 0.0222008
+Batch index: 840 Cost: 0.00139431 	Validation accuracy: 0.000318481
+Batch index: 845 Cost: 0.00165401 	Validation accuracy: 0.012408
+Batch index: 850 Cost: 0.00334349 	Validation accuracy: 0.00614741
+Batch index: 855 Cost: 0.00174322 	Validation accuracy: 0.00681891
+Batch index: 860 Cost: 0.00216868 	Validation accuracy: 0.000430647
+Batch index: 865 Cost: 0.0117132 	Validation accuracy: 0.00338996
+Batch index: 870 Cost: 0.00735194 	Validation accuracy: 0.000509519
+Batch index: 875 Cost: 0.00206443 	Validation accuracy: 0.00220277
+Batch index: 880 Cost: 0.00138864 	Validation accuracy: 0.000745094
+Batch index: 885 Cost: 0.0018794 	Validation accuracy: 0.000655077
+Batch index: 890 Cost: 0.006032 	Validation accuracy: 0.00397892
+Batch index: 895 Cost: 0.0129554 	Validation accuracy: 0.00352234
+Batch index: 900 Cost: 0.000759398 	Validation accuracy: 0.000698914
+Batch index: 905 Cost: 0.00888307 	Validation accuracy: 0.007446
+Batch index: 910 Cost: 0.00256071 	Validation accuracy: 0.0112868
+Batch index: 915 Cost: 0.015771 	Validation accuracy: 0.000945529
+Batch index: 920 Cost: 0.00125512 	Validation accuracy: 0.00794315
+Batch index: 925 Cost: 0.0122671 	Validation accuracy: 0.00361289
+Batch index: 930 Cost: 0.000668544 	Validation accuracy: 0.00851183
+Batch index: 935 Cost: 0.00481366 	Validation accuracy: 0.00788105
+Batch index: 940 Cost: 0.00250988 	Validation accuracy: 0.0140589
+Batch index: 945 Cost: 0.00129771 	Validation accuracy: 0.00337854
+Batch index: 950 Cost: 0.00326065 	Validation accuracy: 0.0
+Batch index: 955 Cost: 0.010675 	Validation accuracy: 0.00182988
+Batch index: 960 Cost: 0.00388494 	Validation accuracy: 0.00496425
+Batch index: 965 Cost: 0.0053911 	Validation accuracy: 0.0
+Batch index: 970 Cost: 0.0137084 	Validation accuracy: 0.00030818
+Batch index: 975 Cost: 0.00325882 	Validation accuracy: 0.00263618
+Batch index: 980 Cost: 0.0115288 	Validation accuracy: 0.00194841
+Batch index: 985 Cost: 0.00062997 	Validation accuracy: 0.0
+Batch index: 990 Cost: 0.00180691 	Validation accuracy: 0.0024947
+Batch index: 995 Cost: 0.00040158 	Validation accuracy: 0.000814491
+Batch index: 1000 Cost: 0.00293962 	Validation accuracy: 0.00174597
+Batch index: 1005 Cost: 0.000494325 	Validation accuracy: 0.000593006
+Batch index: 1010 Cost: 0.00787847 	Validation accuracy: 0.00188275
+Batch index: 1015 Cost: 0.00607366 	Validation accuracy: 0.00798963
+Batch index: 1020 Cost: 0.005325 	Validation accuracy: 0.0223199
+Batch index: 1025 Cost: 0.0128408 	Validation accuracy: 0.000722159
+Batch index: 1030 Cost: 0.00306316 	Validation accuracy: 0.00339826
+Batch index: 1035 Cost: 0.00314718 	Validation accuracy: 0.000277544
+Batch index: 1040 Cost: 0.00741489 	Validation accuracy: 0.00112813
+Batch index: 1045 Cost: 0.00441768 	Validation accuracy: 0.00281574
+Batch index: 1050 Cost: 0.00312659 	Validation accuracy: 0.00149484
+Batch index: 1055 Cost: 0.0101327 	Validation accuracy: 0.0
+Batch index: 1060 Cost: 0.00293982 	Validation accuracy: 0.00379763
+Batch index: 1065 Cost: 0.0046589 	Validation accuracy: 0.00470531
+Batch index: 1070 Cost: 0.00144379 	Validation accuracy: 0.00383168
+Batch index: 1075 Cost: 0.0079022 	Validation accuracy: 0.0045963
+Batch index: 1080 Cost: 0.00449427 	Validation accuracy: 0.000260649
+Batch index: 1085 Cost: 0.000617207 	Validation accuracy: 0.000167232
+Batch index: 1090 Cost: 0.00174337 	Validation accuracy: 2.67698e-05
+Batch index: 1095 Cost: 0.00265413 	Validation accuracy: 0.000222864
+Batch index: 1100 Cost: 0.00445457 	Validation accuracy: 0.00410856
+Batch index: 1105 Cost: 0.0074792 	Validation accuracy: 0.0029587
+Batch index: 1110 Cost: 0.00232675 	Validation accuracy: 0.00235137
+Batch index: 1115 Cost: 0.00339026 	Validation accuracy: 8.91936e-05
+Batch index: 1120 Cost: 0.00330527 	Validation accuracy: 0.000650039
+Batch index: 1125 Cost: 0.00140853 	Validation accuracy: 0.00516485
+Batch index: 1130 Cost: 0.00401621 	Validation accuracy: 0.0
+Batch index: 1135 Cost: 0.0113192 	Validation accuracy: 0.000296522
+Batch index: 1140 Cost: 0.00358464 	Validation accuracy: 0.00134472
+Batch index: 1145 Cost: 0.00904573 	Validation accuracy: 0.00316048
+Batch index: 1150 Cost: 0.000951745 	Validation accuracy: 0.000125746
+Batch index: 1155 Cost: 0.00576996 	Validation accuracy: 0.0024476
+Batch index: 1160 Cost: 0.0125854 	Validation accuracy: 0.00318761
+Batch index: 1165 Cost: 0.000250282 	Validation accuracy: 0.00521794
+Batch index: 1170 Cost: 0.00520608 	Validation accuracy: 0.000278907
+Batch index: 1175 Cost: 0.00123534 	Validation accuracy: 0.00653004
+Batch index: 1180 Cost: 0.012621 	Validation accuracy: 0.00291199
+Batch index: 1185 Cost: 0.00223166 	Validation accuracy: 0.0108172
+Batch index: 1190 Cost: 0.0069074 	Validation accuracy: 0.00142836
+Batch index: 1195 Cost: 0.0117012 	Validation accuracy: 0.00680711
+Batch index: 1200 Cost: 0.00632097 	Validation accuracy: 0.0128
+Batch index: 1205 Cost: 0.0013356 	Validation accuracy: 0.0
+Batch index: 1210 Cost: 0.00472618 	Validation accuracy: 0.00681632
+Batch index: 1215 Cost: 0.000722303 	Validation accuracy: 0.0177725
+Batch index: 1220 Cost: 0.00289663 	Validation accuracy: 0.00617087
+Batch index: 1225 Cost: 0.00952537 	Validation accuracy: 0.00211919
+Batch index: 1230 Cost: 0.00316841 	Validation accuracy: 0.00161893
+Batch index: 1235 Cost: 0.00362154 	Validation accuracy: 0.00474152
+Batch index: 1240 Cost: 0.00540833 	Validation accuracy: 0.00317157
+Batch index: 1245 Cost: 0.0121967 	Validation accuracy: 0.00062238
+Batch index: 1250 Cost: 0.003439 	Validation accuracy: 0.00396439
+Batch index: 1255 Cost: 0.002072 	Validation accuracy: 0.00229526
+Batch index: 1260 Cost: 0.00613153 	Validation accuracy: 0.00498335
+Batch index: 1265 Cost: 0.000908154 	Validation accuracy: 0.0
+Batch index: 1270 Cost: 0.000420852 	Validation accuracy: 0.0125711
+Batch index: 1275 Cost: 0.00279064 	Validation accuracy: 0.00203446
+Batch index: 1280 Cost: 0.0154742 	Validation accuracy: 0.0155315
+Batch index: 1285 Cost: 0.00148735 	Validation accuracy: 0.00774685
+Batch index: 1290 Cost: 0.00201389 	Validation accuracy: 0.000382863
+Batch index: 1295 Cost: 0.00432583 	Validation accuracy: 0.00138298
+Batch index: 1300 Cost: 0.00999902 	Validation accuracy: 0.00720044
+Batch index: 1305 Cost: 0.00217324 	Validation accuracy: 0.00129088
+Batch index: 1310 Cost: 0.00292219 	Validation accuracy: 0.00829931
+Batch index: 1315 Cost: 0.000479551 	Validation accuracy: 0.00947791
+Batch index: 1320 Cost: 0.0047724 	Validation accuracy: 0.00878471
+Batch index: 1325 Cost: 0.0105366 	Validation accuracy: 0.000866828
+Batch index: 1330 Cost: 0.00314293 	Validation accuracy: 0.000877467
+Batch index: 1335 Cost: 0.00416791 	Validation accuracy: 0.00131929
+Batch index: 1340 Cost: 0.00541379 	Validation accuracy: 0.000969693
+Batch index: 1345 Cost: 0.00136968 	Validation accuracy: 0.0115173
+Batch index: 1350 Cost: 0.0034564 	Validation accuracy: 0.00741703
+Batch index: 1355 Cost: 0.00326713 	Validation accuracy: 0.00699848
+Batch index: 1360 Cost: 0.00676305 	Validation accuracy: 0.00685894
+Batch index: 1365 Cost: 0.00489024 	Validation accuracy: 0.00211393
+Batch index: 1370 Cost: 0.0134513 	Validation accuracy: 0.0125336
+Batch index: 1375 Cost: 0.00123783 	Validation accuracy: 0.0
+Batch index: 1380 Cost: 0.00415918 	Validation accuracy: 2.2026e-05
+Batch index: 1385 Cost: 0.00508085 	Validation accuracy: 0.00800903
+Batch index: 1390 Cost: 0.0010682 	Validation accuracy: 6.69189e-05
+Batch index: 1395 Cost: 0.00301848 	Validation accuracy: 0.00413523
+Batch index: 1400 Cost: 0.0022696 	Validation accuracy: 0.00173939
+Batch index: 1405 Cost: 0.00260876 	Validation accuracy: 0.000748919
+Batch index: 1410 Cost: 0.00385679 	Validation accuracy: 0.00107104
+Batch index: 1415 Cost: 0.00569914 	Validation accuracy: 0.000110648
+Batch index: 1420 Cost: 0.00270008 	Validation accuracy: 0.00492035
+Batch index: 1425 Cost: 0.00336678 	Validation accuracy: 0.000516582
+Batch index: 1430 Cost: 0.00384731 	Validation accuracy: 0.00143029
+Batch index: 1435 Cost: 0.0062716 	Validation accuracy: 0.00129065
+Batch index: 1440 Cost: 0.0150373 	Validation accuracy: 0.00526663
+Batch index: 1445 Cost: 0.00123585 	Validation accuracy: 0.00542962
+Batch index: 1450 Cost: 0.0248064 	Validation accuracy: 0.000441605
+Batch index: 1455 Cost: 0.00423693 	Validation accuracy: 0.0199764
+Batch index: 1460 Cost: 0.0148874 	Validation accuracy: 0.000542092
+Batch index: 1465 Cost: 0.0046814 	Validation accuracy: 0.000165948
+Batch index: 1470 Cost: 0.000919469 	Validation accuracy: 0.0128738
+Batch index: 1475 Cost: 0.00462407 	Validation accuracy: 0.00336541
+Batch index: 1480 Cost: 0.00320361 	Validation accuracy: 0.000957388
+Batch index: 1485 Cost: 0.00465133 	Validation accuracy: 0.00495786
+Batch index: 1490 Cost: 0.00224694 	Validation accuracy: 0.0135983
+Batch index: 1495 Cost: 0.00632364 	Validation accuracy: 0.00250083
+Batch index: 1500 Cost: 0.00197742 	Validation accuracy: 0.00384402
+Batch index: 1505 Cost: 0.0066318 	Validation accuracy: 2.35486e-05
+Batch index: 1510 Cost: 0.00910248 	Validation accuracy: 0.000728588
+Batch index: 1515 Cost: 0.00225195 	Validation accuracy: 0.00835026
+Batch index: 1520 Cost: 0.00327079 	Validation accuracy: 0.0058062
+Batch index: 1525 Cost: 0.00569434 	Validation accuracy: 7.59914e-05
+Batch index: 1530 Cost: 0.000361482 	Validation accuracy: 0.000183341
+Batch index: 1535 Cost: 0.0082203 	Validation accuracy: 0.00237149
+Batch index: 1540 Cost: 0.00557748 	Validation accuracy: 0.000437838
+Batch index: 1545 Cost: 0.00776905 	Validation accuracy: 0.00526061
+Batch index: 1550 Cost: 0.00181996 	Validation accuracy: 0.00757302
+Epoch: 002 total trained pairs: 000003108 	test error = 0.00809639
+Batch index: 0 Cost: 0.0178829 	Validation accuracy: 0.000516582
+Batch index: 5 Cost: 0.0096328 	Validation accuracy: 0.00358
+Batch index: 10 Cost: 0.00280841 	Validation accuracy: 0.00298025
+Batch index: 15 Cost: 0.00299179 	Validation accuracy: 0.00133887
+Batch index: 20 Cost: 0.00379202 	Validation accuracy: 0.00299221
+Batch index: 25 Cost: 0.00144167 	Validation accuracy: 0.00284278
+Batch index: 30 Cost: 0.0119508 	Validation accuracy: 0.00140216
+Batch index: 35 Cost: 0.00249322 	Validation accuracy: 0.00349047
+Batch index: 40 Cost: 0.00146774 	Validation accuracy: 0.00646042
+Batch index: 45 Cost: 0.00484219 	Validation accuracy: 0.00828174
+Batch index: 50 Cost: 0.0138315 	Validation accuracy: 0.00243795
+Batch index: 55 Cost: 0.00523546 	Validation accuracy: 0.006206
+Batch index: 60 Cost: 0.00593985 	Validation accuracy: 0.000779665
+Batch index: 65 Cost: 0.00316249 	Validation accuracy: 0.00486388
+Batch index: 70 Cost: 0.00226117 	Validation accuracy: 0.00342488
+Batch index: 75 Cost: 0.00312358 	Validation accuracy: 0.00571725
+Batch index: 80 Cost: 0.00311463 	Validation accuracy: 0.0123323
+Batch index: 85 Cost: 0.00296221 	Validation accuracy: 0.00124888
+Batch index: 90 Cost: 0.00894123 	Validation accuracy: 0.000304925
+Batch index: 95 Cost: 0.00247535 	Validation accuracy: 0.00227813
+Batch index: 100 Cost: 0.0107836 	Validation accuracy: 0.00254418
+Batch index: 105 Cost: 0.00120027 	Validation accuracy: 0.00217399
+Batch index: 110 Cost: 0.00274257 	Validation accuracy: 0.00509534
+Batch index: 115 Cost: 0.00121427 	Validation accuracy: 0.00232897
+Batch index: 120 Cost: 0.0058281 	Validation accuracy: 0.00115672
+Batch index: 125 Cost: 0.00178835 	Validation accuracy: 0.00283922
+Batch index: 130 Cost: 0.00327499 	Validation accuracy: 0.00322357
+Batch index: 135 Cost: 0.00574946 	Validation accuracy: 7.49688e-05
+Batch index: 140 Cost: 0.000960324 	Validation accuracy: 0.00946464
+Batch index: 145 Cost: 0.00407412 	Validation accuracy: 0.00181997
+Batch index: 150 Cost: 0.00695724 	Validation accuracy: 0.00148954
+Batch index: 155 Cost: 0.00646284 	Validation accuracy: 0.000407003
+Batch index: 160 Cost: 0.00754027 	Validation accuracy: 0.00189349
+Batch index: 165 Cost: 0.00654753 	Validation accuracy: 0.000740392
+Batch index: 170 Cost: 0.000641647 	Validation accuracy: 0.00488449
+Batch index: 175 Cost: 0.00366879 	Validation accuracy: 0.00198235
+Batch index: 180 Cost: 0.0114582 	Validation accuracy: 0.000236113
+Batch index: 185 Cost: 0.00400248 	Validation accuracy: 0.002006
+Batch index: 190 Cost: 0.00307785 	Validation accuracy: 0.00999688
+Batch index: 195 Cost: 0.00483053 	Validation accuracy: 0.00131659
+Batch index: 200 Cost: 0.0083016 	Validation accuracy: 0.00307873
+Batch index: 205 Cost: 0.00154251 	Validation accuracy: 0.00371546
+Batch index: 210 Cost: 0.00332564 	Validation accuracy: 0.00153037
+Batch index: 215 Cost: 0.000369412 	Validation accuracy: 0.00405
+Batch index: 220 Cost: 0.000794967 	Validation accuracy: 0.00195341
+Batch index: 225 Cost: 0.00540555 	Validation accuracy: 0.00406375
+Batch index: 230 Cost: 0.00685456 	Validation accuracy: 0.00307054
+Batch index: 235 Cost: 0.00291077 	Validation accuracy: 0.0123233
+Batch index: 240 Cost: 0.00961423 	Validation accuracy: 0.00247003
+Batch index: 245 Cost: 0.00109682 	Validation accuracy: 0.0146544
+Batch index: 250 Cost: 0.00517615 	Validation accuracy: 0.0
+Batch index: 255 Cost: 0.00396742 	Validation accuracy: 0.00110826
+Batch index: 260 Cost: 0.00825846 	Validation accuracy: 0.00396184
+Batch index: 265 Cost: 0.0182483 	Validation accuracy: 0.00178567
+Batch index: 270 Cost: 0.00295107 	Validation accuracy: 0.0237999
+Batch index: 275 Cost: 0.000989271 	Validation accuracy: 0.00380992
+Batch index: 280 Cost: 0.00186446 	Validation accuracy: 0.00583674
+Batch index: 285 Cost: 0.00195218 	Validation accuracy: 0.00829391
+Batch index: 290 Cost: 0.00207744 	Validation accuracy: 0.000628114
+Batch index: 295 Cost: 0.00170506 	Validation accuracy: 0.0290007
+Batch index: 300 Cost: 0.000700783 	Validation accuracy: 0.0
+Batch index: 305 Cost: 0.00396253 	Validation accuracy: 0.000574863
+Batch index: 310 Cost: 0.00548963 	Validation accuracy: 0.00211841
+Batch index: 315 Cost: 0.0103437 	Validation accuracy: 0.0
+Batch index: 320 Cost: 0.000969083 	Validation accuracy: 0.00295191
+Batch index: 325 Cost: 0.00301188 	Validation accuracy: 0.000531531
+Batch index: 330 Cost: 0.000396986 	Validation accuracy: 0.0073012
+Batch index: 335 Cost: 0.00274587 	Validation accuracy: 0.0147064
+Batch index: 340 Cost: 0.00177666 	Validation accuracy: 0.0
+Batch index: 345 Cost: 0.0056994 	Validation accuracy: 0.00826677
+Batch index: 350 Cost: 0.00712662 	Validation accuracy: 0.0013889
+Batch index: 355 Cost: 0.00034009 	Validation accuracy: 0.00478853
+Batch index: 360 Cost: 0.0149711 	Validation accuracy: 0.00231363
+Batch index: 365 Cost: 0.000791016 	Validation accuracy: 0.00140641
+Batch index: 370 Cost: 0.00314208 	Validation accuracy: 0.00138422
+Batch index: 375 Cost: 0.00319955 	Validation accuracy: 0.00865882
+Batch index: 380 Cost: 0.0116209 	Validation accuracy: 0.00861998
+Batch index: 385 Cost: 0.00165693 	Validation accuracy: 0.00789361
+Batch index: 390 Cost: 0.00543629 	Validation accuracy: 0.00407328
+Batch index: 395 Cost: 0.00297685 	Validation accuracy: 0.000599112
+Batch index: 400 Cost: 0.00207141 	Validation accuracy: 0.000611548
+Batch index: 405 Cost: 0.00109103 	Validation accuracy: 0.00105982
+Batch index: 410 Cost: 0.000930404 	Validation accuracy: 0.00181229
+Batch index: 415 Cost: 0.0148273 	Validation accuracy: 0.00333326
+Batch index: 420 Cost: 0.00612524 	Validation accuracy: 0.00195999
+Batch index: 425 Cost: 0.00681813 	Validation accuracy: 0.00453773
+Batch index: 430 Cost: 0.00601188 	Validation accuracy: 0.00266351
+Batch index: 435 Cost: 0.00259114 	Validation accuracy: 0.00688074
+Batch index: 440 Cost: 0.00202937 	Validation accuracy: 0.00277765
+Batch index: 445 Cost: 0.00220052 	Validation accuracy: 0.00181907
+Batch index: 450 Cost: 0.00370949 	Validation accuracy: 0.00273299
+Batch index: 455 Cost: 0.000543354 	Validation accuracy: 0.000443898
+Batch index: 460 Cost: 0.000497829 	Validation accuracy: 0.000137442
+Batch index: 465 Cost: 0.00200163 	Validation accuracy: 0.0030608
+Batch index: 470 Cost: 0.00606504 	Validation accuracy: 0.0134049
+Batch index: 475 Cost: 0.000904831 	Validation accuracy: 0.00171375
+Batch index: 480 Cost: 0.00593185 	Validation accuracy: 0.00283216
+Batch index: 485 Cost: 0.00138807 	Validation accuracy: 0.00967645
+Batch index: 490 Cost: 0.00459572 	Validation accuracy: 0.00352827
+Batch index: 495 Cost: 0.00686349 	Validation accuracy: 0.0159283
+Batch index: 500 Cost: 0.00576059 	Validation accuracy: 0.00917929
+Batch index: 505 Cost: 0.00427871 	Validation accuracy: 0.000172248
+Batch index: 510 Cost: 0.000671653 	Validation accuracy: 0.000957031
+Batch index: 515 Cost: 0.00512706 	Validation accuracy: 0.00445081
+Batch index: 520 Cost: 0.00276133 	Validation accuracy: 0.00131437
+Batch index: 525 Cost: 0.00175154 	Validation accuracy: 0.00378315
+Batch index: 530 Cost: 0.000682776 	Validation accuracy: 0.00360983
+Batch index: 535 Cost: 0.00149529 	Validation accuracy: 0.0122653
+Batch index: 540 Cost: 0.00364751 	Validation accuracy: 0.00639891
+Batch index: 545 Cost: 0.00544409 	Validation accuracy: 0.00879932
+Batch index: 550 Cost: 0.00950267 	Validation accuracy: 0.00313368
+Batch index: 555 Cost: 0.0018518 	Validation accuracy: 0.00220626
+Batch index: 560 Cost: 0.0060821 	Validation accuracy: 0.00106239
+Batch index: 565 Cost: 0.00737859 	Validation accuracy: 0.00235184
+Batch index: 570 Cost: 0.00349861 	Validation accuracy: 0.001522
+Batch index: 575 Cost: 0.00134301 	Validation accuracy: 0.00445858
+Batch index: 580 Cost: 0.0139973 	Validation accuracy: 0.00983602
+Batch index: 585 Cost: 0.0110864 	Validation accuracy: 0.0200665
+Batch index: 590 Cost: 0.0143985 	Validation accuracy: 0.000989276
+Batch index: 595 Cost: 0.00610731 	Validation accuracy: 0.00341215
+Batch index: 600 Cost: 0.00689015 	Validation accuracy: 0.000423957
+Batch index: 605 Cost: 0.0138088 	Validation accuracy: 0.0227219
+Batch index: 610 Cost: 0.000210655 	Validation accuracy: 3.56867e-05
+Batch index: 615 Cost: 0.00418782 	Validation accuracy: 0.00103565
+Batch index: 620 Cost: 0.00931015 	Validation accuracy: 0.00167068
+Batch index: 625 Cost: 0.000960026 	Validation accuracy: 0.00224205
+Batch index: 630 Cost: 0.00210411 	Validation accuracy: 0.00813747
+Batch index: 635 Cost: 0.0011825 	Validation accuracy: 0.000299875
+Batch index: 640 Cost: 0.00629008 	Validation accuracy: 0.00792973
+Batch index: 645 Cost: 0.00485089 	Validation accuracy: 0.029518
+Batch index: 650 Cost: 0.00756936 	Validation accuracy: 0.000357639
+Batch index: 655 Cost: 0.00104403 	Validation accuracy: 0.00205981
+Batch index: 660 Cost: 0.0056358 	Validation accuracy: 0.00145506
+Batch index: 665 Cost: 0.000412287 	Validation accuracy: 0.000961501
+Batch index: 670 Cost: 0.00194192 	Validation accuracy: 0.00182163
+Batch index: 675 Cost: 0.00386917 	Validation accuracy: 0.00671556
+Batch index: 680 Cost: 0.00671517 	Validation accuracy: 0.00447127
+Batch index: 685 Cost: 0.0170595 	Validation accuracy: 0.00343845
+Batch index: 690 Cost: 0.00456347 	Validation accuracy: 0.00192534
+Batch index: 695 Cost: 0.00249256 	Validation accuracy: 4.21699e-05
+Batch index: 700 Cost: 0.00274721 	Validation accuracy: 0.00152213
+Batch index: 705 Cost: 0.00777097 	Validation accuracy: 0.00180375
+Batch index: 710 Cost: 0.00336347 	Validation accuracy: 0.0187852
+Batch index: 715 Cost: 0.00378878 	Validation accuracy: 0.000118687
+Batch index: 720 Cost: 0.00506502 	Validation accuracy: 0.000635395
+Batch index: 725 Cost: 0.000287373 	Validation accuracy: 0.00191674
+Batch index: 730 Cost: 0.00316476 	Validation accuracy: 0.000525311
+Batch index: 735 Cost: 0.0134894 	Validation accuracy: 0.00189003
+Batch index: 740 Cost: 0.00586631 	Validation accuracy: 0.0065094
+Batch index: 745 Cost: 0.00216695 	Validation accuracy: 0.000652006
+Batch index: 750 Cost: 0.00286737 	Validation accuracy: 0.00291813
+Batch index: 755 Cost: 0.00837626 	Validation accuracy: 0.00483596
+Batch index: 760 Cost: 0.00143138 	Validation accuracy: 0.00136444
+Batch index: 765 Cost: 0.00499193 	Validation accuracy: 0.00317414
+Batch index: 770 Cost: 0.0032754 	Validation accuracy: 0.000157765
+Batch index: 775 Cost: 0.00259536 	Validation accuracy: 0.0160202
+Batch index: 780 Cost: 0.00427263 	Validation accuracy: 0.00148678
+Batch index: 785 Cost: 0.00146152 	Validation accuracy: 0.0177548
+Batch index: 790 Cost: 0.00369106 	Validation accuracy: 0.00676041
+Batch index: 795 Cost: 0.00153961 	Validation accuracy: 0.0135906
+Batch index: 800 Cost: 0.000212073 	Validation accuracy: 0.00225982
+Batch index: 805 Cost: 0.0026531 	Validation accuracy: 0.0
+Batch index: 810 Cost: 0.00930006 	Validation accuracy: 0.00442427
+Batch index: 815 Cost: 0.00738765 	Validation accuracy: 0.0017087
+Batch index: 820 Cost: 0.00255667 	Validation accuracy: 0.0120791
+Batch index: 825 Cost: 0.000860878 	Validation accuracy: 0.00292035
+Batch index: 830 Cost: 0.00215179 	Validation accuracy: 0.000828068
+Batch index: 835 Cost: 0.0169372 	Validation accuracy: 0.00135944
+Batch index: 840 Cost: 0.00118865 	Validation accuracy: 2.78968e-05
+Batch index: 845 Cost: 0.00838787 	Validation accuracy: 0.00475539
+Batch index: 850 Cost: 0.00987783 	Validation accuracy: 0.00102018
+Batch index: 855 Cost: 0.0039775 	Validation accuracy: 0.00188696
+Batch index: 860 Cost: 0.000736865 	Validation accuracy: 0.000688446
+Batch index: 865 Cost: 0.00465773 	Validation accuracy: 0.00874453
+Batch index: 870 Cost: 0.00268429 	Validation accuracy: 0.000170139
+Batch index: 875 Cost: 0.014735 	Validation accuracy: 0.000133884
+Batch index: 880 Cost: 0.00827168 	Validation accuracy: 0.000108842
+Batch index: 885 Cost: 0.00187757 	Validation accuracy: 0.00171811
+Batch index: 890 Cost: 0.00387239 	Validation accuracy: 0.0100113
+Batch index: 895 Cost: 0.00485905 	Validation accuracy: 0.00670314
+Batch index: 900 Cost: 0.00110161 	Validation accuracy: 0.00310901
+Batch index: 905 Cost: 0.00856895 	Validation accuracy: 0.00170139
+Batch index: 910 Cost: 0.00152351 	Validation accuracy: 0.000183574
+Batch index: 915 Cost: 0.000529246 	Validation accuracy: 0.0274076
+Batch index: 920 Cost: 0.00547345 	Validation accuracy: 0.00853863
+Batch index: 925 Cost: 7.93853e-05 	Validation accuracy: 0.00148239
+Batch index: 930 Cost: 0.00160675 	Validation accuracy: 0.000328752
+Batch index: 935 Cost: 0.0026388 	Validation accuracy: 0.000555556
+Batch index: 940 Cost: 0.000507269 	Validation accuracy: 0.0030751
+Batch index: 945 Cost: 0.00927222 	Validation accuracy: 0.00861223
+Batch index: 950 Cost: 0.00126502 	Validation accuracy: 0.000581892
+Batch index: 955 Cost: 0.00129526 	Validation accuracy: 0.00064761
+Batch index: 960 Cost: 0.00237301 	Validation accuracy: 0.00771806
+Batch index: 965 Cost: 0.0118245 	Validation accuracy: 0.000525631
+Batch index: 970 Cost: 0.00227184 	Validation accuracy: 0.000517512
+Batch index: 975 Cost: 0.00481175 	Validation accuracy: 0.000559535
+Batch index: 980 Cost: 0.000524193 	Validation accuracy: 0.0
+Batch index: 985 Cost: 0.00610787 	Validation accuracy: 4.21699e-05
+Batch index: 990 Cost: 0.0133135 	Validation accuracy: 0.00306782
+Batch index: 995 Cost: 0.00477245 	Validation accuracy: 0.00354703
+Batch index: 1000 Cost: 0.00543615 	Validation accuracy: 0.00624745
+Batch index: 1005 Cost: 0.0211575 	Validation accuracy: 0.000432301
+Batch index: 1010 Cost: 0.00544774 	Validation accuracy: 0.0218396
+Batch index: 1015 Cost: 0.00178198 	Validation accuracy: 0.0027298
+Batch index: 1020 Cost: 0.00706771 	Validation accuracy: 0.00215286
+Batch index: 1025 Cost: 0.00406367 	Validation accuracy: 0.0014351
+Batch index: 1030 Cost: 0.00177265 	Validation accuracy: 0.0255021
+Batch index: 1035 Cost: 0.00559911 	Validation accuracy: 0.00388962
+Batch index: 1040 Cost: 0.00357875 	Validation accuracy: 0.00993789
+Batch index: 1045 Cost: 0.000286811 	Validation accuracy: 0.00884229
+Batch index: 1050 Cost: 0.00365879 	Validation accuracy: 0.00158704
+Batch index: 1055 Cost: 0.0 	Validation accuracy: 0.000915374
+Batch index: 1060 Cost: 0.00200993 	Validation accuracy: 0.00291483
+Batch index: 1065 Cost: 0.00238101 	Validation accuracy: 0.0125087
+Batch index: 1070 Cost: 0.000570066 	Validation accuracy: 0.00568218
+Batch index: 1075 Cost: 0.00540266 	Validation accuracy: 0.00448468
+Batch index: 1080 Cost: 0.00161215 	Validation accuracy: 0.00450621
+Batch index: 1085 Cost: 0.000682664 	Validation accuracy: 0.00122466
+Batch index: 1090 Cost: 0.00825194 	Validation accuracy: 0.00509888
+Batch index: 1095 Cost: 0.000995649 	Validation accuracy: 0.0183684
+Batch index: 1100 Cost: 0.0117147 	Validation accuracy: 0.00773914
+Batch index: 1105 Cost: 0.00519218 	Validation accuracy: 0.0148132
+Batch index: 1110 Cost: 0.0062054 	Validation accuracy: 0.00467212
+Batch index: 1115 Cost: 0.00856753 	Validation accuracy: 0.0120123
+Batch index: 1120 Cost: 0.00622133 	Validation accuracy: 0.0315006
+Batch index: 1125 Cost: 0.00647659 	Validation accuracy: 0.00395703
+Batch index: 1130 Cost: 0.0030326 	Validation accuracy: 0.00649259
+Batch index: 1135 Cost: 0.0033973 	Validation accuracy: 0.00520274
+Batch index: 1140 Cost: 0.0140297 	Validation accuracy: 0.0112252
+Batch index: 1145 Cost: 0.00942605 	Validation accuracy: 0.000838793
+Batch index: 1150 Cost: 0.00233963 	Validation accuracy: 0.000236183
+Batch index: 1155 Cost: 0.00765271 	Validation accuracy: 0.000395508
+Batch index: 1160 Cost: 0.00311135 	Validation accuracy: 0.00215653
+Batch index: 1165 Cost: 0.00744093 	Validation accuracy: 0.0
+Batch index: 1170 Cost: 0.00960703 	Validation accuracy: 0.00464197
+Batch index: 1175 Cost: 0.00318413 	Validation accuracy: 0.00343423
+Batch index: 1180 Cost: 0.00460315 	Validation accuracy: 0.0120283
+Batch index: 1185 Cost: 0.00438871 	Validation accuracy: 0.00437607
+Batch index: 1190 Cost: 0.0108626 	Validation accuracy: 0.003468
+Batch index: 1195 Cost: 0.000169873 	Validation accuracy: 0.0010125
+Batch index: 1200 Cost: 0.0138042 	Validation accuracy: 0.000258264
+Batch index: 1205 Cost: 0.00210991 	Validation accuracy: 0.00235107
+Batch index: 1210 Cost: 0.00101274 	Validation accuracy: 0.00061792
+Batch index: 1215 Cost: 0.00175204 	Validation accuracy: 0.0036619
+Batch index: 1220 Cost: 0.0101163 	Validation accuracy: 0.000137753
+Batch index: 1225 Cost: 0.00422374 	Validation accuracy: 0.00325327
+Batch index: 1230 Cost: 0.00331747 	Validation accuracy: 0.00400809
+Batch index: 1235 Cost: 0.00151498 	Validation accuracy: 0.00259357
+Batch index: 1240 Cost: 0.000406901 	Validation accuracy: 0.00160437
+Batch index: 1245 Cost: 0.0116265 	Validation accuracy: 0.00251015
+Batch index: 1250 Cost: 0.00543098 	Validation accuracy: 0.00161546
+Batch index: 1255 Cost: 0.00181473 	Validation accuracy: 0.0
+Batch index: 1260 Cost: 0.00104344 	Validation accuracy: 0.0108781
+Batch index: 1265 Cost: 0.00624051 	Validation accuracy: 0.00498963
+Batch index: 1270 Cost: 0.00453814 	Validation accuracy: 0.00154409
+Batch index: 1275 Cost: 0.00114209 	Validation accuracy: 9.5858e-05
+Batch index: 1280 Cost: 0.00263618 	Validation accuracy: 0.00589333
+Batch index: 1285 Cost: 0.00396313 	Validation accuracy: 0.00212022
+Batch index: 1290 Cost: 0.000788811 	Validation accuracy: 0.00461809
+Batch index: 1295 Cost: 0.00188584 	Validation accuracy: 7.3166e-05
+Batch index: 1300 Cost: 0.0058552 	Validation accuracy: 0.001716
+Batch index: 1305 Cost: 0.00174417 	Validation accuracy: 0.00352479
+Batch index: 1310 Cost: 0.0011285 	Validation accuracy: 0.000966427
+Batch index: 1315 Cost: 0.00659729 	Validation accuracy: 9.91867e-05
+Batch index: 1320 Cost: 0.00513531 	Validation accuracy: 0.00122368
+Batch index: 1325 Cost: 0.0149452 	Validation accuracy: 0.00099037
+Batch index: 1330 Cost: 0.00402537 	Validation accuracy: 0.0279342
+Batch index: 1335 Cost: 0.00257025 	Validation accuracy: 0.00873981
+Batch index: 1340 Cost: 0.000477332 	Validation accuracy: 0.00496647
+Batch index: 1345 Cost: 0.00243734 	Validation accuracy: 0.0194643
+Batch index: 1350 Cost: 0.00153485 	Validation accuracy: 0.0104635
+Batch index: 1355 Cost: 0.00200893 	Validation accuracy: 0.0208316
+Batch index: 1360 Cost: 0.00378552 	Validation accuracy: 0.00103408
+Batch index: 1365 Cost: 0.00209719 	Validation accuracy: 0.0100201
+Batch index: 1370 Cost: 0.00786854 	Validation accuracy: 0.00946138
+Batch index: 1375 Cost: 0.00120411 	Validation accuracy: 0.00130473
+Batch index: 1380 Cost: 0.00558665 	Validation accuracy: 0.0014802
+Batch index: 1385 Cost: 0.00222271 	Validation accuracy: 0.00397435
+Batch index: 1390 Cost: 2.73797e-05 	Validation accuracy: 0.000342403
+Batch index: 1395 Cost: 0.00284529 	Validation accuracy: 0.0135438
+Batch index: 1400 Cost: 0.0057911 	Validation accuracy: 0.00622409
+Batch index: 1405 Cost: 0.00286446 	Validation accuracy: 0.0052913
+Batch index: 1410 Cost: 0.011006 	Validation accuracy: 0.00111681
+Batch index: 1415 Cost: 0.00680132 	Validation accuracy: 0.00666023
+Batch index: 1420 Cost: 0.00268257 	Validation accuracy: 0.000220284
+Batch index: 1425 Cost: 0.00524645 	Validation accuracy: 0.000287343
+Batch index: 1430 Cost: 0.00956132 	Validation accuracy: 0.00490485
+Batch index: 1435 Cost: 0.00418922 	Validation accuracy: 6.6083e-05
+Batch index: 1440 Cost: 0.00134627 	Validation accuracy: 0.00177701
+Batch index: 1445 Cost: 0.00747645 	Validation accuracy: 0.000463234
+Batch index: 1450 Cost: 0.000603194 	Validation accuracy: 0.00934596
+Batch index: 1455 Cost: 0.00638299 	Validation accuracy: 0.00441261
+Batch index: 1460 Cost: 0.00602818 	Validation accuracy: 0.00220182
+Batch index: 1465 Cost: 0.00713966 	Validation accuracy: 0.00207911
+Batch index: 1470 Cost: 0.0047064 	Validation accuracy: 0.00276461
+Batch index: 1475 Cost: 0.00662641 	Validation accuracy: 0.0003125
+Batch index: 1480 Cost: 0.00194056 	Validation accuracy: 0.0120348
+Batch index: 1485 Cost: 0.00913851 	Validation accuracy: 0.0160066
+Batch index: 1490 Cost: 0.00588041 	Validation accuracy: 0.0115145
+Batch index: 1495 Cost: 1.62591e-05 	Validation accuracy: 0.00807747
+Batch index: 1500 Cost: 0.00830684 	Validation accuracy: 0.00378721
+Batch index: 1505 Cost: 0.00668488 	Validation accuracy: 0.00281306
+Batch index: 1510 Cost: 0.0113405 	Validation accuracy: 0.00693547
+Batch index: 1515 Cost: 0.00331892 	Validation accuracy: 0.0371454
+Batch index: 1520 Cost: 0.00893636 	Validation accuracy: 0.0
+Batch index: 1525 Cost: 0.00195764 	Validation accuracy: 0.000532001
+Batch index: 1530 Cost: 0.00464527 	Validation accuracy: 0.00444419
+Batch index: 1535 Cost: 0.000508986 	Validation accuracy: 0.00153642
+Batch index: 1540 Cost: 0.0020506 	Validation accuracy: 0.00121674
+Batch index: 1545 Cost: 0.00235708 	Validation accuracy: 0.00272597
+Batch index: 1550 Cost: 0.00136214 	Validation accuracy: 0.00579763
+Epoch: 003 total trained pairs: 000004662 	test error = 0.00193415
+Batch index: 0 Cost: 0.00148686 	Validation accuracy: 0.0011393
+Batch index: 5 Cost: 0.00162416 	Validation accuracy: 0.00400164
+Batch index: 10 Cost: 0.00868577 	Validation accuracy: 0.0
+Batch index: 15 Cost: 0.00598136 	Validation accuracy: 0.000297643
+Batch index: 20 Cost: 0.0194563 	Validation accuracy: 0.0031579
+Batch index: 25 Cost: 0.00390164 	Validation accuracy: 0.00247641
+Batch index: 30 Cost: 0.0042907 	Validation accuracy: 0.00159417
+Batch index: 35 Cost: 0.00726691 	Validation accuracy: 0.00760781
+Batch index: 40 Cost: 0.00179283 	Validation accuracy: 0.00697238
+Batch index: 45 Cost: 0.00180065 	Validation accuracy: 0.00811167
+Batch index: 50 Cost: 0.00013509 	Validation accuracy: 0.000521442
+Batch index: 55 Cost: 0.00262969 	Validation accuracy: 0.00220309
+Batch index: 60 Cost: 0.00622004 	Validation accuracy: 0.0104384
+Batch index: 65 Cost: 0.0097583 	Validation accuracy: 0.00632958
+Batch index: 70 Cost: 0.000692197 	Validation accuracy: 0.000499466
+Batch index: 75 Cost: 0.00453554 	Validation accuracy: 0.00182193
+Batch index: 80 Cost: 0.0132654 	Validation accuracy: 0.00128622
+Batch index: 85 Cost: 0.00661204 	Validation accuracy: 0.00530718
+Batch index: 90 Cost: 0.00408112 	Validation accuracy: 0.000388355
+Batch index: 95 Cost: 0.00730331 	Validation accuracy: 0.00174126
+Batch index: 100 Cost: 0.00901417 	Validation accuracy: 0.00124532
+Batch index: 105 Cost: 0.0100563 	Validation accuracy: 0.0016801
+Batch index: 110 Cost: 0.00914374 	Validation accuracy: 0.00339421
+Batch index: 115 Cost: 0.00136681 	Validation accuracy: 0.00145479
+Batch index: 120 Cost: 0.0119069 	Validation accuracy: 0.00868152
+Batch index: 125 Cost: 0.00143972 	Validation accuracy: 0.00332333
+Batch index: 130 Cost: 0.0040631 	Validation accuracy: 0.00699043
+Batch index: 135 Cost: 0.00390825 	Validation accuracy: 0.00805494
+Batch index: 140 Cost: 0.00662285 	Validation accuracy: 0.00195898
+Batch index: 145 Cost: 0.00500675 	Validation accuracy: 0.000438598
+Batch index: 150 Cost: 0.00639034 	Validation accuracy: 0.0018108
+Batch index: 155 Cost: 0.0012153 	Validation accuracy: 0.00482188
+Batch index: 160 Cost: 0.00580606 	Validation accuracy: 0.00028378
+Batch index: 165 Cost: 0.00820975 	Validation accuracy: 0.000215545
+Batch index: 170 Cost: 0.0109537 	Validation accuracy: 6.99073e-05
+Batch index: 175 Cost: 0.00219701 	Validation accuracy: 0.0
+Batch index: 180 Cost: 0.00830261 	Validation accuracy: 0.0128745
+Batch index: 185 Cost: 0.0020561 	Validation accuracy: 0.000257694
+Batch index: 190 Cost: 0.000754745 	Validation accuracy: 0.00303566
+Batch index: 195 Cost: 0.00113235 	Validation accuracy: 0.00590573
+Batch index: 200 Cost: 0.00494335 	Validation accuracy: 0.00020842
+Batch index: 205 Cost: 0.00101263 	Validation accuracy: 0.0173015
+Batch index: 210 Cost: 0.00519844 	Validation accuracy: 0.00271668
+Batch index: 215 Cost: 0.00285977 	Validation accuracy: 0.00261001
+Batch index: 220 Cost: 0.00248197 	Validation accuracy: 0.000637755
+Batch index: 225 Cost: 0.0097378 	Validation accuracy: 0.000555662
+Batch index: 230 Cost: 0.00748846 	Validation accuracy: 0.00930481
+Batch index: 235 Cost: 0.00196454 	Validation accuracy: 0.00353753
+Batch index: 240 Cost: 0.00489859 	Validation accuracy: 0.00363323
+Batch index: 245 Cost: 0.000608091 	Validation accuracy: 0.0004023
+Batch index: 250 Cost: 0.00458282 	Validation accuracy: 0.00155601
+Batch index: 255 Cost: 0.00165587 	Validation accuracy: 0.000364744
+Batch index: 260 Cost: 0.00295184 	Validation accuracy: 0.00716761
+Batch index: 265 Cost: 0.00083002 	Validation accuracy: 0.00908563
+Batch index: 270 Cost: 0.00136959 	Validation accuracy: 0.00953133
+Batch index: 275 Cost: 0.00764078 	Validation accuracy: 0.000570079
+Batch index: 280 Cost: 0.00502314 	Validation accuracy: 0.0145047
+Batch index: 285 Cost: 0.00538517 	Validation accuracy: 0.00578121
+Batch index: 290 Cost: 0.00434159 	Validation accuracy: 0.00108494
+Batch index: 295 Cost: 0.00755121 	Validation accuracy: 0.00217481
+Batch index: 300 Cost: 0.0100792 	Validation accuracy: 0.00390508
+Batch index: 305 Cost: 0.000552807 	Validation accuracy: 0.000878234
+Batch index: 310 Cost: 0.00172184 	Validation accuracy: 0.0195587
+Batch index: 315 Cost: 0.00840097 	Validation accuracy: 0.000224941
+Batch index: 320 Cost: 0.00358923 	Validation accuracy: 0.00054637
+Batch index: 325 Cost: 0.00124229 	Validation accuracy: 0.00179935
+Batch index: 330 Cost: 0.00935712 	Validation accuracy: 0.00449404
+Batch index: 335 Cost: 0.000965695 	Validation accuracy: 0.000943922
+Batch index: 340 Cost: 0.0106214 	Validation accuracy: 0.00138318
+Batch index: 345 Cost: 0.00730322 	Validation accuracy: 0.00410484
+Batch index: 350 Cost: 0.00133101 	Validation accuracy: 0.00934048
+Batch index: 355 Cost: 0.0053511 	Validation accuracy: 0.0028738
+Batch index: 360 Cost: 0.00648145 	Validation accuracy: 0.00325212
+Batch index: 365 Cost: 0.00272596 	Validation accuracy: 0.00529157
+Batch index: 370 Cost: 0.000107944 	Validation accuracy: 0.00213352
+Batch index: 375 Cost: 0.0033589 	Validation accuracy: 0.00170639
+Batch index: 380 Cost: 0.00265802 	Validation accuracy: 0.00411778
+Batch index: 385 Cost: 0.0019001 	Validation accuracy: 0.00395727
+Batch index: 390 Cost: 0.00150682 	Validation accuracy: 0.000152534
+Batch index: 395 Cost: 0.008568 	Validation accuracy: 0.00264209
+Batch index: 400 Cost: 0.00267252 	Validation accuracy: 0.000185239
+Batch index: 405 Cost: 0.000554922 	Validation accuracy: 0.0238428
+Batch index: 410 Cost: 0.00321196 	Validation accuracy: 0.00137732
+Batch index: 415 Cost: 0.00692215 	Validation accuracy: 0.00232254
+Batch index: 420 Cost: 0.00490005 	Validation accuracy: 0.00188148
+Batch index: 425 Cost: 0.0115575 	Validation accuracy: 0.0061506
+Batch index: 430 Cost: 0.000120098 	Validation accuracy: 0.0010103
+Batch index: 435 Cost: 0.00393239 	Validation accuracy: 0.00192115
+Batch index: 440 Cost: 0.00343359 	Validation accuracy: 0.00544555
+Batch index: 445 Cost: 0.0117682 	Validation accuracy: 0.00431182
+Batch index: 450 Cost: 0.0100214 	Validation accuracy: 0.00474347
+Batch index: 455 Cost: 0.000174794 	Validation accuracy: 0.00305926
+Batch index: 460 Cost: 0.00746323 	Validation accuracy: 0.00870453
+Batch index: 465 Cost: 0.000822228 	Validation accuracy: 0.000181641
+Batch index: 470 Cost: 0.00754064 	Validation accuracy: 0.00913763
+Batch index: 475 Cost: 0.0115052 	Validation accuracy: 0.00217665
+Batch index: 480 Cost: 0.0124652 	Validation accuracy: 0.00889634
+Batch index: 485 Cost: 0.00643222 	Validation accuracy: 0.0030802
+Batch index: 490 Cost: 0.0126078 	Validation accuracy: 0.0024479
+Batch index: 495 Cost: 0.00929613 	Validation accuracy: 0.000167303
+Batch index: 500 Cost: 0.00621548 	Validation accuracy: 0.000265784
+Batch index: 505 Cost: 0.00260103 	Validation accuracy: 0.0030422
+Batch index: 510 Cost: 0.00179497 	Validation accuracy: 0.0086126
+Batch index: 515 Cost: 0.00263316 	Validation accuracy: 0.00244633
+Batch index: 520 Cost: 0.00170471 	Validation accuracy: 0.0076946
+Batch index: 525 Cost: 0.00630133 	Validation accuracy: 0.00489352
+Batch index: 530 Cost: 0.00117275 	Validation accuracy: 0.00153648
+Batch index: 535 Cost: 0.00374812 	Validation accuracy: 0.00660491
+Batch index: 540 Cost: 0.00545748 	Validation accuracy: 0.00177042
+Batch index: 545 Cost: 0.00216671 	Validation accuracy: 0.000361313
+Batch index: 550 Cost: 0.0032974 	Validation accuracy: 0.00715584
+Batch index: 555 Cost: 0.00289312 	Validation accuracy: 0.00391357
+Batch index: 560 Cost: 0.0145549 	Validation accuracy: 0.000719865
+Batch index: 565 Cost: 0.00375009 	Validation accuracy: 0.00452507
+Batch index: 570 Cost: 0.00453905 	Validation accuracy: 0.00914872
+Batch index: 575 Cost: 0.00344313 	Validation accuracy: 0.0
+Batch index: 580 Cost: 0.00446808 	Validation accuracy: 0.000990289
+Batch index: 585 Cost: 0.00763481 	Validation accuracy: 0.012722
+Batch index: 590 Cost: 0.00478589 	Validation accuracy: 0.00296982
+Batch index: 595 Cost: 0.00344672 	Validation accuracy: 0.00870005
+Batch index: 600 Cost: 0.00181967 	Validation accuracy: 0.0066338
+Batch index: 605 Cost: 0.00259704 	Validation accuracy: 0.000151013
+Batch index: 610 Cost: 0.00556469 	Validation accuracy: 0.00398434
+Batch index: 615 Cost: 0.00644621 	Validation accuracy: 0.00405278
+Batch index: 620 Cost: 0.00135214 	Validation accuracy: 0.0
+Batch index: 625 Cost: 0.00224276 	Validation accuracy: 0.0100745
+Batch index: 630 Cost: 0.00190227 	Validation accuracy: 0.00425529
+Batch index: 635 Cost: 0.00142718 	Validation accuracy: 0.0163444
+Batch index: 640 Cost: 0.000817464 	Validation accuracy: 0.000331633
+Batch index: 645 Cost: 0.0178187 	Validation accuracy: 0.00709451
+Batch index: 650 Cost: 0.00112927 	Validation accuracy: 0.00443107
+Batch index: 655 Cost: 0.0182429 	Validation accuracy: 0.00656773
+Batch index: 660 Cost: 0.0023746 	Validation accuracy: 0.00268055
+Batch index: 665 Cost: 0.000239353 	Validation accuracy: 0.00318865
+Batch index: 670 Cost: 0.00832159 	Validation accuracy: 0.00155367
+Batch index: 675 Cost: 0.00100947 	Validation accuracy: 0.00143121
+Batch index: 680 Cost: 0.00672711 	Validation accuracy: 0.00324963
+Batch index: 685 Cost: 0.00360845 	Validation accuracy: 0.00358071
+Batch index: 690 Cost: 0.000632047 	Validation accuracy: 0.0154426
+Batch index: 695 Cost: 0.0137595 	Validation accuracy: 0.00594495
+Batch index: 700 Cost: 0.0010221 	Validation accuracy: 0.00276006
+Batch index: 705 Cost: 0.00373596 	Validation accuracy: 0.00440105
+Batch index: 710 Cost: 0.00646706 	Validation accuracy: 0.00189968
+Batch index: 715 Cost: 0.00125356 	Validation accuracy: 0.00253768
+Batch index: 720 Cost: 0.00600659 	Validation accuracy: 0.00179588
+Batch index: 725 Cost: 0.00676689 	Validation accuracy: 0.00963732
+Batch index: 730 Cost: 0.0030931 	Validation accuracy: 0.00549773
+Batch index: 735 Cost: 0.00391327 	Validation accuracy: 0.00359062
+Batch index: 740 Cost: 0.000507184 	Validation accuracy: 0.00439562
+Batch index: 745 Cost: 0.00387767 	Validation accuracy: 0.000727583
+Batch index: 750 Cost: 0.00225054 	Validation accuracy: 0.0095656
+Batch index: 755 Cost: 0.00235182 	Validation accuracy: 0.000293125
+Batch index: 760 Cost: 0.00797592 	Validation accuracy: 0.00499813
+Batch index: 765 Cost: 0.00145906 	Validation accuracy: 0.0203432
+Batch index: 770 Cost: 0.00301478 	Validation accuracy: 0.000295836
+Batch index: 775 Cost: 0.00378251 	Validation accuracy: 0.00343735
+Batch index: 780 Cost: 0.0033314 	Validation accuracy: 0.0193029
+Batch index: 785 Cost: 0.00736585 	Validation accuracy: 0.00506182
+Batch index: 790 Cost: 0.000936089 	Validation accuracy: 0.0116789
+Batch index: 795 Cost: 0.000992275 	Validation accuracy: 0.0118499
+Batch index: 800 Cost: 0.0 	Validation accuracy: 0.0
+Batch index: 805 Cost: 0.0018672 	Validation accuracy: 0.00232484
+Batch index: 810 Cost: 0.00146415 	Validation accuracy: 0.0037442
+Batch index: 815 Cost: 0.00549097 	Validation accuracy: 0.00265294
+Batch index: 820 Cost: 0.00436784 	Validation accuracy: 0.00868136
+Batch index: 825 Cost: 0.0138633 	Validation accuracy: 0.00461467
+Batch index: 830 Cost: 0.0058731 	Validation accuracy: 0.00787225
+Batch index: 835 Cost: 0.00159449 	Validation accuracy: 0.0141804
+Batch index: 840 Cost: 0.00689502 	Validation accuracy: 0.00651707
+Batch index: 845 Cost: 0.00156528 	Validation accuracy: 0.00195696
+Batch index: 850 Cost: 0.00199725 	Validation accuracy: 0.00853408
+Batch index: 855 Cost: 0.00736812 	Validation accuracy: 0.00114189
+Batch index: 860 Cost: 0.00168871 	Validation accuracy: 0.000110852
+Batch index: 865 Cost: 0.000887915 	Validation accuracy: 0.00190817
+Batch index: 870 Cost: 0.00588157 	Validation accuracy: 0.0148668
+Batch index: 875 Cost: 0.0169284 	Validation accuracy: 0.00166876
+Batch index: 880 Cost: 0.00520802 	Validation accuracy: 0.000244733
+Batch index: 885 Cost: 0.00280197 	Validation accuracy: 6.37357e-05
+Batch index: 890 Cost: 0.00899234 	Validation accuracy: 0.00476108
+Batch index: 895 Cost: 0.0081593 	Validation accuracy: 0.00363695
+Batch index: 900 Cost: 0.000747667 	Validation accuracy: 0.00119293
+Batch index: 905 Cost: 0.00237263 	Validation accuracy: 0.0012728
+Batch index: 910 Cost: 0.00559825 	Validation accuracy: 0.0017613
+Batch index: 915 Cost: 0.0230867 	Validation accuracy: 0.00816688
+Batch index: 920 Cost: 0.00153904 	Validation accuracy: 0.00110014
+Batch index: 925 Cost: 0.00133579 	Validation accuracy: 0.0204725
+Batch index: 930 Cost: 0.0274413 	Validation accuracy: 0.00293524
+Batch index: 935 Cost: 0.00416553 	Validation accuracy: 0.00306858
+Batch index: 940 Cost: 0.00446283 	Validation accuracy: 0.00873062
+Batch index: 945 Cost: 0.0169632 	Validation accuracy: 0.00260247
+Batch index: 950 Cost: 0.0141283 	Validation accuracy: 0.010034
+Batch index: 955 Cost: 0.00455693 	Validation accuracy: 0.0009079
+Batch index: 960 Cost: 0.0134912 	Validation accuracy: 0.00167516
+Batch index: 965 Cost: 0.00219514 	Validation accuracy: 0.00180401
+Batch index: 970 Cost: 0.000718775 	Validation accuracy: 0.0144729
+Batch index: 975 Cost: 0.00849659 	Validation accuracy: 0.000529647
+Batch index: 980 Cost: 0.00259408 	Validation accuracy: 0.0277067
+Batch index: 985 Cost: 0.00289221 	Validation accuracy: 4.74363e-05
+Batch index: 990 Cost: 0.00654291 	Validation accuracy: 0.00084981
+Batch index: 995 Cost: 0.00465963 	Validation accuracy: 0.000471128
+Batch index: 1000 Cost: 0.00815456 	Validation accuracy: 0.001718
+Batch index: 1005 Cost: 0.00372218 	Validation accuracy: 0.0101141
+Batch index: 1010 Cost: 0.000952406 	Validation accuracy: 0.00478052
+Batch index: 1015 Cost: 0.00135256 	Validation accuracy: 0.0113635
+Batch index: 1020 Cost: 0.00580582 	Validation accuracy: 0.00338855
+Batch index: 1025 Cost: 0.00577739 	Validation accuracy: 0.00702821
+Batch index: 1030 Cost: 0.00447912 	Validation accuracy: 0.00321938
+Batch index: 1035 Cost: 0.00258865 	Validation accuracy: 0.0020675
+Batch index: 1040 Cost: 0.005503 	Validation accuracy: 0.000126721
+Batch index: 1045 Cost: 0.00429131 	Validation accuracy: 0.00139081
+Batch index: 1050 Cost: 0.00182719 	Validation accuracy: 0.00475762
+Batch index: 1055 Cost: 0.00175734 	Validation accuracy: 0.00264215
+Batch index: 1060 Cost: 0.00181132 	Validation accuracy: 0.00289981
+Batch index: 1065 Cost: 0.0137256 	Validation accuracy: 0.0
+Batch index: 1070 Cost: 0.0124396 	Validation accuracy: 0.0
+Batch index: 1075 Cost: 0.00171393 	Validation accuracy: 0.00175414
+Batch index: 1080 Cost: 0.00165216 	Validation accuracy: 0.000973183
+Batch index: 1085 Cost: 0.00252017 	Validation accuracy: 0.00329685
+Batch index: 1090 Cost: 0.00325873 	Validation accuracy: 0.00269034
+Batch index: 1095 Cost: 0.00364554 	Validation accuracy: 0.00701192
+Batch index: 1100 Cost: 0.00473833 	Validation accuracy: 0.00599842
+Batch index: 1105 Cost: 0.0089473 	Validation accuracy: 0.0
+Batch index: 1110 Cost: 0.0102025 	Validation accuracy: 0.0
+Batch index: 1115 Cost: 0.0021592 	Validation accuracy: 0.00443911
+Batch index: 1120 Cost: 0.0106126 	Validation accuracy: 0.00381015
+Batch index: 1125 Cost: 0.00258734 	Validation accuracy: 0.00197716
+Batch index: 1130 Cost: 0.00302339 	Validation accuracy: 0.00204043
+Batch index: 1135 Cost: 0.0102674 	Validation accuracy: 0.0
+Batch index: 1140 Cost: 0.000480501 	Validation accuracy: 0.00615718
+Batch index: 1145 Cost: 0.00244025 	Validation accuracy: 0.00371616
+Batch index: 1150 Cost: 0.00115593 	Validation accuracy: 0.0095088
+Batch index: 1155 Cost: 0.00533636 	Validation accuracy: 0.00542925
+Batch index: 1160 Cost: 0.00667517 	Validation accuracy: 0.00353094
+Batch index: 1165 Cost: 0.0121726 	Validation accuracy: 0.00112423
+Batch index: 1170 Cost: 0.00841187 	Validation accuracy: 0.00072017
+Batch index: 1175 Cost: 0.00535529 	Validation accuracy: 0.00307864
+Batch index: 1180 Cost: 0.00434369 	Validation accuracy: 0.00316445
+Batch index: 1185 Cost: 0.0115783 	Validation accuracy: 0.00556912
+Batch index: 1190 Cost: 0.00914429 	Validation accuracy: 0.0151291
+Batch index: 1195 Cost: 0.00254887 	Validation accuracy: 0.000143663
+Batch index: 1200 Cost: 0.00142491 	Validation accuracy: 0.00474227
+Batch index: 1205 Cost: 0.0127841 	Validation accuracy: 0.0020071
+Batch index: 1210 Cost: 0.00305877 	Validation accuracy: 0.000237403
+Batch index: 1215 Cost: 0.0139754 	Validation accuracy: 0.00335067
+Batch index: 1220 Cost: 0.00411004 	Validation accuracy: 0.000650357
+Batch index: 1225 Cost: 0.0112942 	Validation accuracy: 0.0110551
+Batch index: 1230 Cost: 0.00329597 	Validation accuracy: 0.00141417
+Batch index: 1235 Cost: 0.00483933 	Validation accuracy: 0.000857731
+Batch index: 1240 Cost: 0.00630153 	Validation accuracy: 0.00599919
+Batch index: 1245 Cost: 0.000858491 	Validation accuracy: 0.00182425
+Batch index: 1250 Cost: 0.00293978 	Validation accuracy: 0.000465634
+Batch index: 1255 Cost: 0.00523976 	Validation accuracy: 0.00598022
+Batch index: 1260 Cost: 0.00226884 	Validation accuracy: 0.000812115
+Batch index: 1265 Cost: 0.00687868 	Validation accuracy: 0.0
+Batch index: 1270 Cost: 0.00307257 	Validation accuracy: 0.00337429
+Batch index: 1275 Cost: 0.00491119 	Validation accuracy: 0.00744139
+Batch index: 1280 Cost: 0.00520896 	Validation accuracy: 0.00296464
+Batch index: 1285 Cost: 0.00221202 	Validation accuracy: 0.0068625
+Batch index: 1290 Cost: 0.00222917 	Validation accuracy: 0.00515439
+Batch index: 1295 Cost: 0.0105325 	Validation accuracy: 0.00613822
+Batch index: 1300 Cost: 0.00133618 	Validation accuracy: 0.0022618
+Batch index: 1305 Cost: 0.00173648 	Validation accuracy: 0.00709451
+Batch index: 1310 Cost: 0.00514834 	Validation accuracy: 0.0284648
+Batch index: 1315 Cost: 0.000446021 	Validation accuracy: 0.00165996
+Batch index: 1320 Cost: 0.00815412 	Validation accuracy: 0.00300248
+Batch index: 1325 Cost: 0.00706135 	Validation accuracy: 0.00882183
+Batch index: 1330 Cost: 0.00395087 	Validation accuracy: 0.00259535
+Batch index: 1335 Cost: 0.0029501 	Validation accuracy: 0.00715794
+Batch index: 1340 Cost: 0.00785449 	Validation accuracy: 0.00689602
+Batch index: 1345 Cost: 0.0027396 	Validation accuracy: 0.00113242
+Batch index: 1350 Cost: 0.0082917 	Validation accuracy: 0.00426725
+Batch index: 1355 Cost: 0.00802662 	Validation accuracy: 0.00621831
+Batch index: 1360 Cost: 0.00513083 	Validation accuracy: 0.000939913
+Batch index: 1365 Cost: 0.00424543 	Validation accuracy: 0.0246586
+Batch index: 1370 Cost: 0.0033476 	Validation accuracy: 0.00489551
+Batch index: 1375 Cost: 0.00650447 	Validation accuracy: 0.00572638
+Batch index: 1380 Cost: 0.000290036 	Validation accuracy: 0.0
+Batch index: 1385 Cost: 0.0109309 	Validation accuracy: 0.00344872
+Batch index: 1390 Cost: 0.00579756 	Validation accuracy: 0.00356032
+Batch index: 1395 Cost: 0.00861557 	Validation accuracy: 0.00321229
+Batch index: 1400 Cost: 0.00100345 	Validation accuracy: 0.00141805
+Batch index: 1405 Cost: 0.00636598 	Validation accuracy: 0.00894741
+Batch index: 1410 Cost: 0.00108621 	Validation accuracy: 0.00229279
+Batch index: 1415 Cost: 0.000776539 	Validation accuracy: 0.0146312
+Batch index: 1420 Cost: 0.00250704 	Validation accuracy: 0.00227813
+Batch index: 1425 Cost: 0.00202713 	Validation accuracy: 0.0168361
+Batch index: 1430 Cost: 0.00125791 	Validation accuracy: 0.00460698
+Batch index: 1435 Cost: 0.0101031 	Validation accuracy: 0.000749394
+Batch index: 1440 Cost: 0.00138852 	Validation accuracy: 0.00150905
+Batch index: 1445 Cost: 0.00193949 	Validation accuracy: 0.00228438
+Batch index: 1450 Cost: 0.00075037 	Validation accuracy: 0.000842044
+Batch index: 1455 Cost: 0.000935852 	Validation accuracy: 0.00207302
+Batch index: 1460 Cost: 0.00517626 	Validation accuracy: 0.00128139
+Batch index: 1465 Cost: 0.0041786 	Validation accuracy: 0.0137851
+Batch index: 1470 Cost: 0.00824404 	Validation accuracy: 0.012824
+Batch index: 1475 Cost: 0.00425372 	Validation accuracy: 0.0012603
+Batch index: 1480 Cost: 0.0011273 	Validation accuracy: 0.00151381
+Batch index: 1485 Cost: 0.00546397 	Validation accuracy: 0.00340736
+Batch index: 1490 Cost: 0.00449772 	Validation accuracy: 0.000480624
+Batch index: 1495 Cost: 0.00289002 	Validation accuracy: 0.00201442
+Batch index: 1500 Cost: 0.00980836 	Validation accuracy: 0.00377169
+Batch index: 1505 Cost: 0.00501019 	Validation accuracy: 0.00276817
+Batch index: 1510 Cost: 0.00752059 	Validation accuracy: 0.00199677
+Batch index: 1515 Cost: 0.000396906 	Validation accuracy: 0.0130876
+Batch index: 1520 Cost: 0.00194214 	Validation accuracy: 0.000224018
+Batch index: 1525 Cost: 0.00530929 	Validation accuracy: 0.000598689
+Batch index: 1530 Cost: 0.0165996 	Validation accuracy: 0.00120413
+Batch index: 1535 Cost: 0.00123951 	Validation accuracy: 0.00501063
+Batch index: 1540 Cost: 0.00469105 	Validation accuracy: 0.00036771
+Batch index: 1545 Cost: 0.0106026 	Validation accuracy: 0.00317346
+Batch index: 1550 Cost: 0.00260182 	Validation accuracy: 0.00524181
+Epoch: 004 total trained pairs: 000006216 	test error = 0.00383559
+Batch index: 0 Cost: 0.00195341 	Validation accuracy: 0.000720647
+Batch index: 5 Cost: 0.0138482 	Validation accuracy: 0.00110978
+Batch index: 10 Cost: 0.00294214 	Validation accuracy: 0.00016057
+Batch index: 15 Cost: 0.00537718 	Validation accuracy: 0.00183597
+Batch index: 20 Cost: 0.000776229 	Validation accuracy: 0.00744351
+Batch index: 25 Cost: 0.00526688 	Validation accuracy: 0.00245768
+Batch index: 30 Cost: 0.0118903 	Validation accuracy: 0.00134283
+Batch index: 35 Cost: 0.000948082 	Validation accuracy: 0.000787331
+Batch index: 40 Cost: 0.000613728 	Validation accuracy: 0.0187493
+Batch index: 45 Cost: 0.0115609 	Validation accuracy: 0.00244286
+Batch index: 50 Cost: 0.00095539 	Validation accuracy: 0.00226145
+Batch index: 55 Cost: 0.00742033 	Validation accuracy: 0.0127314
+Batch index: 60 Cost: 0.000153968 	Validation accuracy: 0.000420865
+Batch index: 65 Cost: 0.0055768 	Validation accuracy: 0.00328189
+Batch index: 70 Cost: 0.00648714 	Validation accuracy: 0.00116736
+Batch index: 75 Cost: 0.0117559 	Validation accuracy: 0.00895866
+Batch index: 80 Cost: 0.000919133 	Validation accuracy: 0.000886194
+Batch index: 85 Cost: 0.00873245 	Validation accuracy: 0.00253447
+Batch index: 90 Cost: 0.00839176 	Validation accuracy: 0.000345811
+Batch index: 95 Cost: 0.00113164 	Validation accuracy: 0.00794895
+Batch index: 100 Cost: 0.00872163 	Validation accuracy: 0.00034626
+Batch index: 105 Cost: 0.00353482 	Validation accuracy: 0.0344858
+Batch index: 110 Cost: 0.00982557 	Validation accuracy: 0.00549343
+Batch index: 115 Cost: 0.00151172 	Validation accuracy: 0.00102924
+Batch index: 120 Cost: 0.00888245 	Validation accuracy: 0.00159734
+Batch index: 125 Cost: 0.00597304 	Validation accuracy: 0.00404407
+Batch index: 130 Cost: 0.0100597 	Validation accuracy: 8.9922e-05
+Batch index: 135 Cost: 0.00401238 	Validation accuracy: 0.00322428
+Batch index: 140 Cost: 0.00129986 	Validation accuracy: 0.027173
+Batch index: 145 Cost: 0.00123307 	Validation accuracy: 0.0115828
+Batch index: 150 Cost: 0.00109175 	Validation accuracy: 0.00334293
+Batch index: 155 Cost: 0.00954883 	Validation accuracy: 0.00840736
+Batch index: 160 Cost: 0.0041476 	Validation accuracy: 0.00610127
+Batch index: 165 Cost: 0.00441684 	Validation accuracy: 0.00455301
+Batch index: 170 Cost: 0.00670643 	Validation accuracy: 0.000931712
+Batch index: 175 Cost: 0.00186995 	Validation accuracy: 0.00598669
+Batch index: 180 Cost: 0.00694535 	Validation accuracy: 0.00507054
+Batch index: 185 Cost: 0.00564357 	Validation accuracy: 0.0032061
+Batch index: 190 Cost: 0.00302536 	Validation accuracy: 0.00746932
+Batch index: 195 Cost: 0.00135487 	Validation accuracy: 0.0124717
+Batch index: 200 Cost: 0.00580239 	Validation accuracy: 0.00248012
+Batch index: 205 Cost: 0.00103928 	Validation accuracy: 0.00362252
+Batch index: 210 Cost: 0.00415235 	Validation accuracy: 0.00155678
+Batch index: 215 Cost: 0.00578934 	Validation accuracy: 0.00733506
+Batch index: 220 Cost: 0.00490267 	Validation accuracy: 0.001751
+Batch index: 225 Cost: 0.00157513 	Validation accuracy: 0.000988423
+Batch index: 230 Cost: 0.000489067 	Validation accuracy: 0.00621749
+Batch index: 235 Cost: 0.0212989 	Validation accuracy: 0.00105971
+Batch index: 240 Cost: 0.00626872 	Validation accuracy: 0.000264761
+Batch index: 245 Cost: 0.00441475 	Validation accuracy: 0.000788279
+Batch index: 250 Cost: 0.00919166 	Validation accuracy: 0.00132093
+Batch index: 255 Cost: 0.0113425 	Validation accuracy: 0.00158773
+Batch index: 260 Cost: 0.00195176 	Validation accuracy: 0.000352064
+Batch index: 265 Cost: 0.00131178 	Validation accuracy: 4.33242e-05
+Batch index: 270 Cost: 0.000605151 	Validation accuracy: 0.00319357
+Batch index: 275 Cost: 0.00165558 	Validation accuracy: 0.00231275
+Batch index: 280 Cost: 0.00444002 	Validation accuracy: 0.00031614
+Batch index: 285 Cost: 0.00741262 	Validation accuracy: 0.000239258
+Batch index: 290 Cost: 0.0274177 	Validation accuracy: 0.000664605
+Batch index: 295 Cost: 0.00116308 	Validation accuracy: 0.00192743
+Batch index: 300 Cost: 0.00409579 	Validation accuracy: 0.00091791
+Batch index: 305 Cost: 0.005312 	Validation accuracy: 0.00289662
+Batch index: 310 Cost: 0.0115735 	Validation accuracy: 0.0360094
+Batch index: 315 Cost: 0.00618072 	Validation accuracy: 0.00291421
+Batch index: 320 Cost: 0.0105491 	Validation accuracy: 0.00216515
+Batch index: 325 Cost: 0.000528592 	Validation accuracy: 0.0183669
+Batch index: 330 Cost: 0.01718 	Validation accuracy: 0.00170372
+Batch index: 335 Cost: 0.00267432 	Validation accuracy: 0.00474741
+Batch index: 340 Cost: 0.00534739 	Validation accuracy: 0.00650066
+Batch index: 345 Cost: 0.00040547 	Validation accuracy: 0.000935396
+Batch index: 350 Cost: 0.00912634 	Validation accuracy: 0.00111113
+Batch index: 355 Cost: 0.00498219 	Validation accuracy: 0.00107167
+Batch index: 360 Cost: 0.00430683 	Validation accuracy: 0.0087712
+Batch index: 365 Cost: 0.00394734 	Validation accuracy: 0.00161083
+Batch index: 370 Cost: 0.000237975 	Validation accuracy: 0.0196402
+Batch index: 375 Cost: 0.00011264 	Validation accuracy: 0.00168773
+Batch index: 380 Cost: 0.00299545 	Validation accuracy: 0.000432148
+Batch index: 385 Cost: 0.00669289 	Validation accuracy: 0.000128
+Batch index: 390 Cost: 0.0021993 	Validation accuracy: 0.00816177
+Batch index: 395 Cost: 0.00307552 	Validation accuracy: 0.00655351
+Batch index: 400 Cost: 0.00404877 	Validation accuracy: 0.000604142
+Batch index: 405 Cost: 0.000431395 	Validation accuracy: 0.00411547
+Batch index: 410 Cost: 0.00685738 	Validation accuracy: 0.00494911
+Batch index: 415 Cost: 7.53521e-05 	Validation accuracy: 0.00177158
+Batch index: 420 Cost: 0.00328831 	Validation accuracy: 0.00953671
+Batch index: 425 Cost: 0.00182757 	Validation accuracy: 0.0
+Batch index: 430 Cost: 0.00050203 	Validation accuracy: 0.000249123
+Batch index: 435 Cost: 0.00764991 	Validation accuracy: 0.0127042
+Batch index: 440 Cost: 0.00155228 	Validation accuracy: 0.0006125
+Batch index: 445 Cost: 0.00314505 	Validation accuracy: 0.00943005
+Batch index: 450 Cost: 0.00814497 	Validation accuracy: 0.00755636
+Batch index: 455 Cost: 0.00284451 	Validation accuracy: 0.00479046
+Batch index: 460 Cost: 0.00164394 	Validation accuracy: 0.00334551
+Batch index: 465 Cost: 0.00283977 	Validation accuracy: 0.00012207
+Batch index: 470 Cost: 0.00172898 	Validation accuracy: 0.000188024
+Batch index: 475 Cost: 0.0034611 	Validation accuracy: 0.00990157
+Batch index: 480 Cost: 0.0124237 	Validation accuracy: 0.0128925
+Batch index: 485 Cost: 0.00342352 	Validation accuracy: 0.0076185
+Batch index: 490 Cost: 0.00212072 	Validation accuracy: 0.000587373
+Batch index: 495 Cost: 0.00474529 	Validation accuracy: 0.00840114
+Batch index: 500 Cost: 0.00777408 	Validation accuracy: 0.00211043
+Batch index: 505 Cost: 0.00309907 	Validation accuracy: 0.00617656
+Batch index: 510 Cost: 0.00120838 	Validation accuracy: 0.000266272
+Batch index: 515 Cost: 0.0185644 	Validation accuracy: 0.00728236
+Batch index: 520 Cost: 0.00549143 	Validation accuracy: 0.00376415
+Batch index: 525 Cost: 0.00660579 	Validation accuracy: 0.011936
+Batch index: 530 Cost: 0.00317321 	Validation accuracy: 0.000413833
+Batch index: 535 Cost: 0.0100493 	Validation accuracy: 0.0022901
+Batch index: 540 Cost: 0.00369469 	Validation accuracy: 0.0188052
+Batch index: 545 Cost: 0.00820631 	Validation accuracy: 8.24846e-05
+Batch index: 550 Cost: 0.00814361 	Validation accuracy: 0.00332974
+Batch index: 555 Cost: 0.00598805 	Validation accuracy: 0.0013574
+Batch index: 560 Cost: 0.000320794 	Validation accuracy: 0.0148302
+Batch index: 565 Cost: 0.00549878 	Validation accuracy: 0.00899243
+Batch index: 570 Cost: 0.0042921 	Validation accuracy: 0.00177334
+Batch index: 575 Cost: 0.000985874 	Validation accuracy: 0.00381541
+Batch index: 580 Cost: 0.00159617 	Validation accuracy: 0.00684898
+Batch index: 585 Cost: 0.000598766 	Validation accuracy: 0.012078
+Batch index: 590 Cost: 0.00830959 	Validation accuracy: 9.23027e-05
+Batch index: 595 Cost: 0.00234909 	Validation accuracy: 0.000836777
+Batch index: 600 Cost: 0.00157023 	Validation accuracy: 0.00248811
+Batch index: 605 Cost: 0.00115518 	Validation accuracy: 0.00327925
+Batch index: 610 Cost: 0.0013597 	Validation accuracy: 0.000563726
+Batch index: 615 Cost: 0.00709409 	Validation accuracy: 0.0
+Batch index: 620 Cost: 0.00193464 	Validation accuracy: 0.00193401
+Batch index: 625 Cost: 0.00329074 	Validation accuracy: 0.0105356
+Batch index: 630 Cost: 0.00114966 	Validation accuracy: 0.000782416
+Batch index: 635 Cost: 0.00289738 	Validation accuracy: 0.000350803
+Batch index: 640 Cost: 0.0038945 	Validation accuracy: 0.0128712
+Batch index: 645 Cost: 0.00163776 	Validation accuracy: 0.0
+Batch index: 650 Cost: 0.00370095 	Validation accuracy: 0.00185439
+Batch index: 655 Cost: 0.00221775 	Validation accuracy: 0.00210589
+Batch index: 660 Cost: 0.0010162 	Validation accuracy: 0.00854154
+Batch index: 665 Cost: 9.35158e-05 	Validation accuracy: 0.00279652
+Batch index: 670 Cost: 0.0057871 	Validation accuracy: 0.00882143
+Batch index: 675 Cost: 0.00368199 	Validation accuracy: 0.000903217
+Batch index: 680 Cost: 0.00179386 	Validation accuracy: 0.0008
+Batch index: 685 Cost: 0.00156137 	Validation accuracy: 0.0157296
+Batch index: 690 Cost: 0.00827702 	Validation accuracy: 0.00699623
+Batch index: 695 Cost: 0.00311247 	Validation accuracy: 0.00627133
+Batch index: 700 Cost: 0.0090357 	Validation accuracy: 0.0100911
+Batch index: 705 Cost: 0.0161751 	Validation accuracy: 0.0028125
+Batch index: 710 Cost: 0.00363064 	Validation accuracy: 0.00132935
+Batch index: 715 Cost: 0.00586965 	Validation accuracy: 0.00076754
+Batch index: 720 Cost: 0.00768211 	Validation accuracy: 0.00252178
+Batch index: 725 Cost: 0.013268 	Validation accuracy: 0.000703393
+Batch index: 730 Cost: 0.0 	Validation accuracy: 0.000278985
+Batch index: 735 Cost: 0.00133418 	Validation accuracy: 0.000333496
+Batch index: 740 Cost: 0.00737233 	Validation accuracy: 0.0212584
+Batch index: 745 Cost: 0.00149578 	Validation accuracy: 0.00221043
+Batch index: 750 Cost: 0.0195035 	Validation accuracy: 0.000315874
+Batch index: 755 Cost: 0.00281487 	Validation accuracy: 0.00473597
+Batch index: 760 Cost: 0.00882425 	Validation accuracy: 0.00102746
+Batch index: 765 Cost: 0.000915138 	Validation accuracy: 0.0068569
+Batch index: 770 Cost: 0.00665075 	Validation accuracy: 0.0130587
+Batch index: 775 Cost: 0.0161658 	Validation accuracy: 0.0104229
+Batch index: 780 Cost: 0.00765501 	Validation accuracy: 0.0023974
+Batch index: 785 Cost: 0.00276126 	Validation accuracy: 0.000426254
+Batch index: 790 Cost: 0.00361083 	Validation accuracy: 0.00013122
+Batch index: 795 Cost: 0.00342236 	Validation accuracy: 0.00581556
+Batch index: 800 Cost: 0.00205377 	Validation accuracy: 0.00112914
+Batch index: 805 Cost: 0.0064973 	Validation accuracy: 0.00788699
+Batch index: 810 Cost: 0.00503127 	Validation accuracy: 0.00228701
+Batch index: 815 Cost: 0.0025757 	Validation accuracy: 0.00426657
+Batch index: 820 Cost: 0.00313222 	Validation accuracy: 0.0107843
+Batch index: 825 Cost: 0.00284118 	Validation accuracy: 0.000336802
+Batch index: 830 Cost: 0.00494702 	Validation accuracy: 0.00105172
+Batch index: 835 Cost: 0.00166582 	Validation accuracy: 0.00137291
+Batch index: 840 Cost: 0.00396619 	Validation accuracy: 0.00165127
+Batch index: 845 Cost: 0.00876135 	Validation accuracy: 0.000497809
+Batch index: 850 Cost: 0.001812 	Validation accuracy: 0.00416225
+Batch index: 855 Cost: 0.000733696 	Validation accuracy: 0.000473373
+Batch index: 860 Cost: 0.00476116 	Validation accuracy: 0.0207195
+Batch index: 865 Cost: 0.00507546 	Validation accuracy: 0.00332203
+Batch index: 870 Cost: 0.00338774 	Validation accuracy: 0.00251638
+Batch index: 875 Cost: 0.00140226 	Validation accuracy: 0.00545158
+Batch index: 880 Cost: 0.000831989 	Validation accuracy: 0.0015909
+Batch index: 885 Cost: 0.00156647 	Validation accuracy: 0.00331341
+Batch index: 890 Cost: 0.00430486 	Validation accuracy: 0.000558071
+Batch index: 895 Cost: 0.0030573 	Validation accuracy: 0.00328127
+Batch index: 900 Cost: 0.00351582 	Validation accuracy: 0.0178352
+Batch index: 905 Cost: 0.00196998 	Validation accuracy: 0.00601367
+Batch index: 910 Cost: 0.00418807 	Validation accuracy: 0.00132699
+Batch index: 915 Cost: 0.0021824 	Validation accuracy: 0.00058514
+Batch index: 920 Cost: 0.00402041 	Validation accuracy: 0.015274
+Batch index: 925 Cost: 0.00138416 	Validation accuracy: 9.9587e-05
+Batch index: 930 Cost: 0.00400204 	Validation accuracy: 0.00531147
+Batch index: 935 Cost: 0.000677185 	Validation accuracy: 0.00247117
+Batch index: 940 Cost: 0.00259438 	Validation accuracy: 0.00623486
+Batch index: 945 Cost: 0.00695338 	Validation accuracy: 0.0065904
+Batch index: 950 Cost: 0.00593663 	Validation accuracy: 0.013139
+Batch index: 955 Cost: 0.00123392 	Validation accuracy: 0.00414966
+Batch index: 960 Cost: 0.00524241 	Validation accuracy: 0.00458088
+Batch index: 965 Cost: 0.00270751 	Validation accuracy: 0.0155732
+Batch index: 970 Cost: 0.00575465 	Validation accuracy: 0.0227324
+Batch index: 975 Cost: 0.0112784 	Validation accuracy: 0.00691405
+Batch index: 980 Cost: 0.00469499 	Validation accuracy: 0.0109408
+Batch index: 985 Cost: 0.0106515 	Validation accuracy: 0.00130101
+Batch index: 990 Cost: 0.00226309 	Validation accuracy: 0.00942479
+Batch index: 995 Cost: 0.00285694 	Validation accuracy: 2.15781e-05
+Batch index: 1000 Cost: 0.00362636 	Validation accuracy: 0.000851721
+Batch index: 1005 Cost: 0.000469315 	Validation accuracy: 0.00742968
+Batch index: 1010 Cost: 0.00412827 	Validation accuracy: 0.00335367
+Batch index: 1015 Cost: 0.000499073 	Validation accuracy: 0.00107894
+Batch index: 1020 Cost: 0.00867785 	Validation accuracy: 0.00298117
+Batch index: 1025 Cost: 0.00025314 	Validation accuracy: 0.000278699
+Batch index: 1030 Cost: 0.00114479 	Validation accuracy: 0.00166587
+Batch index: 1035 Cost: 0.00799786 	Validation accuracy: 0.00925829
+Batch index: 1040 Cost: 0.00885325 	Validation accuracy: 0.0169286
+Batch index: 1045 Cost: 0.00245353 	Validation accuracy: 0.0
+Batch index: 1050 Cost: 0.00596402 	Validation accuracy: 0.0120974
+Batch index: 1055 Cost: 0.00671545 	Validation accuracy: 0.00261578
+Batch index: 1060 Cost: 0.00307964 	Validation accuracy: 0.00146473
+Batch index: 1065 Cost: 0.00978619 	Validation accuracy: 0.00408575
+Batch index: 1070 Cost: 0.00875857 	Validation accuracy: 0.00335278
+Batch index: 1075 Cost: 0.00385976 	Validation accuracy: 0.000688246
+Batch index: 1080 Cost: 0.00494432 	Validation accuracy: 0.00138255
+Batch index: 1085 Cost: 0.0132943 	Validation accuracy: 0.000639042
+Batch index: 1090 Cost: 0.00343833 	Validation accuracy: 0.00296905
+Batch index: 1095 Cost: 0.00121445 	Validation accuracy: 0.0041117
+Batch index: 1100 Cost: 0.013487 	Validation accuracy: 0.0129411
+Batch index: 1105 Cost: 0.0111964 	Validation accuracy: 0.0209449
+Batch index: 1110 Cost: 0.00171048 	Validation accuracy: 0.00388788
+Batch index: 1115 Cost: 0.00413638 	Validation accuracy: 0.000662814
+Batch index: 1120 Cost: 0.00893383 	Validation accuracy: 0.00094643
+Batch index: 1125 Cost: 0.00812509 	Validation accuracy: 0.00381544
+Batch index: 1130 Cost: 0.00244262 	Validation accuracy: 0.0
+Batch index: 1135 Cost: 0.0130016 	Validation accuracy: 0.00226542
+Batch index: 1140 Cost: 0.0203317 	Validation accuracy: 0.00162904
+Batch index: 1145 Cost: 0.00174486 	Validation accuracy: 0.00114796
+Batch index: 1150 Cost: 0.00919634 	Validation accuracy: 0.00105758
+Batch index: 1155 Cost: 0.00476889 	Validation accuracy: 0.00486604
+Batch index: 1160 Cost: 0.00466503 	Validation accuracy: 0.00222533
+Batch index: 1165 Cost: 0.00254039 	Validation accuracy: 0.00821293
+Batch index: 1170 Cost: 0.00101434 	Validation accuracy: 0.00356498
+Batch index: 1175 Cost: 0.00807321 	Validation accuracy: 0.0028926
+Batch index: 1180 Cost: 0.00518509 	Validation accuracy: 0.000684963
+Batch index: 1185 Cost: 0.000940453 	Validation accuracy: 0.017228
+Batch index: 1190 Cost: 0.0136505 	Validation accuracy: 0.011803
+Batch index: 1195 Cost: 0.00295369 	Validation accuracy: 0.00603878
+Batch index: 1200 Cost: 0.0103561 	Validation accuracy: 0.000240928
+Batch index: 1205 Cost: 0.00273952 	Validation accuracy: 0.030568
+Batch index: 1210 Cost: 0.00234329 	Validation accuracy: 0.0
+Batch index: 1215 Cost: 0.00335382 	Validation accuracy: 0.00732013
+Batch index: 1220 Cost: 0.00025228 	Validation accuracy: 0.00303404
+Batch index: 1225 Cost: 0.00637335 	Validation accuracy: 0.0
+Batch index: 1230 Cost: 0.0011808 	Validation accuracy: 0.0
+Batch index: 1235 Cost: 0.00589293 	Validation accuracy: 0.000666681
+Batch index: 1240 Cost: 0.00254269 	Validation accuracy: 0.00637026
+Batch index: 1245 Cost: 0.00925615 	Validation accuracy: 0.00749413
+Batch index: 1250 Cost: 0.00332029 	Validation accuracy: 0.0134472
+Batch index: 1255 Cost: 0.00291988 	Validation accuracy: 0.00455756
+Batch index: 1260 Cost: 0.00655116 	Validation accuracy: 0.000663747
+Batch index: 1265 Cost: 0.0127239 	Validation accuracy: 0.00135218
+Batch index: 1270 Cost: 0.00178251 	Validation accuracy: 0.00105378
+Batch index: 1275 Cost: 0.00124669 	Validation accuracy: 0.00663088
+Batch index: 1280 Cost: 0.00832825 	Validation accuracy: 0.0044175
+Batch index: 1285 Cost: 0.00895329 	Validation accuracy: 0.001539
+Batch index: 1290 Cost: 0.00049036 	Validation accuracy: 0.0172718
+Batch index: 1295 Cost: 0.000634716 	Validation accuracy: 0.0171165
+Batch index: 1300 Cost: 0.00667467 	Validation accuracy: 0.00442655
+Batch index: 1305 Cost: 0.00401947 	Validation accuracy: 0.0134796
+Batch index: 1310 Cost: 0.000501698 	Validation accuracy: 0.0
+Batch index: 1315 Cost: 0.00166635 	Validation accuracy: 0.000488281
+Batch index: 1320 Cost: 0.000920143 	Validation accuracy: 0.000503265
+Batch index: 1325 Cost: 0.0084664 	Validation accuracy: 0.00848138
+Batch index: 1330 Cost: 0.00572798 	Validation accuracy: 0.00126922
+Batch index: 1335 Cost: 0.00389931 	Validation accuracy: 0.00176178
+Batch index: 1340 Cost: 0.0110009 	Validation accuracy: 0.00170502
+Batch index: 1345 Cost: 0.0127235 	Validation accuracy: 0.00322748
+Batch index: 1350 Cost: 0.00160882 	Validation accuracy: 0.00692736
+Batch index: 1355 Cost: 0.00287505 	Validation accuracy: 0.00166924
+Batch index: 1360 Cost: 0.0023107 	Validation accuracy: 0.00579882
+Batch index: 1365 Cost: 0.000375039 	Validation accuracy: 0.00303602
+Batch index: 1370 Cost: 0.00173754 	Validation accuracy: 0.0002745
+Batch index: 1375 Cost: 0.0108331 	Validation accuracy: 0.0143143
+Batch index: 1380 Cost: 0.00545467 	Validation accuracy: 0.00112025
+Batch index: 1385 Cost: 0.0020321 	Validation accuracy: 0.0193025
+Batch index: 1390 Cost: 0.00556565 	Validation accuracy: 0.00170225
+Batch index: 1395 Cost: 0.016033 	Validation accuracy: 0.00206536
+Batch index: 1400 Cost: 0.00171234 	Validation accuracy: 0.000653005
+Batch index: 1405 Cost: 0.00620664 	Validation accuracy: 0.00035758
+Batch index: 1410 Cost: 0.00148064 	Validation accuracy: 0.00221046
+Batch index: 1415 Cost: 0.00772915 	Validation accuracy: 0.000372732
+Batch index: 1420 Cost: 0.00276221 	Validation accuracy: 0.000358964
+Batch index: 1425 Cost: 0.00717896 	Validation accuracy: 0.00343834
+Batch index: 1430 Cost: 0.00457545 	Validation accuracy: 0.00143397
+Batch index: 1435 Cost: 0.002743 	Validation accuracy: 0.00299286
+Batch index: 1440 Cost: 0.00244276 	Validation accuracy: 0.00419599
+Batch index: 1445 Cost: 0.00701957 	Validation accuracy: 0.0158062
+Batch index: 1450 Cost: 0.00191213 	Validation accuracy: 0.00449016
+Batch index: 1455 Cost: 0.0065138 	Validation accuracy: 0.00377474
+Batch index: 1460 Cost: 0.00407355 	Validation accuracy: 0.00280737
+Batch index: 1465 Cost: 0.00117325 	Validation accuracy: 0.0020062
+Batch index: 1470 Cost: 0.00730979 	Validation accuracy: 0.00671138
+Batch index: 1475 Cost: 0.000844971 	Validation accuracy: 0.00222665
+Batch index: 1480 Cost: 0.00692365 	Validation accuracy: 0.000290767
+Batch index: 1485 Cost: 0.00397106 	Validation accuracy: 0.000560274
+Batch index: 1490 Cost: 0.0166634 	Validation accuracy: 0.000490681
+Batch index: 1495 Cost: 0.00422626 	Validation accuracy: 0.0253125
+Batch index: 1500 Cost: 0.00671527 	Validation accuracy: 7.92215e-05
+Batch index: 1505 Cost: 7.06108e-05 	Validation accuracy: 0.00793439
+Batch index: 1510 Cost: 0.000143652 	Validation accuracy: 0.000231953
+Batch index: 1515 Cost: 0.000443983 	Validation accuracy: 0.00349827
+Batch index: 1520 Cost: 0.00925959 	Validation accuracy: 0.00240367
+Batch index: 1525 Cost: 0.0161548 	Validation accuracy: 0.00110727
+Batch index: 1530 Cost: 0.00347392 	Validation accuracy: 7.34619e-05
+Batch index: 1535 Cost: 0.00199889 	Validation accuracy: 0.000804659
+Batch index: 1540 Cost: 0.00987326 	Validation accuracy: 0.00418029
+Batch index: 1545 Cost: 0.00593026 	Validation accuracy: 0.000280461
+Batch index: 1550 Cost: 0.00379775 	Validation accuracy: 0.000931195
+Epoch: 005 total trained pairs: 000007770 	test error = 0.00578695
+Batch index: 0 Cost: 0.000998965 	Validation accuracy: 0.00516961
+Batch index: 5 Cost: 0.00168907 	Validation accuracy: 0.00267262
+Batch index: 10 Cost: 0.00137742 	Validation accuracy: 0.00050277
+Batch index: 15 Cost: 0.00198838 	Validation accuracy: 0.000794272
+Batch index: 20 Cost: 0.00303089 	Validation accuracy: 0.00302249
+Batch index: 25 Cost: 0.00172818 	Validation accuracy: 0.00539693
+Batch index: 30 Cost: 0.00649597 	Validation accuracy: 0.0129487
+Batch index: 35 Cost: 0.00558675 	Validation accuracy: 0.00374497
+Batch index: 40 Cost: 0.00271489 	Validation accuracy: 0.00534484
+Batch index: 45 Cost: 0.003698 	Validation accuracy: 0.0228781
+Batch index: 50 Cost: 0.00252939 	Validation accuracy: 0.000494901
+Batch index: 55 Cost: 0.000449697 	Validation accuracy: 0.00853349
+Batch index: 60 Cost: 0.00375858 	Validation accuracy: 0.000346713
+Batch index: 65 Cost: 0.00117317 	Validation accuracy: 0.0
+Batch index: 70 Cost: 0.00152084 	Validation accuracy: 0.00028335
+Batch index: 75 Cost: 0.00649519 	Validation accuracy: 0.0126906
+Batch index: 80 Cost: 0.00108639 	Validation accuracy: 0.00432481
+Batch index: 85 Cost: 0.00738015 	Validation accuracy: 0.000590001
+Batch index: 90 Cost: 0.000747862 	Validation accuracy: 0.00669004
+Batch index: 95 Cost: 0.00205637 	Validation accuracy: 0.0
+Batch index: 100 Cost: 0.00259222 	Validation accuracy: 0.0133813
+Batch index: 105 Cost: 0.00235673 	Validation accuracy: 0.000908943
+Batch index: 110 Cost: 0.0065681 	Validation accuracy: 0.000251036
+Batch index: 115 Cost: 0.00178856 	Validation accuracy: 0.00117973
+Batch index: 120 Cost: 0.00511927 	Validation accuracy: 0.0
+

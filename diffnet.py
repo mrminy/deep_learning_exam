@@ -72,11 +72,11 @@ class DiffNet:
             }
 
             input_tensor = tf.concat(1, [self.Q, self.T])
-            layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(input_tensor, weights['h1']), biases['b1']))
+            layer_1 = tf.nn.relu(tf.add(tf.matmul(input_tensor, weights['h1']), biases['b1']))
             layer_1_drop = tf.nn.dropout(layer_1, self.keep_prob)  # Dropout layer
-            layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
+            layer_2 = tf.nn.relu(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
             layer_2_drop = tf.nn.dropout(layer_2, self.keep_prob)  # Dropout layer
-            out = tf.nn.sigmoid(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
+            out = tf.nn.relu(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
             out = tf.nn.dropout(out, self.keep_prob)  # Dropout layer
 
             # Prediction
@@ -86,8 +86,8 @@ class DiffNet:
 
             # Define loss, minimize the squared error (with or without scaling)
             self.loss_function = tf.reduce_mean(tf.square(y_true - self.y_pred))
-            self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
-            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.9).minimize(self.loss_function)
+            # self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
+            self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.9).minimize(self.loss_function)
 
             # Evaluate model
             # self.accuracy = tf.reduce_mean(tf.cast(self.loss_function, tf.float32))
@@ -274,7 +274,7 @@ if __name__ == '__main__':
     if test:
         # Test diffnet
         net = DiffNet('validate')
-        net.restore('diffnet1_relu/')
+        net.restore('diffnet1_relu/', global_step=5)
         test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
                                                    directory='./validate/txt/')
         test_ids = list(test_labels.keys())[:1000]
