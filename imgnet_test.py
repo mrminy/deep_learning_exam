@@ -70,21 +70,19 @@ class ImageFeatureExtractor:
         image = find_img_path(path, image)
         if image is not None and tf.gfile.Exists(image):
             image_data = tf.gfile.FastGFile(image, 'rb').read()
-
             if self.sess is None:
-                # config = tf.ConfigProto()
-                # config.gpu_options.allow_growth = True
-                self.sess = tf.Session(graph=self.graph)
+                self.create_session()
                 # Some useful tensors:
                 # 'softmax:0': A tensor containing the normalized prediction across
-                #   1000 labels.
+                #   1008 labels.
                 # 'pool_3:0': A tensor containing the next-to-last layer containing 2048
                 #   float description of the image.
                 # 'DecodeJpeg/contents:0': A tensor containing a string providing JPEG
                 #   encoding of the image.
                 # Runs the softmax tensor by feeding the image_data as input to the graph.
-            softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
-            predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
+            # softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
+            pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
+            predictions = self.sess.run(pool_3, {'DecodeJpeg/contents:0': image_data})
             predictions = np.squeeze(predictions)
 
             # Creates node ID --> English string lookup.
@@ -111,23 +109,28 @@ class ImageFeatureExtractor:
         """
         preds = []
         if self.sess is None:
-            # config = tf.ConfigProto()
-            # config.gpu_options.allow_growth = True
-            self.sess = tf.Session(graph=self.graph)
+            self.create_session()
 
-        softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
+        # softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
+        pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
         for image in images:
             image = find_img_path(path, image)
             if image is not None and tf.gfile.Exists(image):
                 image_data = tf.gfile.FastGFile(image, 'rb').read()
 
-                predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
+                # predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data}) # Softmax of 1008 labels
+                predictions = self.sess.run(pool_3, {'DecodeJpeg/contents:0': image_data}) # Second to last layer with 2048 image features
                 predictions = np.squeeze(predictions)
                 preds.append(predictions)
             else:
                 # Did not find any image
                 preds.append(None)
         return np.array(preds)
+
+    def create_session(self):
+        # config = tf.ConfigProto()
+        # config.gpu_options.allow_growth = True
+        self.sess = tf.Session(graph=self.graph)
 
     def maybe_download_and_extract(self):
         """Download and extract model tar file."""
@@ -214,7 +217,9 @@ class NodeLookup(object):
 
 def main():
     img_extractor = ImageFeatureExtractor()
-    img_extractor.run_inference_on_image('0e9bcd083efa989c', print_prediction=True)
+    imgs = np.array(['0e9bcd083efa989c', '0fb1e771f532e7f5', '02f24e18eae95802'])
+    # img_extractor.run_inference_on_image('0e9bcd083efa989c', print_prediction=True)
+    img_extractor.run_inference_on_images(imgs, path='validate/pics/*/')
 
 
 if __name__ == '__main__':

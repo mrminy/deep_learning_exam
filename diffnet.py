@@ -23,8 +23,9 @@ class DiffNet:
         if test_db_path is not None:
             self.test_db = pickle.load(open('./' + test_db_path + '/pickle/combined.pickle', 'rb'))
         self.db_predictions = None
+        self.test_db_predictions = None
 
-        self.history_sampling_rate = 100
+        self.history_sampling_rate = 5
         self.display_step = 1
 
         # self.threshold = 0.000061
@@ -41,10 +42,10 @@ class DiffNet:
         self.saver = None
 
         # Network Parameters
-        self.n_input = 1008 * 2  # 1008 image features
+        self.n_input = 2048 * 2  # 1008 image features or 2048 features from second last layer in inception
         self.n_output = 1  # Done (1) or not done (0)
-        self.n_hidden_1 = 1000  # 1st layer num features
-        self.n_hidden_2 = 1000  # 2nd layer num features
+        self.n_hidden_1 = 500  # 1st layer num features
+        self.n_hidden_2 = 50  # 2nd layer num features
 
         self.cost_history = []
         self.test_acc_history = []
@@ -73,11 +74,11 @@ class DiffNet:
             }
 
             input_tensor = tf.concat(1, [self.Q, self.T])
-            layer_1 = tf.nn.tanh(tf.add(tf.matmul(input_tensor, weights['h1']), biases['b1']))
+            layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(input_tensor, weights['h1']), biases['b1']))
             layer_1_drop = tf.nn.dropout(layer_1, self.keep_prob)  # Dropout layer
-            layer_2 = tf.nn.tanh(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
+            layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
             layer_2_drop = tf.nn.dropout(layer_2, self.keep_prob)  # Dropout layer
-            out = tf.nn.tanh(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
+            out = tf.nn.sigmoid(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
             out = tf.nn.dropout(out, self.keep_prob)  # Dropout layer
 
             # Prediction
@@ -88,7 +89,7 @@ class DiffNet:
             # Define loss, minimize the squared error (with or without scaling)
             self.loss_function = tf.reduce_mean(tf.square(y_true - self.y_pred))
             self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
-            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.01).minimize(self.loss_function)
+            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.9).minimize(self.loss_function)
 
             # Evaluate model
             # self.accuracy = tf.reduce_mean(tf.cast(self.loss_function, tf.float32))
@@ -114,6 +115,17 @@ class DiffNet:
         X_train = np.array(list(self.db.keys()))
         X_test = np.array(list(self.test_db.keys()))
 
+        if self.db_predictions is None:
+            print("Running feature extracting on db images")
+            self.db_predictions = self.feature_extractor.run_inference_on_images(self.db,
+                                                                                 path=self.db_path + '/pics/*/')
+            print("Finished extracting features from db")
+        if self.test_db_predictions is None:
+            print("Running feature extracting on test db images")
+            self.test_db_predictions = self.feature_extractor.run_inference_on_images(self.test_db,
+                                                                                      path=self.test_db_path + '/pics/*/')
+            print("Finished extracting features from test db")
+
         self.build(learning_rate=learning_rate)
 
         total_batch = int(len(X_train) / batch_size)
@@ -121,31 +133,35 @@ class DiffNet:
             print("Starting training...")
             print("Total nr of batches:", total_batch)
         # Training cycle
+        training_pair_counter = 0
         for epoch in range(training_epochs):
             # Loop over all batches
             c = None
             idexes = np.arange(len(X_train))
-            for i in range(50):
+            for i in range(total_batch):
                 idx = np.random.choice(idexes, batch_size * 2, replace=True)
-                batch_qs = X_train[idx[:int(len(idx) / 2)]]  # Query images
-                batch_ts = X_train[idx[int(len(idx) / 2):]]  # Test images
+                q_idx = idx[:int(len(idx) / 2)]
+                t_idx = idx[int(len(idx) / 2):]
+                batch_qs = X_train[q_idx]  # Query images
+                batch_ts = X_train[t_idx]  # Test images
                 batch_ys = calculate_score_batch(batch_qs, batch_ts, self.db)
-                batch_qs = self.feature_extractor.run_inference_on_images(batch_qs, path=self.db_path + '/pics/*/')
-                batch_ts = self.feature_extractor.run_inference_on_images(batch_ts, path=self.db_path + '/pics/*/')
+                batch_qs = self.db_predictions[q_idx]
+                batch_ts = self.db_predictions[t_idx]
                 # Run optimization op (backprop) and cost op (to get loss value)
                 _, c = self.sess.run([self.optimizer, self.loss_function],
                                      feed_dict={self.Q: batch_qs, self.T: batch_ts, self.Y: batch_ys,
                                                 self.keep_prob: 1.0})
+                training_pair_counter += 1
                 if i % self.history_sampling_rate == 0:
                     self.cost_history.append(c)
                     test_idx = np.random.choice(np.arange(0, len(X_test)), batch_size)
-                    test_batch_qs = X_test[test_idx[:int(len(test_idx) / 2)]]  # Query images
-                    test_batch_ts = X_test[test_idx[int(len(test_idx) / 2):]]  # Test images
+                    test_q_idx = test_idx[:int(len(test_idx) / 2)]
+                    test_t_idx = test_idx[int(len(test_idx) / 2):]
+                    test_batch_qs = X_test[test_q_idx]  # Query images
+                    test_batch_ts = X_test[test_t_idx]  # Test images
                     test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
-                    test_batch_qs = self.feature_extractor.run_inference_on_images(test_batch_qs,
-                                                                                   path=self.test_db_path + '/pics/*/')
-                    test_batch_ts = self.feature_extractor.run_inference_on_images(test_batch_ts,
-                                                                                   path=self.test_db_path + '/pics/*/')
+                    test_batch_qs = self.test_db_predictions[test_q_idx]
+                    test_batch_ts = self.test_db_predictions[test_t_idx]
                     acc = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
                                                                        self.Y: test_batch_ys, self.keep_prob: 1.0})
                     self.test_acc_history.append(acc)
@@ -153,27 +169,51 @@ class DiffNet:
 
             # Do more precise test after each epoch
             if epoch % self.display_step == 0:
-                test_idx = np.random.choice(np.arange(0, len(X_test)), 512)
-                test_batch_qs = X_test[test_idx[:int(len(test_idx) / 2)]]  # Query images
-                test_batch_ts = X_test[test_idx[int(len(test_idx) / 2):]]  # Test images
+                test_idx = np.random.choice(np.arange(0, len(X_test)), 256)
+                test_q_idx = test_idx[:int(len(test_idx) / 2)]
+                test_t_idx = test_idx[int(len(test_idx) / 2):]
+                test_batch_qs = X_test[test_q_idx]  # Query images
+                test_batch_ts = X_test[test_t_idx]  # Test images
                 test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
-                test_batch_qs = self.feature_extractor.run_inference_on_images(test_batch_qs,
-                                                                               path=self.test_db_path + '/pics/*/')
-                test_batch_ts = self.feature_extractor.run_inference_on_images(test_batch_ts,
-                                                                               path=self.test_db_path + '/pics/*/')
+                test_batch_qs = self.test_db_predictions[test_q_idx]
+                test_batch_ts = self.test_db_predictions[test_t_idx]
                 test_error = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
                                                                           self.Y: test_batch_ys, self.keep_prob: 1.0})
                 self.test_acc_history.append(test_error)
-                print("Epoch:", '%04d' % (epoch + 1), "test error=", test_error)
+                print("Epoch:", '%03d' % (epoch + 1), "total trained pairs:", '%09d' % training_pair_counter,
+                      "\ttest error =", test_error)
+                if save:
+                    self.saver.save(self.sess, save_path + 'diff_net.ckpt', global_step=epoch + 1)
 
-        # Applying encode and decode over test set and show some examples
-        # output = self.sess.run(self.y_pred,feed_dict={self.X: X_test_r[:self.examples_to_show], self.keep_prob: 1.0})
-        # print(Y_test_r[:self.examples_to_show])
-        # print(output[:])
+        # TODO make final test
+        # test_idx = np.random.choice(np.arange(0, len(X_test)), len(X_test))
+        # test_batch_qs = X_test[test_idx[:int(len(test_idx) / 2)]]  # Query images
+        # test_batch_ts = X_test[test_idx[int(len(test_idx) / 2):]]  # Test images
+        # test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
+        # test_batch_qs = self.feature_extractor.run_inference_on_images(test_batch_qs,
+        #                                                                path=self.test_db_path + '/pics/*/')
+        # test_batch_ts = self.feature_extractor.run_inference_on_images(test_batch_ts,
+        #                                                                path=self.test_db_path + '/pics/*/')
+        # test_error = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
+        #                                                           self.Y: test_batch_ys, self.keep_prob: 1.0})
+        # self.test_acc_history.append(test_error)
+        # print("Epoch:", '%04d' % (epoch + 1), "\ttotal training pairs:", '%07d' % training_pair_counter,
+        #       "\ttest error =", test_error)
 
-        if save:
-            save_path = self.saver.save(self.sess, save_path)
-            print("Model saved in file: %s" % save_path)
+        # Printing out some comparisons
+        test_idx = np.random.choice(np.arange(0, len(X_test)), 200)
+        test_q_idx = test_idx[:int(len(test_idx) / 2)]
+        test_t_idx = test_idx[int(len(test_idx) / 2):]
+        test_batch_qs = X_test[test_q_idx]  # Query images
+        test_batch_ts = X_test[test_t_idx]  # Test images
+        test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
+        test_batch_qs = self.test_db_predictions[test_q_idx]
+        test_batch_ts = self.test_db_predictions[test_t_idx]
+        output = self.sess.run(self.y_pred,
+                               feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts, self.Y: test_batch_ys,
+                                          self.keep_prob: 1.0})
+        print(test_batch_ys)
+        print(output)
 
         if show_test_acc:
             y_axis = np.array(self.test_acc_history)
@@ -229,7 +269,7 @@ class DiffNet:
 if __name__ == '__main__':
     start_time = time.time()
     net = DiffNet('train', 'validate')
-    net.train(training_epochs=2, learning_rate=0.01, batch_size=64, show_cost=True, show_test_acc=True)
+    net.train(training_epochs=1, learning_rate=0.01, batch_size=64, save=True, show_cost=True, show_test_acc=True)
 
     # test = False
     # if test:
@@ -245,4 +285,4 @@ if __name__ == '__main__':
     #             scores.append(0.0)
     #             print(j, "\t\t", query_img, "- No similar images found...")
     #     print("Average over 100:", np.mean(np.array(scores)))
-    #     print("Time used:", time.time() - start_time)
+    print("Time used:", time.time() - start_time)
