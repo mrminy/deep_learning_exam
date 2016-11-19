@@ -13,7 +13,8 @@ from front import generate_dict_from_directory, score
 
 
 class DiffNet:
-    def __init__(self, db_path, test_db_path=None):
+    def __init__(self, db_path, test_db_path=None, db_features_path='train_db_features.npy',
+                 test_db_features_path='test_db_features.npy'):
         self.feature_extractor = ImageFeatureExtractor()  # Inception-v3
         self.db_path = db_path
         self.test_db_path = test_db_path
@@ -23,6 +24,8 @@ class DiffNet:
             self.test_db = pickle.load(open('./' + test_db_path + '/pickle/combined.pickle', 'rb'))
         self.db_features = None
         self.test_db_features = None
+        self.db_features_name = db_features_path
+        self.test_db_features_name = test_db_features_path
 
         self.history_sampling_rate = 5
         self.display_step = 1
@@ -86,8 +89,8 @@ class DiffNet:
 
             # Define loss, minimize the squared error (with or without scaling)
             self.loss_function = tf.reduce_mean(tf.square(y_true - self.y_pred))
-            # self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
-            self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.9).minimize(self.loss_function)
+            self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
+            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.9).minimize(self.loss_function)
 
             # Evaluate model
             # self.accuracy = tf.reduce_mean(tf.cast(self.loss_function, tf.float32))
@@ -111,6 +114,30 @@ class DiffNet:
         self.saver.restore(self.sess, path + self.model_name + '-' + str(global_step))
         print("Restored Diffnet model")
 
+    def load_image_features(self, load_test_features=False):
+        if self.db_features is None:
+            try:
+                self.db_features = np.load(self.db_features_name)
+            except IOError:
+                pass
+            if self.db_features is None:
+                print("Running feature extracting on db images")
+                self.db_features = self.feature_extractor.run_inference_on_images(self.db,
+                                                                                  path=self.db_path + '/pics/*/',
+                                                                                  save_name=self.db_features_name)
+                print("Finished extracting features from db")
+        if load_test_features and self.test_db_features is None:
+            try:
+                self.test_db_features = np.load(self.test_db_features_name)
+            except IOError:
+                pass
+            if self.test_db_features is None:
+                print("Running feature extracting on test db images")
+                self.test_db_features = self.feature_extractor.run_inference_on_images(self.test_db,
+                                                                                       path=self.test_db_path + '/pics/*/',
+                                                                                       save_name=self.test_db_features_name)
+                print("Finished extracting features from test db")
+
     def train(self, training_epochs=20, learning_rate=0.001, batch_size=32, show_cost=False, show_test_acc=False,
               save=False, save_path='diffnet1/', logger=True):
         # Load and preprocess data
@@ -119,18 +146,10 @@ class DiffNet:
         X_train = np.array(list(self.db.keys()))
         X_test = np.array(list(self.test_db.keys()))
 
-        if self.db_features is None:
-            print("Running feature extracting on db images")
-            self.db_features = self.feature_extractor.run_inference_on_images(self.db, path=self.db_path + '/pics/*/')
-            print("Finished extracting features from db")
-        if self.test_db_features is None:
-            print("Running feature extracting on test db images")
-            self.test_db_features = self.feature_extractor.run_inference_on_images(self.test_db,
-                                                                                   path=self.test_db_path + '/pics/*/')
-            print("Finished extracting features from test db")
-
         if self.sess is None:
             self.build(learning_rate=learning_rate)
+
+        self.load_image_features(load_test_features=True)
 
         total_batch = int(len(X_train) / batch_size)
         if logger:
@@ -229,10 +248,7 @@ class DiffNet:
             plt.show()
 
     def query(self, query_img_name, path='validate/pics/*/'):
-        if self.db_features is None:
-            print("Running feature extracting on db images")
-            self.db_features = self.feature_extractor.run_inference_on_images(self.db)
-            print("Finished extracting features from db")
+        self.load_image_features()
 
         # Find features for query img
         # TODO possible to check if the img is a part of self.db and use the pre-computed features
@@ -244,6 +260,8 @@ class DiffNet:
         equality_scores = self.sess.run(self.y_pred, feed_dict={self.Q: multi_query_features, self.T: self.db_features,
                                                                 self.keep_prob: 1.0})
         eq_threshold = equality_scores.mean() + (5 * equality_scores.std())
+        print("MAX:", equality_scores.max(), "MIN:", equality_scores.min(), "MEAN:", equality_scores.mean(), "STD:",
+              equality_scores.std())
         similar_imgs = []
 
         # TODO make this with np.where()
@@ -266,14 +284,17 @@ class DiffNet:
 if __name__ == '__main__':
     start_time = time.time()
 
-    # Train diffnet
-    # net = DiffNet('train', 'validate')
-    # net.train(training_epochs=1, learning_rate=0.01, batch_size=64, save=True, show_cost=True, show_test_acc=True)
+    train_features_name = 'train_db_features.npy'
+    test_features_name = 'test_db_features.npy'
 
-    test = True
+    # Train diffnet
+    net = DiffNet('train', 'validate',db_features_path=train_features_name, test_db_features_path=test_features_name)
+    net.train(training_epochs=5, learning_rate=0.01, batch_size=64, save=True, show_cost=True, show_test_acc=True)
+
+    test = False
     if test:
         # Test diffnet
-        net = DiffNet('validate')
+        net = DiffNet('validate', db_features_path=test_features_name)
         net.restore('diffnet1_relu/', global_step=5)
         test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
                                                    directory='./validate/txt/')

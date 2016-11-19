@@ -130,7 +130,7 @@ def load_data(data_path='learn_images.npy', labels_path='learn_one_hot.npy'):
 # print(len(score_db))
 # np.save('train_score_db.npy', score_db)
 
-def calculate_score_batch(query_batch, test_batch, db, one_hot=False, score_threshold=0.1):
+def calculate_score_batch(query_batch, test_batch, db, one_hot=True, score_threshold=0.1):
     y = []
     for i, q in enumerate(query_batch):
         score = calculate_score(q, test_batch[i], db)

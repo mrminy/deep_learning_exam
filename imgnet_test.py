@@ -97,7 +97,7 @@ class ImageFeatureExtractor:
             return predictions
         return None
 
-    def run_inference_on_images(self, images, path='validate/pics/*/'):
+    def run_inference_on_images(self, images, path='validate/pics/*/', save_name='validation_feature_embedding.npy'):
         """Runs inference on multiple images.
 
         Args:
@@ -113,19 +113,24 @@ class ImageFeatureExtractor:
 
         # softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
         pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
-        for image in images:
+        for i, image in enumerate(images):
+            if i % 1000 == 0:
+                print("Extracting features from:", i + 1)
             image = find_img_path(path, image)
             if image is not None and tf.gfile.Exists(image):
                 image_data = tf.gfile.FastGFile(image, 'rb').read()
 
                 # predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data}) # Softmax of 1008 labels
-                predictions = self.sess.run(pool_3, {'DecodeJpeg/contents:0': image_data}) # Second to last layer with 2048 image features
+                predictions = self.sess.run(pool_3, {
+                    'DecodeJpeg/contents:0': image_data})  # Second to last layer with 2048 image features
                 predictions = np.squeeze(predictions)
                 preds.append(predictions)
             else:
                 # Did not find any image
                 preds.append(None)
-        return np.array(preds)
+        preds = np.array(preds)
+        np.save(save_name, preds)
+        return preds
 
     def create_session(self):
         # config = tf.ConfigProto()
