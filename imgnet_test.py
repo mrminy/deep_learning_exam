@@ -6,9 +6,10 @@ import os.path
 import re
 import sys
 import tarfile
+import urllib
+from urllib import request
 
 import numpy as np
-import urllib
 import tensorflow as tf
 
 from data_fetcher import find_img_path
@@ -80,9 +81,9 @@ class ImageFeatureExtractor:
                 # 'DecodeJpeg/contents:0': A tensor containing a string providing JPEG
                 #   encoding of the image.
                 # Runs the softmax tensor by feeding the image_data as input to the graph.
-            # softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
-            pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
-            predictions = self.sess.run(pool_3, {'DecodeJpeg/contents:0': image_data})
+            softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
+            # pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
+            predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
             predictions = np.squeeze(predictions)
 
             # Creates node ID --> English string lookup.
@@ -111,8 +112,8 @@ class ImageFeatureExtractor:
         if self.sess is None:
             self.create_session()
 
-        # softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
-        pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
+        softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
+        # pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
         for i, image in enumerate(images):
             if i % 1000 == 0:
                 print("Extracting features from:", i + 1)
@@ -121,7 +122,7 @@ class ImageFeatureExtractor:
                 image_data = tf.gfile.FastGFile(image, 'rb').read()
 
                 # predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data}) # Softmax of 1008 labels
-                predictions = self.sess.run(pool_3, {
+                predictions = self.sess.run(softmax_tensor, {
                     'DecodeJpeg/contents:0': image_data})  # Second to last layer with 2048 image features
                 predictions = np.squeeze(predictions)
                 preds.append(predictions)
@@ -150,7 +151,7 @@ class ImageFeatureExtractor:
                     filename, float(count * block_size) / float(total_size) * 100.0))
                 sys.stdout.flush()
 
-            filepath, _ = urllib.request.urlretrieve(self.DATA_URL, filepath, _progress)
+            filepath, _ = request.urlretrieve(self.DATA_URL, filepath, _progress)
             print()
             statinfo = os.stat(filepath)
             print('Succesfully downloaded', filename, statinfo.st_size, 'bytes.')
@@ -223,8 +224,8 @@ class NodeLookup(object):
 def main():
     img_extractor = ImageFeatureExtractor()
     imgs = np.array(['0e9bcd083efa989c', '0fb1e771f532e7f5', '02f24e18eae95802'])
-    # img_extractor.run_inference_on_image('0e9bcd083efa989c', print_prediction=True)
-    img_extractor.run_inference_on_images(imgs, path='validate/pics/*/')
+    img_extractor.run_inference_on_image('0e9bcd083efa989c', print_prediction=True)
+    # img_extractor.run_inference_on_images(imgs, path='validate/pics/*/')
 
 
 if __name__ == '__main__':

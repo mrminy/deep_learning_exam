@@ -3,17 +3,18 @@
 https://github.com/nlintz/TensorFlow-Tutorials/blob/master/05_convolutional_net.py
 """
 
+import pickle
 import tensorflow as tf
 import numpy as np
 
-from data_fetcher import load_data, convert_to_one_hot
+from data_fetcher import load_data, convert_to_one_hot, calculate_score_batch
 
 
 def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
 
 
-def model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden):
+def model(X, w, w2, w3, w4, p_keep_conv, p_keep_hidden):
     l1a = tf.nn.relu(tf.nn.conv2d(X, w,  # l1a shape=(?, 28, 28, 32)
                                   strides=[1, 1, 1, 1], padding='SAME'))
     l1 = tf.nn.max_pool(l1a, ksize=[1, 2, 2, 1],  # l1 shape=(?, 14, 14, 32)2
@@ -36,15 +37,19 @@ def model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden):
     l4 = tf.nn.relu(tf.matmul(l3, w4))
     l4 = tf.nn.dropout(l4, p_keep_hidden)
 
-    pyx = tf.matmul(l4, w_o)
-    pyx = tf.nn.softmax(pyx)
-    return pyx
+    return l4
 
 
 class FeatureExtractor:
-    def __init__(self, restore_path=None):
+    def __init__(self, db_path, test_db_path=None, restore_path=None):
         self.batch_size = 64
         self.test_size = 64
+        self.db_path = db_path
+        self.test_db_path = test_db_path
+        self.db = pickle.load(open('/home/mikkel/deep_learning_exam/' + db_path + '/pickle/combined.pickle', 'rb'))
+        self.test_db = None
+        if test_db_path is not None:
+            self.test_db = pickle.load(open('/home/mikkel/deep_learning_exam/' + test_db_path + '/pickle/combined.pickle', 'rb'))
         if restore_path is None:
             self.save_path = 'checkpoints4/'
         else:
@@ -52,6 +57,7 @@ class FeatureExtractor:
 
         # Network variables
         self.X = None
+        self.T = None
         self.p_keep_conv = None
         self.p_keep_hidden = None
         self.sess = None
@@ -70,17 +76,22 @@ class FeatureExtractor:
 
     def train(self, train=True):
         self.X = tf.placeholder("float", [None, 64, 48, 3])
-        Y = tf.placeholder("float", [None, 16825])
+        self.T = tf.placeholder("float", [None, 64, 48, 3])
+        Y = tf.placeholder("float", [None, 2])
 
         w = init_weights([3, 3, 3, 32])  # 3x3x1 conv, 32 outputs
         w2 = init_weights([3, 3, 32, 64])  # 3x3x32 conv, 64 outputs
         w3 = init_weights([3, 3, 64, 128])  # 3x3x32 conv, 128 outputs
-        w4 = init_weights([128 * 4 * 4 * 3, 6000])  # FC 128 * 4 * 4 inputs, 625 outputs
-        w_o = init_weights([6000, 16825])  # FC 625 inputs, 10 outputs (labels)
+        w4 = init_weights([128 * 4 * 4 * 3, 1000])  # FC 128 * 4 * 4 inputs, 625 outputs
+        w_o = init_weights([2000, 2])  # FC 625 inputs, 10 outputs (labels)
 
         self.p_keep_conv = tf.placeholder("float")
         self.p_keep_hidden = tf.placeholder("float")
-        self.py_x = model(self.X, w, w2, w3, w4, w_o, self.p_keep_conv, self.p_keep_hidden)
+        x_model = model(self.X, w, w2, w3, w4, self.p_keep_conv, self.p_keep_hidden)
+        t_model = model(self.T, w, w2, w3, w4, self.p_keep_conv, self.p_keep_hidden)
+        concat_tensor = tf.concat(1, [x_model, t_model])
+        self.py_x = tf.matmul(concat_tensor, w_o)
+        self.py_x = tf.nn.softmax(self.py_x)
 
         # cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.py_x, Y))
         # cost = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(self.py_x, Y))
@@ -104,12 +115,16 @@ class FeatureExtractor:
 
         if train:
             # Load training and validation data
-            trX, trY = load_data(data_path='data/small_size/train_images_small.npy',
-                                 labels_path='data/small_size/train_one_hot.npy')
-            teX, teY = load_data(data_path='data/small_size/test_images_small.npy',
-                                 labels_path='data/small_size/test_one_hot.npy')
+            print("Loading images...")
+            trX = load_data(data_path='/home/mikkel/deep_learning_exam/data/small_size/train_images_small.npy',
+                            labels_path='/home/mikkel/deep_learning_exam/data/small_size/train_one_hot.npy')
+            # teX = load_data(data_path='/home/mikkel/deep_learning_exam/data/small_size/test_images_small.npy',
+            #                 labels_path='/home/mikkel/deep_learning_exam/data/small_size/test_one_hot.npy')
+            print("Loaded all images!")
             trX = trX.reshape(-1, 64, 48, 3)  # 28x28x1 input img
-            teX = teX.reshape(-1, 64, 48, 3)  # 28x28x1 input img
+            # teX = teX.reshape(-1, 64, 48, 3)  # 28x28x1 input img
+            X_train = np.array(list(self.db.keys()))
+            X_test = np.array(list(self.test_db.keys()))
 
             for i in range(200):
                 training_batch = zip(range(0, len(trX), self.batch_size),
@@ -118,45 +133,55 @@ class FeatureExtractor:
                 batch_counter = 0
                 total_cost = 0.0
                 for start, end in training_batch:
-                    batch_x = trX[start:end]
-                    batch_y = convert_to_one_hot(trY[start:end])
+                    # batch_x = trX[start:end]
+                    # batch_y = convert_to_one_hot(trY[start:end])
+                    idx = np.random.choice(np.arange(0, len(trX)), self.batch_size*2)
+                    q_idx = idx[:int(len(idx) / 2)]
+                    t_idx = idx[int(len(idx) / 2):]
+                    batch_qs = X_train[q_idx]  # Query images
+                    batch_ts = X_train[t_idx]  # Test images
+                    batch_ys = calculate_score_batch(batch_qs, batch_ts, self.db)
+                    batch_ys = convert_to_one_hot(batch_ys[:])
+                    batch_qs = trX[q_idx]
+                    batch_ts = trX[t_idx]
                     _, last_cost = self.sess.run([train_op, cost],
-                                                 feed_dict={self.X: batch_x, Y: batch_y, self.p_keep_conv: 0.8,
+                                                 feed_dict={self.X: batch_qs, self.T: batch_ts,
+                                                            Y: batch_ys, self.p_keep_conv: 0.8,
                                                             self.p_keep_hidden: 0.5})
                     batch_counter += 1
                     total_cost += last_cost
                     if batch_counter % 100 == 0:
                         print("Training batch nr", batch_counter, "- sample:", start, "-", end, "- cost:", last_cost)
 
-                test_indices = np.arange(len(teX))  # Get a test batch
-                np.random.shuffle(test_indices)
-                test_indices = test_indices[0:self.test_size]
-                test_batch_x = teX[test_indices]
-                test_batch_y = convert_to_one_hot(teY[test_indices])
-                print("Epoch", i, "- Total cost:", total_cost, "Acc:", self.sess.run(accuracy,
-                                                                                     feed_dict={
-                                                                                         self.X: test_batch_x,
-                                                                                         Y: test_batch_y,
-                                                                                         self.p_keep_conv: 1.0,
-                                                                                         self.p_keep_hidden: 1.0}))
+                # test_indices = np.arange(len(teX))  # Get a test batch
+                # np.random.shuffle(test_indices)
+                # test_indices = test_indices[0:self.test_size]
+                # test_batch_x = teX[test_indices]
+                # test_batch_y = convert_to_one_hot(teY[test_indices])
+                # print("Epoch", i, "- Total cost:", total_cost, "Acc:", self.sess.run(accuracy,
+                #                                                                      feed_dict={
+                #                                                                          self.X: test_batch_x,
+                #                                                                          Y: test_batch_y,
+                #                                                                          self.p_keep_conv: 1.0,
+                #                                                                          self.p_keep_hidden: 1.0}))
 
                 # Saving model
                 saver.save(self.sess, self.save_path + 'feature_extractor_model.ckpt', global_step=i + 1)
 
-            test_indices = np.arange(len(teX))  # Get A Test Batch
-            np.random.shuffle(test_indices)
-            test_indices = test_indices[0:self.test_size]
-            test_batch_x = teX[test_indices]
-            test_batch_y = convert_to_one_hot(teY[test_indices])
-            print("Finished acc", self.sess.run(accuracy, feed_dict={self.X: test_batch_x, Y: test_batch_y,
-                                                                     self.p_keep_conv: 1.0,
-                                                                     self.p_keep_hidden: 1.0}))
+            # test_indices = np.arange(len(teX))  # Get A Test Batch
+            # np.random.shuffle(test_indices)
+            # test_indices = test_indices[0:self.test_size]
+            # test_batch_x = teX[test_indices]
+            # test_batch_y = convert_to_one_hot(teY[test_indices])
+            # print("Finished acc", self.sess.run(accuracy, feed_dict={self.X: test_batch_x, Y: test_batch_y,
+            #                                                          self.p_keep_conv: 1.0,
+            #                                                          self.p_keep_hidden: 1.0}))
 
-            index = np.argmax(teY[0])
-            print(teY[0][index])
-            print(
-                self.sess.run(self.py_x, feed_dict={self.X: [teX[0]], self.p_keep_conv: 1.0, self.p_keep_hidden: 1.0})[
-                    0][index])
+            # index = np.argmax(teY[0])
+            # print(teY[0][index])
+            # print(
+            #     self.sess.run(self.py_x, feed_dict={self.X: [teX[0]], self.p_keep_conv: 1.0, self.p_keep_hidden: 1.0})[
+            #         0][index])
         else:
             ckpt = tf.train.get_checkpoint_state(self.save_path)
             if ckpt and ckpt.model_checkpoint_path:
@@ -172,6 +197,6 @@ class FeatureExtractor:
 
 
 if __name__ == '__main__':
-    extractor = FeatureExtractor()
+    extractor = FeatureExtractor('train', 'validate')
     extractor.train(train=True)
     print("Done!")

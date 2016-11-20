@@ -1,3 +1,5 @@
+import random
+
 from resizeimage import resizeimage
 
 from front import generate_dict_from_directory
@@ -107,7 +109,7 @@ def load_images(path='test_images.npy'):
 
 
 def load_data(data_path='learn_images.npy', labels_path='learn_one_hot.npy'):
-    return load_images(data_path), load_one_hot_labels(labels_path)
+    return load_images(data_path)
 
 
 # def generate_pair_similarity_index(db):
@@ -130,13 +132,21 @@ def load_data(data_path='learn_images.npy', labels_path='learn_one_hot.npy'):
 # print(len(score_db))
 # np.save('train_score_db.npy', score_db)
 
-def calculate_score_batch(query_batch, test_batch, db, one_hot=True, score_threshold=0.1):
+def calculate_score_batch(query_batch, test_batch, db, one_hot=True, score_threshold=0.0):
     y = []
     for i, q in enumerate(query_batch):
         score = calculate_score(q, test_batch[i], db)
-        if one_hot and score > score_threshold:
-            score = 1.
-        y.append([score])
+        if one_hot:
+            if score > score_threshold:
+                score = np.array([0, 1])
+            else:
+                score = np.array([1, 0])
+        else:
+            # score = np.array([1-score, score])
+            # if score == 0.0 and random.random() > 0.8:
+            #     score = random.random() / 2
+            score = [score*2]
+        y.append(score)
     return np.array(y)
 
 
@@ -144,7 +154,7 @@ def calculate_score(query, test, db):
     if query in db.keys():
         target_dict = dict(db[query])
     else:
-        print("Could not find target dict for", query)
+        print("Could not find query dict for", query)
         return 0.0
     current_score = 0.0
     best_score = sum(target_dict.values())

@@ -1,6 +1,4 @@
 import pickle
-import random
-
 import numpy as np
 import time
 
@@ -27,7 +25,7 @@ class DiffNet:
         self.db_features_name = db_features_path
         self.test_db_features_name = test_db_features_path
 
-        self.history_sampling_rate = 5
+        self.history_sampling_rate = 100
         self.display_step = 1
 
         self.graph = tf.Graph()
@@ -42,10 +40,10 @@ class DiffNet:
         self.saver = None
 
         # Network Parameters
-        self.n_input = 2048 * 2  # 2048 features from second last layer in Inception-v3
+        self.n_input = 2048*2  # 2048 features from second last layer in Inception-v3
         self.n_output = 1  # Equality score
         self.n_hidden_1 = 500  # 1st hidden layer
-        self.n_hidden_2 = 50  # 2nd hidden layer
+        self.n_hidden_2 = 100  # 2nd hidden layer
 
         self.model_name = 'diff_net.ckpt'
         self.cost_history = []
@@ -55,8 +53,8 @@ class DiffNet:
         print("Building done graph...")
         with self.graph.as_default():
             # Encode curr_state, add transition prediction with selected action and decode to predicted output state
-            self.Q = tf.placeholder("float", [None, int(self.n_input / 2)])  # query placeholder
-            self.T = tf.placeholder("float", [None, self.n_input / 2])  # test placeholder
+            self.Q = tf.placeholder("float", [None, int(self.n_input/2)])  # query placeholder
+            self.T = tf.placeholder("float", [None, int(self.n_input/2)])  # test placeholder
             self.Y = tf.placeholder("float", [None, self.n_output])  # similarity prediction
             self.keep_prob = tf.placeholder(tf.float32)  # For dropout
 
@@ -74,26 +72,47 @@ class DiffNet:
                 'bout': tf.Variable(tf.random_normal([self.n_output])),
             }
 
-            input_tensor = tf.concat(1, [self.Q, self.T])
-            layer_1 = tf.nn.relu(tf.add(tf.matmul(input_tensor, weights['h1']), biases['b1']))
+            # layer_1_q = tf.nn.sigmoid(tf.add(tf.matmul(self.Q, weights['h1']), biases['b1']))
+            # layer_1_drop_q = tf.nn.dropout(layer_1_q, self.keep_prob)  # Dropout layer
+            # layer_1_t = tf.nn.sigmoid(tf.add(tf.matmul(self.T, weights['h1']), biases['b1']))
+            # layer_1_drop_t = tf.nn.dropout(layer_1_t, self.keep_prob)  # Dropout layer
+            # concat_tensor = tf.concat(1, [layer_1_drop_q, layer_1_drop_t])
+
+            concat_tensor = tf.concat(1, [self.Q, self.T])
+            layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(concat_tensor, weights['h1']), biases['b1']))
             layer_1_drop = tf.nn.dropout(layer_1, self.keep_prob)  # Dropout layer
-            layer_2 = tf.nn.relu(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
+            layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
             layer_2_drop = tf.nn.dropout(layer_2, self.keep_prob)  # Dropout layer
-            out = tf.nn.relu(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
-            out = tf.nn.dropout(out, self.keep_prob)  # Dropout layer
+            out = tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout'])
+            # out = tf.nn.softmax(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
+            # out = tf.nn.dropout(out, self.keep_prob)  # Dropout layer
 
             # Prediction
             self.y_pred = out
-            # Targets (Labels) are the input data.
-            y_true = self.Y
-
-            # Define loss, minimize the squared error (with or without scaling)
-            self.loss_function = tf.reduce_mean(tf.square(y_true - self.y_pred))
-            self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
-            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.9).minimize(self.loss_function)
 
             # Evaluate model
-            # self.accuracy = tf.reduce_mean(tf.cast(self.loss_function, tf.float32))
+            correct_prediction = tf.equal(tf.argmax(self.Y, 1), tf.argmax(self.y_pred, 1))
+            self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+            # Define loss, minimize the squared error (with or without scaling)
+            beta = 0.1
+            # self.loss_function = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.y_pred, self.Y))
+
+            # self.loss_function = (tf.reduce_mean(
+            #     tf.nn.softmax_cross_entropy_with_logits(self.y_pred, self.Y) + beta * tf.nn.l2_loss(
+            #         weights['h1']) + beta * tf.nn.l2_loss(biases['b1']) + beta * tf.nn.l2_loss(
+            #         weights['h2']) + beta * tf.nn.l2_loss(biases['b2']) + beta * tf.nn.l2_loss(
+            #         weights['out']) + beta * tf.nn.l2_loss(biases['bout'])))
+
+            # self.loss_function = tf.reduce_mean(-tf.reduce_sum(
+            #     ((self.Y * tf.log(self.y_pred + 1e-9)) + ((1 - self.Y) * tf.log(1 - self.y_pred + 1e-9)))))
+            self.loss_function = tf.reduce_mean(tf.square(self.Y - self.y_pred) + beta * tf.nn.l2_loss(
+                weights['h1']) + beta * tf.nn.l2_loss(biases['b1']) + beta * tf.nn.l2_loss(
+                weights['h2']) + beta * tf.nn.l2_loss(biases['b2']) + beta * tf.nn.l2_loss(
+                weights['out']) + beta * tf.nn.l2_loss(biases['bout']))
+            self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
+            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.0).minimize(self.loss_function)
+            # self.optimizer = tf.train.GradientDescentOptimizer(10.).minimize(self.loss_function)
 
             # Creates a saver
             self.saver = tf.train.Saver()
@@ -104,8 +123,9 @@ class DiffNet:
             # Launch the graph
             # config = tf.ConfigProto()
             # config.gpu_options.allow_growth = True
-            config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
-            self.sess = tf.Session(graph=self.graph, config=config)
+            # config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
+            # self.sess = tf.Session(graph=self.graph, config=config)
+            self.sess = tf.Session(graph=self.graph)
             self.sess.run(self.init)
 
     def restore(self, path, global_step=1):
@@ -126,6 +146,7 @@ class DiffNet:
                                                                                   path=self.db_path + '/pics/*/',
                                                                                   save_name=self.db_features_name)
                 print("Finished extracting features from db")
+            self.db_features /= max(self.db_features.max(), abs(self.db_features.min()))
         if load_test_features and self.test_db_features is None:
             try:
                 self.test_db_features = np.load(self.test_db_features_name)
@@ -137,6 +158,7 @@ class DiffNet:
                                                                                        path=self.test_db_path + '/pics/*/',
                                                                                        save_name=self.test_db_features_name)
                 print("Finished extracting features from test db")
+            self.test_db_features /= max(self.test_db_features.max(), abs(self.test_db_features.min()))
 
     def train(self, training_epochs=20, learning_rate=0.001, batch_size=32, show_cost=False, show_test_acc=False,
               save=False, save_path='diffnet1/', logger=True):
@@ -159,22 +181,25 @@ class DiffNet:
         training_pair_counter = 0
         for epoch in range(training_epochs):
             # Loop over all batches
-            c = None
             idexes = np.arange(len(X_train))
             for i in range(total_batch):
-                idx = np.random.choice(idexes, batch_size * 2, replace=True)
-                q_idx = idx[:int(len(idx) / 2)]
-                t_idx = idx[int(len(idx) / 2):]
+                idx = np.random.choice(idexes, (int(batch_size * 1.5)), replace=True)
+                q_idx = idx[:(len(idx) - int(len(idx) / 3))]
+                t_idx = list(idx[(len(idx) - int(len(idx) / 3)):]) + list(q_idx[int(len(idx) / 3):])
                 batch_qs = X_train[q_idx]  # Query images
                 batch_ts = X_train[t_idx]  # Test images
+                # Shuffling
+                p = np.random.permutation(len(q_idx))
+                batch_qs = batch_qs[p]
+                batch_ts = batch_ts[p]
                 batch_ys = calculate_score_batch(batch_qs, batch_ts, self.db)
                 batch_qs = self.db_features[q_idx]
                 batch_ts = self.db_features[t_idx]
                 # Run optimization op (backprop) and cost op (to get loss value)
                 _, c = self.sess.run([self.optimizer, self.loss_function],
                                      feed_dict={self.Q: batch_qs, self.T: batch_ts, self.Y: batch_ys,
-                                                self.keep_prob: 1.0})
-                training_pair_counter += 1
+                                                self.keep_prob: .5})
+                training_pair_counter += batch_size
                 if i % self.history_sampling_rate == 0:
                     self.cost_history.append(c)
                     test_idx = np.random.choice(np.arange(0, len(X_test)), batch_size)
@@ -186,13 +211,13 @@ class DiffNet:
                     test_batch_qs = self.test_db_features[test_q_idx]
                     test_batch_ts = self.test_db_features[test_t_idx]
                     acc = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
-                                                                       self.Y: test_batch_ys, self.keep_prob: 1.0})
+                                                                       self.Y: test_batch_ys, self.keep_prob: 1.})
                     self.test_acc_history.append(acc)
                     print("Batch index:", '%04d' % i, "Cost:", c, "Validation accuracy:", acc)
 
             # Do more precise test after each epoch
             if epoch % self.display_step == 0:
-                test_idx = np.random.choice(np.arange(0, len(X_test)), 256)
+                test_idx = np.random.choice(np.arange(0, len(X_test)), 1000)
                 test_q_idx = test_idx[:int(len(test_idx) / 2)]
                 test_t_idx = test_idx[int(len(test_idx) / 2):]
                 test_batch_qs = X_test[test_q_idx]  # Query images
@@ -200,28 +225,13 @@ class DiffNet:
                 test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
                 test_batch_qs = self.test_db_features[test_q_idx]
                 test_batch_ts = self.test_db_features[test_t_idx]
-                test_error = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
-                                                                          self.Y: test_batch_ys, self.keep_prob: 1.0})
-                self.test_acc_history.append(test_error)
+                test_accuracy = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
+                                                                        self.Y: test_batch_ys, self.keep_prob: 1.})
+                # self.test_acc_history.append(test_accuracy)
                 print("Epoch:", '%03d' % (epoch + 1), "total trained pairs:", '%09d' % training_pair_counter,
-                      "\ttest error =", test_error, "- time used:", time.time() - start_time)
+                      "\ttest accuracy =", test_accuracy, "- time used:", time.time() - start_time)
                 if save:
                     self.saver.save(self.sess, save_path + self.model_name, global_step=epoch + 1)
-
-        # TODO make final test
-        # test_idx = np.random.choice(np.arange(0, len(X_test)), len(X_test))
-        # test_batch_qs = X_test[test_idx[:int(len(test_idx) / 2)]]  # Query images
-        # test_batch_ts = X_test[test_idx[int(len(test_idx) / 2):]]  # Test images
-        # test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
-        # test_batch_qs = self.feature_extractor.run_inference_on_images(test_batch_qs,
-        #                                                                path=self.test_db_path + '/pics/*/')
-        # test_batch_ts = self.feature_extractor.run_inference_on_images(test_batch_ts,
-        #                                                                path=self.test_db_path + '/pics/*/')
-        # test_error = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
-        #                                                           self.Y: test_batch_ys, self.keep_prob: 1.0})
-        # self.test_acc_history.append(test_error)
-        # print("Epoch:", '%04d' % (epoch + 1), "\ttotal training pairs:", '%07d' % training_pair_counter,
-        #       "\ttest error =", test_error)
 
         # Printing out some comparisons
         test_idx = np.random.choice(np.arange(0, len(X_test)), 200)
@@ -233,7 +243,7 @@ class DiffNet:
         test_batch_qs = self.test_db_features[test_q_idx]
         test_batch_ts = self.test_db_features[test_t_idx]
         output = self.sess.run(self.y_pred,
-                               feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts, self.keep_prob: 1.0})
+                               feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts, self.keep_prob: 1.})
         print(test_batch_ys)
         print(output)
 
@@ -284,12 +294,14 @@ class DiffNet:
 if __name__ == '__main__':
     start_time = time.time()
 
-    train_features_name = 'train_db_features.npy'
-    test_features_name = 'test_db_features.npy'
+    train_features_name = '2048_features/train_db_features.npy'
+    test_features_name = '2048_features/test_db_features.npy'
+    # train_features_name = '1008_features/train_db_features.npy'
+    # test_features_name = '1008_features/test_db_features.npy'
 
     # Train diffnet
-    net = DiffNet('train', 'validate',db_features_path=train_features_name, test_db_features_path=test_features_name)
-    net.train(training_epochs=5, learning_rate=0.01, batch_size=64, save=True, show_cost=True, show_test_acc=True)
+    net = DiffNet('train', 'validate', db_features_path=train_features_name, test_db_features_path=test_features_name)
+    net.train(training_epochs=5, learning_rate=.01, batch_size=64, save=False, show_cost=False, show_test_acc=False)
 
     test = False
     if test:
