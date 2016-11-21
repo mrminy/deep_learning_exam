@@ -57,9 +57,6 @@ class DiffNet:
     def query(self, query_img_name, path='validate/pics/*/'):
         self.load_image_features()
 
-        # self.db_features = self.feature_extractor.run_inference_on_images(self.db, path=self.db_path + '/pics/*/',
-        #                                                                   save_name='test.npy')
-
         # Find features for query img
         # TODO possible to check if the img is a part of self.db and use the pre-computed features
         db_keys = load_label_list(self.db)
@@ -93,28 +90,31 @@ class DiffNet:
             if len(similar_imgs) >= 30:
                 break
 
-        # for i, db_img_name in enumerate(self.db):
-        #     if db_img_name != query_img_name:
-        #         db_img_path = find_img_path(path, db_img_name)
-        #         # db_img = load_image(db_img_name, path=path)
-        #         # db_features = self.feature_extractor.generate_features(db_img)
-        #         db_features = imgnet_test.run_inference_on_image('/home/mikkel/deep_learning_exam/' + db_img_path)
-        #         db_features_indexes = np.where(db_features > db_features.max() * 0.5)
-        #         nr_of_equal_features = np.sum(query_features_indexes[0] == db_features_indexes[0])
-        #         if nr_of_equal_features > equality_threshold:
-        #             cluster.append(db_img_name)
-        #
-        #         if i % 1000 == 0:
-        #             print(i, len(cluster))
-        #
-        #         # TODO find diff in features and select equal images only
-        #         # mse = ((query_features - db_features) ** 2).mean()
-        #         # if mse < self.threshold:
-        #         #     cluster.append(db_img_name)
-        #
-        #         if len(cluster) >= 50:
-        #             print("Breaks because of big cluster...")
-        #             break
+        return similar_imgs
+
+    def query2(self, query_img_name, path='validate/pics/*/'):
+        self.load_image_features()
+
+        # Find features for query img
+        # TODO possible to check if the img is a part of self.db and use the pre-computed features
+        db_keys = load_label_list(self.db)
+        query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
+        if query_features is None:
+            return None
+        similar_imgs = []
+
+        for i, test_name in enumerate(load_label_list(self.db_features)):
+            if test_name != query_img_name:
+                corr = np.correlate(query_features, self.db_features[test_name])
+                # if random.random() < 0.001:
+                #     print(corr[0])
+
+                if corr[0] >= 0.2:
+                    similar_imgs.append(db_keys[i])
+
+            if len(similar_imgs) >= 40:
+                print("Breaks because of big cluster...")
+                break
 
         return similar_imgs
 
@@ -129,7 +129,7 @@ if __name__ == '__main__':
     scores = []
     for j, query_img in enumerate(test_ids):
 
-        cluster = net.query(query_img)
+        cluster = net.query2(query_img)
 
         if cluster is not None and len(cluster) > 0:
             score_res = score(test_labels, target=query_img, selection=cluster, n=len(cluster))
