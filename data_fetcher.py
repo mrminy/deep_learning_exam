@@ -47,6 +47,10 @@ def make_one_hot_labels(train=True, save_file='train_one_hot.npy'):
     np.save(save_file, labels)
 
 
+def load_label_list(db):
+    return np.sort(np.array(list(db.keys())))
+
+
 def convert_to_one_hot(one_hot_indexes):
     nr_of_labels = 16825  # Nr of different labels
     one_hots = []
@@ -145,7 +149,7 @@ def calculate_score_batch(query_batch, test_batch, db, one_hot=True, score_thres
             # score = np.array([1-score, score])
             # if score == 0.0 and random.random() > 0.8:
             #     score = random.random() / 2
-            score = [score*2]
+            score = [score]
         y.append(score)
     return np.array(y)
 

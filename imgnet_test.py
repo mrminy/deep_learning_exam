@@ -6,13 +6,14 @@ import os.path
 import re
 import sys
 import tarfile
+import pickle
 import urllib
 from urllib import request
 
 import numpy as np
 import tensorflow as tf
 
-from data_fetcher import find_img_path
+from data_fetcher import find_img_path, load_label_list
 
 
 class ImageFeatureExtractor:
@@ -98,7 +99,7 @@ class ImageFeatureExtractor:
             return predictions
         return None
 
-    def run_inference_on_images(self, images, path='validate/pics/*/', save_name='validation_feature_embedding.npy'):
+    def run_inference_on_images(self, images, path='validate/pics/*/', save_name='validation_feature_embedding.pickle'):
         """Runs inference on multiple images.
 
         Args:
@@ -108,34 +109,37 @@ class ImageFeatureExtractor:
         Returns:
           Features for those images
         """
-        preds = []
+        preds = {}
         if self.sess is None:
             self.create_session()
 
+        image_list = load_label_list(images)
+
         softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
         # pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
-        for i, image in enumerate(images):
+        for i, image in enumerate(image_list):
             if i % 1000 == 0:
                 print("Extracting features from:", i + 1)
-            image = find_img_path(path, image)
-            if image is not None and tf.gfile.Exists(image):
-                image_data = tf.gfile.FastGFile(image, 'rb').read()
+            image_full = find_img_path(path, image)
+            if image_full is not None and tf.gfile.Exists(image_full):
+                image_data = tf.gfile.FastGFile(image_full, 'rb').read()
 
                 # predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data}) # Softmax of 1008 labels
                 predictions = self.sess.run(softmax_tensor, {
                     'DecodeJpeg/contents:0': image_data})  # Second to last layer with 2048 image features
                 predictions = np.squeeze(predictions)
-                preds.append(predictions)
+                preds[image] = predictions
             else:
                 # Did not find any image
-                preds.append(None)
-        preds = np.array(preds)
-        np.save(save_name, preds)
+                preds[image] = None
+        with open(save_name, 'wb') as handle:
+            pickle.dump(preds, handle)
         return preds
 
     def create_session(self):
         # config = tf.ConfigProto()
         # config.gpu_options.allow_growth = True
+        # config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
         self.sess = tf.Session(graph=self.graph)
 
     def maybe_download_and_extract(self):
