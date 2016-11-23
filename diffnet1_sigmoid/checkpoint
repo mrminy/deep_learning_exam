@@ -1,2 +1,0 @@
-model_checkpoint_path: "diff_net.ckpt-1"
-all_model_checkpoint_paths: "diff_net.ckpt-1"

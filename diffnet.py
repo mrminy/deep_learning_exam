@@ -41,9 +41,9 @@ class DiffNet:
 
         # Network Parameters
         self.n_input = 1008 * 2  # 2048 features from second last layer in Inception-v3
-        self.n_output = 2  # Equality score
-        self.n_hidden_1 = 1000  # 1st hidden layer
-        self.n_hidden_2 = 1000  # 2nd hidden layer
+        self.n_output = 1  # Equality score
+        self.n_hidden_1 = 500  # 1st hidden layer
+        self.n_hidden_2 = 100  # 2nd hidden layer
 
         self.model_name = 'diff_net.ckpt'
         self.cost_history = []
@@ -53,7 +53,7 @@ class DiffNet:
         print("Building graph...")
         with self.graph.as_default():
             # Encode curr_state, add transition prediction with selected action and decode to predicted output state
-            self.Q = tf.placeholder("float", [None, int(self.n_input / 2)])  # query placeholder
+            self.Q = tf.placeholder("float", [None, int(self.n_input)])  # query placeholder
             self.T = tf.placeholder("float", [None, int(self.n_input / 2)])  # test placeholder
             self.Y = tf.placeholder("float", [None, self.n_output])  # similarity prediction
             self.keep_prob = tf.placeholder(tf.float32)  # For dropout
@@ -72,19 +72,19 @@ class DiffNet:
                 'bout': tf.Variable(tf.random_normal([self.n_output])),
             }
 
-            layer_1_q = tf.nn.sigmoid(tf.add(tf.matmul(self.Q, weights['h1']), biases['b1']))
-            layer_1_drop_q = tf.nn.dropout(layer_1_q, self.keep_prob)  # Dropout layer
-            layer_1_t = tf.nn.sigmoid(tf.add(tf.matmul(self.T, weights['h1']), biases['b1']))
-            layer_1_drop_t = tf.nn.dropout(layer_1_t, self.keep_prob)  # Dropout layer
-            concat_tensor = tf.concat(1, [layer_1_drop_q, layer_1_drop_t])
+            # layer_1_q = tf.nn.relu(tf.add(tf.matmul(self.Q, weights['h1']), biases['b1']))
+            # layer_1_drop_q = tf.nn.dropout(layer_1_q, self.keep_prob)  # Dropout layer
+            # layer_1_t = tf.nn.relu(tf.add(tf.matmul(self.T, weights['h1']), biases['b1']))
+            # layer_1_drop_t = tf.nn.dropout(layer_1_t, self.keep_prob)  # Dropout layer
+            # concat_tensor = tf.concat(1, [layer_1_drop_q, layer_1_drop_t])
 
             # concat_tensor = tf.concat(1, [self.Q, self.T])
-            # layer_1 = tf.nn.relu(tf.add(tf.matmul(concat_tensor, weights['h1']), biases['b1']))
-            # layer_1_drop = tf.nn.dropout(layer_1, self.keep_prob)  # Dropout layer
-            layer_2 = tf.nn.relu(tf.add(tf.matmul(concat_tensor, weights['h2']), biases['b2']))
+            layer_1 = tf.nn.sigmoid(tf.add(tf.matmul(self.Q, weights['h1']), biases['b1']))
+            layer_1_drop = tf.nn.dropout(layer_1, self.keep_prob)  # Dropout layer
+            layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
             layer_2_drop = tf.nn.dropout(layer_2, self.keep_prob)  # Dropout layer
-            # out = tf.nn.relu(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
-            out = tf.nn.softmax(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
+            out = tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout'])
+            # out = tf.nn.softmax(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
             # out = tf.nn.dropout(out, self.keep_prob)  # Dropout layer
 
             # Prediction
@@ -95,24 +95,24 @@ class DiffNet:
             self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
             # Define loss, minimize the squared error (with or without scaling)
-            beta = 0.1
+            beta = 0.001
             # self.loss_function = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(self.y_pred, self.Y))
 
-            self.loss_function = (tf.reduce_mean(
-                tf.nn.softmax_cross_entropy_with_logits(self.y_pred, self.Y) + beta * tf.nn.l2_loss(
-                    weights['h1']) + beta * tf.nn.l2_loss(biases['b1']) + beta * tf.nn.l2_loss(
-                    weights['h2']) + beta * tf.nn.l2_loss(biases['b2']) + beta * tf.nn.l2_loss(
-                    weights['out']) + beta * tf.nn.l2_loss(biases['bout'])))
+            # self.loss_function = tf.reduce_mean(
+            #     tf.nn.softmax_cross_entropy_with_logits(self.y_pred, self.Y) + beta * tf.nn.l2_loss(
+            #         weights['h1']) + beta * tf.nn.l2_loss(biases['b1']) + beta * tf.nn.l2_loss(
+            #         weights['h2']) + beta * tf.nn.l2_loss(biases['b2']) + beta * tf.nn.l2_loss(
+            #         weights['out']) + beta * tf.nn.l2_loss(biases['bout']))
 
             # self.loss_function = tf.reduce_mean(-tf.reduce_sum(
             #     ((self.Y * tf.log(self.y_pred + 1e-9)) + ((1 - self.Y) * tf.log(1 - self.y_pred + 1e-9)))))
-            # self.loss_function = tf.reduce_mean(tf.square(self.Y - self.y_pred) + beta * tf.nn.l2_loss(
-            #     weights['h1']) + beta * tf.nn.l2_loss(biases['b1']) + beta * tf.nn.l2_loss(
-            #     weights['h2']) + beta * tf.nn.l2_loss(biases['b2']) + beta * tf.nn.l2_loss(
-            #     weights['out']) + beta * tf.nn.l2_loss(biases['bout']))
+            self.loss_function = tf.reduce_mean(tf.square(self.Y - self.y_pred))  # + beta * tf.nn.l2_loss(
+            # weights['h1']) + beta * tf.nn.l2_loss(biases['b1']) + beta * tf.nn.l2_loss(
+            # weights['h2']) + beta * tf.nn.l2_loss(biases['b2']) + beta * tf.nn.l2_loss(
+            # weights['out']) + beta * tf.nn.l2_loss(biases['bout']))
             self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.loss_function)
-            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.0).minimize(self.loss_function)
-            # self.optimizer = tf.train.GradientDescentOptimizer(10.).minimize(self.loss_function)
+            # self.optimizer = tf.train.RMSPropOptimizer(learning_rate, momentum=0.01).minimize(self.loss_function)
+            # self.optimizer = tf.train.GradientDescentOptimizer(5.).minimize(self.loss_function)
 
             # Creates a saver
             self.saver = tf.train.Saver()
@@ -164,7 +164,7 @@ class DiffNet:
                 print("Finished extracting features from test db")
                 #     self.test_db_features /= max(self.test_db_features.max(), abs(self.test_db_features.min()))
 
-    def train(self, training_epochs=20, learning_rate=0.001, batch_size=32, show_cost=False, show_test_acc=False,
+    def train(self, training_epochs=20, learning_rate=0.01, batch_size=32, show_cost=False, show_test_acc=False,
               save=False, save_path='diffnet1/', logger=True):
         # Load and preprocess data
         if logger:
@@ -197,16 +197,17 @@ class DiffNet:
                 # Shuffling
                 p = np.random.permutation(len(q_idx))
                 batch_qs = batch_qs[p]
-                print(batch_qs)
                 batch_ts = batch_ts[p]
-                batch_ys = calculate_score_batch(batch_qs, batch_ts, self.db)
-                batch_qs = np.array([self.db_features[x] for x in batch_qs])  # self.db_features[q_idx]
-                batch_ts = np.array([self.db_features[x] for x in batch_ts])  # self.db_features[t_idx]
+                batch_qs_f = [self.db_features[x] for x in batch_qs]
+                batch_ts_f = [self.db_features[x] for x in batch_ts]
+                batch_qs_f, batch_ts_f, batch_ys = calculate_score_batch(batch_qs, batch_ts, self.db,
+                                                                         q_features=batch_qs_f, t_features=batch_ts_f)
                 # Run optimization op (backprop) and cost op (to get loss value)
                 _, c = self.sess.run([self.optimizer, self.loss_function],
-                                     feed_dict={self.Q: batch_qs, self.T: batch_ts, self.Y: batch_ys,
+                                     feed_dict={self.Q: batch_qs_f, self.T: batch_ts_f, self.Y: batch_ys,
                                                 self.keep_prob: .5})
-                training_pair_counter += batch_size
+
+                training_pair_counter += len(batch_qs)
                 if i % self.history_sampling_rate == 0:
                     self.cost_history.append(c)
                     test_idx = np.random.choice(np.arange(0, len(X_test)), batch_size)
@@ -214,10 +215,13 @@ class DiffNet:
                     test_t_idx = test_idx[int(len(test_idx) / 2):]
                     test_batch_qs = X_test[test_q_idx]  # Query images
                     test_batch_ts = X_test[test_t_idx]  # Test images
-                    test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
-                    test_batch_qs = [self.test_db_features[x] for x in test_batch_qs] #self.test_db_features[test_q_idx]
-                    test_batch_ts = [self.test_db_features[x] for x in test_batch_ts] #self.test_db_features[test_t_idx]
-                    acc = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
+                    test_batch_qs_f = [self.test_db_features[x] for x in test_batch_qs]
+                    test_batch_ts_f = [self.test_db_features[x] for x in test_batch_ts]
+                    test_batch_qs_f, test_batch_ts_f, test_batch_ys = calculate_score_batch(test_batch_qs,
+                                                                                            test_batch_ts, self.test_db,
+                                                                                            q_features=test_batch_qs_f,
+                                                                                            t_features=test_batch_ts_f)
+                    acc = self.sess.run(self.loss_function, feed_dict={self.Q: test_batch_qs_f, self.T: test_batch_ts_f,
                                                                        self.Y: test_batch_ys, self.keep_prob: 1.})
                     self.test_acc_history.append(acc)
                     print("Batch index:", '%04d' % i, "Cost:", c, "Validation accuracy:", acc)
@@ -229,11 +233,14 @@ class DiffNet:
                 test_t_idx = test_idx[int(len(test_idx) / 2):]
                 test_batch_qs = X_test[test_q_idx]  # Query images
                 test_batch_ts = X_test[test_t_idx]  # Test images
-                test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
-                test_batch_qs = [self.test_db_features[x] for x in test_batch_qs] #self.test_db_features[test_q_idx]
-                test_batch_ts = [self.test_db_features[x] for x in test_batch_ts] #self.test_db_features[test_t_idx]
-                test_accuracy = self.sess.run(self.accuracy,
-                                              feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts,
+                test_batch_qs_f = [self.test_db_features[x] for x in test_batch_qs]
+                test_batch_ts_f = [self.test_db_features[x] for x in test_batch_ts]
+                test_batch_qs_f, test_batch_ts_f, test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts,
+                                                                                        self.test_db,
+                                                                                        q_features=test_batch_qs_f,
+                                                                                        t_features=test_batch_ts_f)
+                test_accuracy = self.sess.run(self.loss_function,
+                                              feed_dict={self.Q: test_batch_qs_f, self.T: test_batch_ts_f,
                                                          self.Y: test_batch_ys, self.keep_prob: 1.})
                 # self.test_acc_history.append(test_accuracy)
                 print("Epoch:", '%03d' % (epoch + 1), "total trained pairs:", '%09d' % training_pair_counter,
@@ -247,11 +254,14 @@ class DiffNet:
         test_t_idx = test_idx[int(len(test_idx) / 2):]
         test_batch_qs = X_test[test_q_idx]  # Query images
         test_batch_ts = X_test[test_t_idx]  # Test images
-        test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts, self.test_db)
-        test_batch_qs = [self.test_db_features[x] for x in test_batch_qs] #self.test_db_features[test_q_idx]
-        test_batch_ts = [self.test_db_features[x] for x in test_batch_ts] #self.test_db_features[test_t_idx]
-        output = self.sess.run(self.y_pred,
-                               feed_dict={self.Q: test_batch_qs, self.T: test_batch_ts, self.keep_prob: 1.})
+        test_batch_qs_f = [self.test_db_features[x] for x in test_batch_qs]
+        test_batch_ts_f = [self.test_db_features[x] for x in test_batch_ts]
+        test_batch_qs_f, test_batch_ts_f, test_batch_ys = calculate_score_batch(test_batch_qs, test_batch_ts,
+                                                                                self.test_db,
+                                                                                q_features=test_batch_qs_f,
+                                                                                t_features=test_batch_ts_f)
+        output = self.sess.run(self.y_pred, feed_dict={self.Q: test_batch_qs_f, self.T: test_batch_ts_f,
+                                                       self.Y: test_batch_ys, self.keep_prob: 1.})
         print(test_batch_ys)
         print(output)
 
@@ -265,26 +275,34 @@ class DiffNet:
             plt.plot(y_axis)
             plt.show()
 
+    def load_numpy_features(self, db_features):
+        features = []
+        for img_name in load_label_list(db_features):
+            features.append(db_features[img_name])
+        return np.array(features)
+
     def query(self, query_img_name, path='validate/pics/*/'):
         self.load_image_features()
 
+        numpy_features = self.load_numpy_features(self.db_features)
+
         # Find features for query img
         # TODO possible to check if the img is a part of self.db and use the pre-computed features
-        db_keys = list(self.db.keys())
+        db_keys = load_label_list(self.db)
         query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
         if query_features is None:
             return None
-        multi_query_features = np.tile(query_features, (len(self.db_features), 1))
-        equality_scores = self.sess.run(self.y_pred, feed_dict={self.Q: multi_query_features, self.T: self.db_features,
-                                                                self.keep_prob: 1.0})
-        eq_threshold = equality_scores.mean() + (5 * equality_scores.std())
+        multi_query_features = np.tile(query_features, (len(numpy_features), 1))
+        multi_query_features = np.concatenate((multi_query_features, numpy_features), axis=1)
+        equality_scores = self.sess.run(self.y_pred, feed_dict={self.Q: multi_query_features, self.keep_prob: 1.0})
+        eq_threshold = equality_scores.max() - equality_scores.std()
         print("MAX:", equality_scores.max(), "MIN:", equality_scores.min(), "MEAN:", equality_scores.mean(), "STD:",
               equality_scores.std())
         similar_imgs = []
 
         # TODO make this with np.where()
         for i, eq_s in enumerate(equality_scores):
-            if eq_s > eq_threshold:
+            if eq_s[0] > eq_threshold:
                 similar_imgs.append(db_keys[i])
 
         # TODO predict all equality scores at once! Would possibly be much faster!
@@ -308,14 +326,14 @@ if __name__ == '__main__':
     test_features_name = '1008_features/test_db_features.pickle'
 
     # Train diffnet
-    net = DiffNet('train', 'validate', db_features_path=train_features_name, test_db_features_path=test_features_name)
-    net.train(training_epochs=20, learning_rate=.01, batch_size=64, save=False, show_cost=False, show_test_acc=False)
+    # net = DiffNet('train', 'validate', db_features_path=train_features_name, test_db_features_path=test_features_name)
+    # net.train(training_epochs=100, learning_rate=.001, batch_size=64, save=True, show_cost=False, show_test_acc=False)
 
-    test = False
+    test = True
     if test:
         # Test diffnet
         net = DiffNet('validate', db_features_path=test_features_name)
-        net.restore('diffnet1_relu/', global_step=5)
+        net.restore('diffnet1/', global_step=100)
         test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
                                                    directory='./validate/txt/')
         test_ids = list(test_labels.keys())[:1000]
@@ -323,7 +341,7 @@ if __name__ == '__main__':
         for j, query_img in enumerate(test_ids):
             cluster = net.query(query_img)
             if cluster is not None and len(cluster) > 0:
-                score_res = score(test_labels, target=query_img, selection=cluster, n=len(cluster))
+                score_res = score(test_labels, target=query_img, selection=cluster)
                 scores.append(score_res)
                 print('%05d' % j, "\t", query_img, "- cluster size:", '%03d' % len(cluster), "- score", score_res,
                       "- avg:", reduce(lambda x, y: x + y, scores) / len(scores))

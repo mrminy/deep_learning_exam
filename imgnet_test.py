@@ -82,9 +82,9 @@ class ImageFeatureExtractor:
                 # 'DecodeJpeg/contents:0': A tensor containing a string providing JPEG
                 #   encoding of the image.
                 # Runs the softmax tensor by feeding the image_data as input to the graph.
-            softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
-            # pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
-            predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data})
+            layer = self.sess.graph.get_tensor_by_name('softmax:0')
+            # layer = self.sess.graph.get_tensor_by_name('pool_3:0')
+            predictions = self.sess.run(layer, {'DecodeJpeg/contents:0': image_data})
             predictions = np.squeeze(predictions)
 
             # Creates node ID --> English string lookup.
@@ -115,8 +115,8 @@ class ImageFeatureExtractor:
 
         image_list = load_label_list(images)
 
-        softmax_tensor = self.sess.graph.get_tensor_by_name('softmax:0')
-        # pool_3 = self.sess.graph.get_tensor_by_name('pool_3:0')
+        layer = self.sess.graph.get_tensor_by_name('softmax:0')
+        # layer = self.sess.graph.get_tensor_by_name('pool_3:0')
         for i, image in enumerate(image_list):
             if i % 1000 == 0:
                 print("Extracting features from:", i + 1)
@@ -125,7 +125,7 @@ class ImageFeatureExtractor:
                 image_data = tf.gfile.FastGFile(image_full, 'rb').read()
 
                 # predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data}) # Softmax of 1008 labels
-                predictions = self.sess.run(softmax_tensor, {
+                predictions = self.sess.run(layer, {
                     'DecodeJpeg/contents:0': image_data})  # Second to last layer with 2048 image features
                 predictions = np.squeeze(predictions)
                 preds[image] = predictions

@@ -1,6 +1,6 @@
 import pickle
-import random
-from PIL import Image
+import time
+import one_hot_full_trainingset as my_code
 
 
 def train(location='./train/'):
@@ -10,7 +10,17 @@ def train(location='./train/'):
     :param location: The location of the training data folder hierarchy
     :return: nothing
     """
-    pass
+    start_time = time.time()
+    train_features_path = '1008_features/train_db_features.pickle'
+
+    training_labels = pickle.load(open(location+'pickle/combined.pickle', 'rb'))
+    # training_labels = list(training_labels.keys())
+
+    # Training
+    net = my_code.DiffNet(training_labels, db_path=location+'pics/*/', db_features_path=train_features_path)
+    net.train(training_epochs=10, learning_rate=.003, batch_size=64, save=True, show_cost=True, show_example=True,
+              save_path='diffnet3/')
+    print("Time used:", time.time() - start_time)
 
 
 def test(queries=list(), location='./test'):
@@ -22,24 +32,23 @@ def test(queries=list(), location='./test'):
     :return: a dictionary with keys equal to the images in the queries - list, and values a list of image-IDs
     retrieved for that input
     """
-
     # ##### The following is an example implementation -- that would lead to 0 points  in the evaluation :-)
     my_return_dict = {}
 
     # Load the dictionary with all training files. This is just to get a hold of which
     # IDs are there; will choose randomly among them
     training_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
-    training_labels = list(training_labels.keys())
 
+    # Restoring previously trained net
+    train_features_path = '1008_features/train_db_features.pickle'
+    net = my_code.DiffNet(training_labels, db_path='./train/pics/*/', db_features_path=train_features_path)
+    net.restore('diffnet3/', global_step=10)
+    start_time = time.time()
     for query in queries:
-
-        # This is the image. Just opening if here for the fun of it; not used later
-        # TODO
-        # image = Image.open(location + '/pics/' + query + '.jpg')
-        # image.show()
-
-        # Generate a random list of 50 entries
-        cluster = [training_labels[random.randint(0, len(training_labels) - 1)] for idx in range(50)]
+        # Finding similar images from db based on query
+        cluster = net.query(query, path=location, show_n_similar_imgs=0)
         my_return_dict[query] = cluster
+
+    print("Time used:", time.time() - start_time)
 
     return my_return_dict

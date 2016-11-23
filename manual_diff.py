@@ -96,35 +96,38 @@ class DiffNet:
         self.load_image_features()
 
         # Find features for query img
-        # TODO possible to check if the img is a part of self.db and use the pre-computed features
         db_keys = load_label_list(self.db)
         query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
         if query_features is None:
             return None
         similar_imgs = []
 
-        for i, test_name in enumerate(load_label_list(self.db_features)):
-            if test_name != query_img_name:
-                corr = np.correlate(query_features, self.db_features[test_name])
+        for i, db_name in enumerate(load_label_list(self.db)):
+            if db_name != query_img_name:
+                corr = np.correlate(query_features, self.db_features[db_name])
                 # if random.random() < 0.001:
                 #     print(corr[0])
 
-                if corr[0] >= 0.2:
+                if corr[0] >= 0.05:
                     similar_imgs.append(db_keys[i])
 
-            if len(similar_imgs) >= 40:
-                print("Breaks because of big cluster...")
-                break
+            # if len(similar_imgs) >= 50:
+            #     print("Breaks because of big cluster...")
+            #     break
 
         return similar_imgs
 
 
 if __name__ == '__main__':
     # test_features_name = '/home/mikkel/deep_learning_exam/2048_features/test_db_features.npy'
-    test_features_name = '/home/mikkel/deep_learning_exam/1008_features/test_db_features.pickle'
-    net = DiffNet('validate', db_features_path=test_features_name)
+    train_features_path = '/home/mikkel/deep_learning_exam/1008_features/train_db_features.pickle'
+    net = DiffNet('train', db_features_path=train_features_path)
     test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
                                                directory='./validate/txt/')
+
+    train_labels = generate_dict_from_directory()
+
+    all_labels = {**test_labels, **train_labels}
     test_ids = load_label_list(test_labels)[:1000]
     scores = []
     for j, query_img in enumerate(test_ids):
@@ -132,9 +135,9 @@ if __name__ == '__main__':
         cluster = net.query2(query_img)
 
         if cluster is not None and len(cluster) > 0:
-            score_res = score(test_labels, target=query_img, selection=cluster, n=len(cluster))
+            score_res = score(all_labels, target=query_img, selection=cluster)
             scores.append(score_res)
-            print('%05d' % j, "\t", query_img, "- cluster size:", '%03d' % len(cluster), "- score", score_res,
+            print('%05d' % j, "\t", query_img, "- cluster size:", '%04d' % len(cluster), "- score", score_res,
                   "- avg:", reduce(lambda x, y: x + y, scores) / len(scores))
         else:
             scores.append(0.0)
