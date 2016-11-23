@@ -1,19 +1,21 @@
 import pickle
+
 import numpy as np
-import time
-
-from functools import reduce
-
+import tensorflow as tf
 from PIL import Image
 from matplotlib import pyplot as plt
-import tensorflow as tf
+
 import imgnet_test
-from data_fetcher import calculate_score_batch, load_label_list, generate_one_hots_numpy, \
-    generate_training_set_one_hots_numpy, generate_training_set_one_hots_numpy_simple, find_img_path
-from front import generate_dict_from_directory, score
+from data_fetcher import load_label_list, generate_training_set_one_hots_numpy, find_img_path
 
 
 class DiffNet:
+    """
+    Neural network that takes image features as input and outputs a vector where each number represents the similarity
+    of that image for that index in the db.
+    Query image --> Inception-v3 --> Diffnet --> Similar images
+    """
+
     def __init__(self, db, db_path='./train/pics/*/', db_features_path='./1008_features/train_db_features.pickle'):
         self.feature_extractor = None
         if db is None:
@@ -50,6 +52,11 @@ class DiffNet:
         self.test_acc_history = []
 
     def build(self, learning_rate=0.01):
+        """
+        Builds the model
+        :param learning_rate: fixed learning rate for the optimizer
+        :return: None
+        """
         print("Building graph...")
         with self.graph.as_default():
             self.Q = tf.placeholder("float", [None, int(self.n_input)])  # query/input placeholder
@@ -128,6 +135,12 @@ class DiffNet:
             self.sess.run(self.init)
 
     def restore(self, path, global_step=None):
+        """
+        Restores a pre-trained model
+        :param path: path for trained model
+        :param global_step: to select a specific checkpoint
+        :return: None
+        """
         if self.sess is None:
             self.build()
         if global_step is None:
@@ -137,6 +150,10 @@ class DiffNet:
         print("Restored model")
 
     def load_image_features(self):
+        """
+        Loads/generates image features from Inception-v3
+        :return: None
+        """
         if self.db_features is None:
             try:
                 with open(self.db_features_name, 'rb') as handle:
@@ -151,12 +168,24 @@ class DiffNet:
 
     def train(self, training_epochs=20, learning_rate=0.01, batch_size=32, show_cost=False, show_example=False,
               save=False, save_path='diffnet3/', logger=True):
+        """
+        Trains the network
+        :param training_epochs: number of epochs to train for. One epoch is one iteration through the training set
+        :param learning_rate: the fixed learning rate
+        :param batch_size: training batch size
+        :param show_cost: show plot for the cost history after training
+        :param show_example: show an example at the end of training
+        :param save: if the model should be saved or not
+        :param save_path: path for where the model is saved
+        :param logger: show unnecessary prints during training
+        :return: None
+        """
         if self.sess is None:
             self.build(learning_rate=learning_rate)
 
         if logger:
             print("Loading image features...")
-        self.load_image_features(load_test_features=True)
+        self.load_image_features()
 
         training_samples = 0
 
@@ -231,19 +260,23 @@ class DiffNet:
             plt.show()
 
     def query(self, query_img_name, path='./validate/pics/*/', show_n_similar_imgs=0):
+        """
+        Insert a query image and get a cluster of similar images in return
+        :param query_img_name: image name
+        :param path: folder path to the image
+        :param show_n_similar_imgs: number of examples to show for the query
+        :return: an array of similar images
+        """
         if self.feature_extractor is None:
             self.feature_extractor = imgnet_test.ImageFeatureExtractor()  # Inception-v3
 
         self.load_image_features()
 
         # Find features for query img
-        db_keys = load_label_list(self.db)
         query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
         if query_features is None:
             return None
         output = self.sess.run(self.y_pred, feed_dict={self.Q: [query_features], self.keep_prob: 1.})
-        similar_imgs = []
-        eq_threshold = 0.01
 
         # Showing similar images
         if show_n_similar_imgs > 0:
@@ -256,10 +289,9 @@ class DiffNet:
                 image = Image.open(img_path)
                 image.show()
 
-        # TODO make this with np.where()
-        for i, o in enumerate(output):
-            if o[0] > eq_threshold:
-                similar_imgs.append(db_keys[i])
+        # Selecting which images that is similar enough
+        eq_threshold = 0.01
+        similar_imgs = output[np.where(output >= eq_threshold)]
         return similar_imgs
 
 
