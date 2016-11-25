@@ -58,5 +58,3 @@ def test(queries=list(), location='./test'):
 
 if __name__ == '__main__':
     train(save_model=True)
-    # pass
-

@@ -7,7 +7,6 @@ import re
 import sys
 import tarfile
 import pickle
-import urllib
 from urllib import request
 
 import numpy as np

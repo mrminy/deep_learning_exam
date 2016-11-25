@@ -3,6 +3,7 @@ import random
 
 import numpy as np
 import tensorflow as tf
+import time
 from PIL import Image
 from matplotlib import pyplot as plt
 from os.path import isfile
@@ -12,7 +13,7 @@ from data_fetcher import load_label_list, generate_training_set_one_hots_numpy, 
     generate_training_set_one_hot_indexes
 
 
-class DiffNet:
+class FeaturesAutoencoder:
     """
     Neural network that takes image features as input and outputs a vector where each number represents the similarity
     of that image for that index in the db.
@@ -29,6 +30,8 @@ class DiffNet:
         self.db_path = db_path
         self.db_features_name = db_features_path
 
+        self.one_hot_indexes_path = './old_features/old_one_hot_indexes/training_one_hot_indexes-'
+
         self.all_labels = load_label_list(self.db)
 
         self.history_sampling_rate = 50
@@ -37,20 +40,21 @@ class DiffNet:
         self.graph = tf.Graph()
 
         # tf placeholders
-        self.Q = None  # Query input
-        self.Y = None  # One hots
+        self.Q = None  # Feature input
+        self.Y = None  # Feature output
         self.y_pred = None
         self.sess = None
         self.keep_prob = None  # for dropout
         self.saver = None
+        self.compressed = None
 
         # Network Parameters
-        self.n_input = 1008  # 1008 features from last layer in Inception-v3
-        self.n_output = len(load_label_list(self.db))  # Equality score for each image in db
-        self.n_hidden_1 = 500  # 1st hidden layer
-        # self.n_hidden_2 = 1  # 2nd hidden layer
+        self.n_input = len(load_label_list(self.db))  # 1008 features from last layer in Inception-v3
+        self.n_output = self.n_input  # Equality score for each image in db
+        self.n_hidden_1 = 500  # encoder/decoder hidden layer
+        self.n_compressed = 50  # Compressed layer
 
-        self.model_name = 'diff_net.ckpt'
+        self.model_name = 'feature_auto_encoder.ckpt'
         self.cost_history = []
         self.test_acc_history = []
 
@@ -67,16 +71,19 @@ class DiffNet:
             self.keep_prob = tf.placeholder(tf.float32)  # For dropout
 
             weights = {
-                'h1': tf.Variable(
+                'encoder_h1': tf.Variable(
                     tf.random_normal([self.n_input, self.n_hidden_1])),
-                # 'h2': tf.Variable(
-                #     tf.random_normal([self.n_hidden_1, self.n_hidden_2])),
+                'compressed': tf.Variable(
+                    tf.random_normal([self.n_hidden_1, self.n_compressed])),
+                'decoder_h1': tf.Variable(
+                    tf.random_normal([self.n_compressed, self.n_hidden_1])),
                 'out': tf.Variable(
                     tf.random_normal([self.n_hidden_1, self.n_output])),
             }
             biases = {
-                'b1': tf.Variable(tf.random_normal([self.n_hidden_1])),
-                # 'b2': tf.Variable(tf.random_normal([self.n_hidden_2])),
+                'encoder_b1': tf.Variable(tf.random_normal([self.n_hidden_1])),
+                'compressed_b': tf.Variable(tf.random_normal([self.n_compressed])),
+                'decoder_b1': tf.Variable(tf.random_normal([self.n_hidden_1])),
                 'bout': tf.Variable(tf.random_normal([self.n_output])),
             }
 
@@ -86,14 +93,13 @@ class DiffNet:
             # layer_1_drop_t = tf.nn.dropout(layer_1_t, self.keep_prob)  # Dropout layer
             # concat_tensor = tf.concat(1, [layer_1_drop_q, layer_1_drop_t])
 
-            # concat_tensor = tf.concat(1, [self.Q, self.T])
-            layer_1 = tf.nn.tanh(tf.add(tf.matmul(self.Q, weights['h1']), biases['b1']))
+            layer_1 = tf.nn.tanh(tf.add(tf.matmul(self.Q, weights['encoder_h1']), biases['encoder_b1']))
             layer_1_drop = tf.nn.dropout(layer_1, self.keep_prob)  # Dropout layer
-            # layer_2 = tf.nn.sigmoid(tf.add(tf.matmul(layer_1_drop, weights['h2']), biases['b2']))
-            # layer_2_drop = tf.nn.dropout(layer_2, self.keep_prob)  # Dropout layer
-            # out = tf.add(tf.matmul(self.Q, weights['out']), biases['bout'])
-            out = tf.nn.tanh(tf.add(tf.matmul(layer_1_drop, weights['out']), biases['bout']))
-            # out = tf.nn.dropout(out, self.keep_prob)  # Dropout layer
+            self.compressed = tf.add(tf.matmul(layer_1_drop, weights['compressed']), biases['compressed_b'])
+            compressed_drop = tf.nn.dropout(tf.nn.tanh(self.compressed), self.keep_prob)  # Dropout layer
+            layer_2 = tf.nn.tanh(tf.add(tf.matmul(compressed_drop, weights['decoder_h1']), biases['decoder_b1']))
+            layer_2_drop = tf.nn.dropout(layer_2, self.keep_prob)  # Dropout layer
+            out = tf.nn.tanh(tf.add(tf.matmul(layer_2_drop, weights['out']), biases['bout']))
 
             # Prediction
             self.y_pred = out
@@ -130,9 +136,9 @@ class DiffNet:
             # Launch the graph
             # config = tf.ConfigProto()
             # config.gpu_options.allow_growth = True
-            config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
+            # config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
             # self.sess = tf.Session(graph=self.graph, config=config)
-            self.sess = tf.Session(graph=self.graph, config=config)
+            self.sess = tf.Session(graph=self.graph)
             self.sess.run(self.init)
 
     def restore(self, path, global_step=None):
@@ -196,9 +202,7 @@ class DiffNet:
 
         self.load_image_features()
 
-        one_hot_indexes_path = './training_one_hot_indexes-'
-
-        indexes_exists = isfile(one_hot_indexes_path + str(0) + '.pickle')
+        indexes_exists = isfile(self.one_hot_indexes_path + str(0) + '.pickle')
         if not indexes_exists:
             print("Could not find any one-hot index files. Generating them...")
             generate_training_set_one_hot_indexes(self.db)
@@ -212,7 +216,7 @@ class DiffNet:
         for epoch in range(training_epochs):
             # Iterating the saved one_hot dicts
             for d in range(0, 11):
-                with open('./training_one_hot_indexes-' + str(d) + '.pickle', 'rb') as f:
+                with open(self.one_hot_indexes_path + str(d) + '.pickle', 'rb') as f:
                     y_data = pickle.load(f)
                     # y_data = self.load_one_hots(d)
                     print("Epoch:", epoch + 1, "- Loading:", d)
@@ -224,12 +228,12 @@ class DiffNet:
                     for i in range(total_batch):
                         idx = np.random.choice(idexes, batch_size, replace=True)
                         batch_qs = y_data_labels[idx]
-                        batch_qs_f = np.array([self.db_features[x] for x in batch_qs])
+                        # batch_qs_f = np.array([self.db_features[x] for x in batch_qs])
                         one_hots = generate_training_set_one_hots_numpy(batch_qs, len(self.all_labels), y_data)
 
                         # Run optimization and loss function to get loss value
                         _, c = self.sess.run([self.optimizer, self.loss_function],
-                                             feed_dict={self.Q: batch_qs_f, self.Y: one_hots, self.keep_prob: .8})
+                                             feed_dict={self.Q: one_hots, self.Y: one_hots, self.keep_prob: 1.})
 
                         training_samples += len(batch_qs)
                         if i % self.history_sampling_rate == 0:
@@ -246,40 +250,41 @@ class DiffNet:
             self.saver.save(self.sess, save_path + self.model_name)
 
         # Running one example to check accuracy and similar images
-        with open('./training_one_hot_indexes-' + str(random.randint(0, 10)) + '.pickle', 'rb') as f:
+        with open(self.one_hot_indexes_path + str(random.randint(0, 10)) + '.pickle', 'rb') as f:
             y_data = pickle.load(f)
             y_data_labels = np.array(list(y_data.keys()))
             idexes = np.arange(len(y_data_labels))
             idx = np.random.choice(idexes, 1, replace=True)
             batch_qs = y_data_labels[idx]
-            batch_qs_f = np.array([self.db_features[x] for x in batch_qs])
+            # batch_qs_f = np.array([self.db_features[x] for x in batch_qs])
             one_hots = generate_training_set_one_hots_numpy(batch_qs, len(self.all_labels), y_data)
-            output = self.sess.run(self.y_pred,
-                                   feed_dict={self.Q: batch_qs_f, self.keep_prob: 1.})
+            output = self.sess.run(self.compressed,
+                                   feed_dict={self.Q: one_hots, self.keep_prob: 1.})
+            print(output)
 
-        if show_example:
-            answer = self.all_labels[np.where(one_hots[0] == 1)]
-            print("Query:", batch_qs[0])
-            # Select top 6 images
-            selected = self.all_labels[output[0].argsort()[-6:][::-1]]
-            equal = 0
-            for s in selected:
-                if s in answer:
-                    equal += 1
-            print("Acc:", equal / len(selected))
-            print("Len:", len(answer), "Whole:", answer)
-            print(selected)
-            for found in selected:
-                img_path = find_img_path('./train/pics/*/', found)
-                image = Image.open(img_path)
-                image.show()
+        # if show_example:
+        #     answer = self.all_labels[np.where(batch_qs_f[0] == 1)]
+        #     print("Query:", batch_qs[0])
+        #     # Select top 6 images
+        #     selected = self.all_labels[output[0].argsort()[-6:][::-1]]
+        #     equal = 0
+        #     for s in selected:
+        #         if s in answer:
+        #             equal += 1
+        #     print("Acc:", equal / len(selected))
+        #     print("Len:", len(answer), "Whole:", answer)
+        #     print(selected)
+        #     for found in selected:
+        #         img_path = find_img_path('./train/pics/*/', found)
+        #         image = Image.open(img_path)
+        #         image.show()
 
         if show_cost:
             y_axis = np.array(self.cost_history)
             plt.plot(y_axis)
             plt.show()
 
-    def query(self, query_img_name, path='./validate/pics/*/', show_n_similar_imgs=0):
+    def cluster(self, query_img_name, path='./validate/pics/*/', show_n_similar_imgs=0):
         """
         Insert a query image and get a cluster of similar images in return
         :param query_img_name: image name
@@ -287,37 +292,39 @@ class DiffNet:
         :param show_n_similar_imgs: number of examples to show for the query
         :return: an array of similar images
         """
-        if self.feature_extractor is None:
-            print("Loading Inception-v3")
-            self.feature_extractor = inception.ImageFeatureExtractor()  # Inception-v3
-
-        # self.load_image_features()
-
-        # Find features for query img
-        query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
-        if query_features is None:
-            print("Could not extract features from image", query_img_name)
-            return []
-        output = self.sess.run(self.y_pred, feed_dict={self.Q: [query_features], self.keep_prob: 1.})
-
-        # Showing similar images
-        if show_n_similar_imgs > 0:
-            np_all_labels = np.array(self.all_labels)
-            print("Query:", query_img_name)
-            selected = np_all_labels[output[0].argsort()[-show_n_similar_imgs:][::-1]]
-            print("Top", show_n_similar_imgs, "similar images:", selected)
-            for found in selected:
-                img_path = find_img_path('./train/pics/*/', found)
-                image = Image.open(img_path)
-                image.show()
-
-        # Selecting which images that is similar enough
-        eq_threshold = output[0].max() - 2 * output[0].std()
-        similar_imgs = self.all_labels[np.where(output[0] >= eq_threshold)[0]]
-        if similar_imgs is None:
-            similar_imgs = []
-        # print(len(similar_imgs))
-        return similar_imgs
+        pass
+        # TODO
+        # if self.feature_extractor is None:
+        #     print("Loading Inception-v3")
+        #     self.feature_extractor = inception.ImageFeatureExtractor()  # Inception-v3
+        #
+        # # self.load_image_features()
+        #
+        # # Find features for query img
+        # query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
+        # if query_features is None:
+        #     print("Could not extract features from image", query_img_name)
+        #     return []
+        # output = self.sess.run(self.y_pred, feed_dict={self.Q: [query_features], self.keep_prob: 1.})
+        #
+        # # Showing similar images
+        # if show_n_similar_imgs > 0:
+        #     np_all_labels = np.array(self.all_labels)
+        #     print("Query:", query_img_name)
+        #     selected = np_all_labels[output[0].argsort()[-show_n_similar_imgs:][::-1]]
+        #     print("Top", show_n_similar_imgs, "similar images:", selected)
+        #     for found in selected:
+        #         img_path = find_img_path('./train/pics/*/', found)
+        #         image = Image.open(img_path)
+        #         image.show()
+        #
+        # # Selecting which images that is similar enough
+        # eq_threshold = output[0].max() - 2 * output[0].std()
+        # similar_imgs = self.all_labels[np.where(output[0] >= eq_threshold)[0]]
+        # if similar_imgs is None:
+        #     similar_imgs = []
+        # # print(len(similar_imgs))
+        # return similar_imgs
 
 
 if __name__ == '__main__':
@@ -327,33 +334,15 @@ if __name__ == '__main__':
     #
     # # train_features_name = '2048_features/train_db_features.pickle'
     # # test_features_name = '2048_features/test_db_features.pickle'
-    # train_features_name = '1008_features/train_db_features.pickle'
-    # test_features_name = '1008_features/test_db_features.pickle'
-    #
-    # # Train diffnet
-    # net = DiffNet()
-    # net.train(training_epochs=20, learning_rate=.003, batch_size=64, save=True, show_cost=True, show_test_acc=False,
-    #           show_example=True, save_path='diffnet3/')
-    #
-    # test = False
-    # if test:
-    #     # Test diffnet
-    #     net = DiffNet('validate', db_features_path=test_features_name)
-    #     net.restore('diffnet3/', global_step=10)
-    #     test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
-    #                                                directory='./validate/txt/')
-    #     test_ids = list(test_labels.keys())[:1000]
-    #     scores = []
-    #     for j, query_img in enumerate(test_ids):
-    #         cluster = net.query(query_img)
-    #         if cluster is not None and len(cluster) > 0:
-    #             score_res = score(test_labels, target=query_img, selection=cluster)
-    #             scores.append(score_res)
-    #             print('%05d' % j, "\t", query_img, "- cluster size:", '%03d' % len(cluster), "- score", score_res,
-    #                   "- avg:", reduce(lambda x, y: x + y, scores) / len(scores))
-    #         else:
-    #             scores.append(0.0)
-    #             print('%05d' % j, "\t", query_img, "- No similar images found...", "- avg:",
-    #                   reduce(lambda x, y: x + y, scores) / len(scores))
-    #     print("Average over 100:", np.mean(np.array(scores)))
-    # print("Time used:", time.time() - start_time)
+    start_time = time.time()
+    train_features_path = '1008_features/train_db_features.pickle'
+
+    training_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
+    # training_labels = list(training_labels.keys())
+
+    # Training
+    net = FeaturesAutoencoder(training_labels, db_path='./train/pics/*/', db_features_path=train_features_path)
+    net.train(training_epochs=20, learning_rate=.003, batch_size=64, save=True, show_cost=True, show_example=False,
+              save_path='feature_autoencoder/')
+    print("Time used:", time.time() - start_time)
+

@@ -5,7 +5,7 @@ import time
 from functools import reduce
 from matplotlib import pyplot as plt
 import tensorflow as tf
-from imgnet_test import ImageFeatureExtractor
+from inception import ImageFeatureExtractor
 from data_fetcher import calculate_score_batch, load_label_list
 from front import generate_dict_from_directory, score
 

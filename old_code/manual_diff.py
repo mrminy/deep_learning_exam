@@ -5,7 +5,7 @@ from functools import reduce
 
 from data_fetcher import load_label_list
 from front import generate_dict_from_directory, score
-from imgnet_test import ImageFeatureExtractor
+from inception import ImageFeatureExtractor
 import numpy as np
 
 

@@ -313,12 +313,12 @@ def generate_training_set_one_hots_numpy_simple(label_list, feature_size):
     return np.array(one_hots)
 
 
-def generate_training_set_one_hot_indexes(db, score_threshold=0.):
+def generate_training_set_one_hot_indexes(db, score_threshold=0.15):
     one_hots_indexes = {}
     save_counter = 0
     labels = load_label_list(db)
     for j, img_name in enumerate(labels):
-        if j+1 % 1000 == 0:
+        if (j+1) % 1000 == 0:
             print(j, "of", len(labels), "-", img_name)
         indexes = []
         for i, test_label in enumerate(labels):
@@ -326,12 +326,12 @@ def generate_training_set_one_hot_indexes(db, score_threshold=0.):
             if score > score_threshold:
                 indexes.append(i)
         one_hots_indexes[img_name] = indexes
-        if j + 1 % 10000 == 0:
-            with open('zero_threshold_one_hot_indexes-' + str(save_counter) + '.pickle', 'wb') as handle:
+        if (j + 1) % 10000 == 0:
+            with open('015_threshold_one_hot_indexes-' + str(save_counter) + '.pickle', 'wb') as handle:
                 pickle.dump(one_hots_indexes, handle)
             save_counter += 1
             one_hots_indexes = {}
-    with open('zero_threshold_one_hot_indexes-' + str(save_counter) + '.pickle', 'wb') as handle:
+    with open('015_threshold_one_hot_indexes-' + str(save_counter) + '.pickle', 'wb') as handle:
         pickle.dump(one_hots_indexes, handle)
 
 
