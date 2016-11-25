@@ -152,7 +152,7 @@ if __name__ == "__main__":
     queries = []
     for i in range(1000):
         queries.append(test_ids[random.randint(0, no_test_images - 1)])
-    results = test(queries=queries)
+    results = test(queries=queries, location='./validate')
 
     # Run the score function
     total_score = 0.0
@@ -164,7 +164,7 @@ if __name__ == "__main__":
             image_score = 0.0
             print('No result generated for ' + image)
         total_score += image_score
-        print('%s scores %8.6f' % (image, image_score))
+        print('%s scores %8.6f selected %d' % (image, image_score, len(results[image])))
 
     print(50 * '=' + '\n' + 'Average score over %d images: %10.8f' % (len(queries), total_score / len(queries))
           + '\n' + 50 * '=')
