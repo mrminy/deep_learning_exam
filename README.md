@@ -1,6 +1,7 @@
 # deep_learning_exam
 
 Mikkel Sannes Nylend
+
 mikkelsn@stud.ntnu.no
 
 **To train semantic image query system:**
@@ -14,7 +15,6 @@ This sends one image to the system and receives some number of semantically simi
 
 `python3 front.py`
 
-
 **To train semantic image clustering system:**
 This trains the last deep autoencoder for the clustering system.
 
@@ -24,7 +24,6 @@ This trains the last deep autoencoder for the clustering system.
 This sends a set of images to the system that should be clustered. 
 
 `python3 features_autoencoder.py -cluster_path '/path_to_images/.../'`
-
 
 **Requirements**
 - Python 3.x

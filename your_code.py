@@ -18,8 +18,8 @@ def train(location='./train/', save_model=True):
 
     # Training
     net = my_code.DiffNet(training_labels, db_path=location+'pics/*/', db_features_path=train_features_path)
-    net.train(training_epochs=10, learning_rate=.003, batch_size=64, save=save_model, show_cost=False, show_example=True,
-              save_path='diffnet500/')
+    net.train(training_epochs=10, learning_rate=.003, batch_size=64, save=save_model, show_cost=True, show_example=True,
+              save_path='model_checkpoints/')
     print("Time used:", time.time() - start_time)
 
 
@@ -42,7 +42,7 @@ def test(queries=list(), location='./test'):
     # Restoring previously trained net
     # train_features_path = '2048_features/train_db_features.pickle'
     net = my_code.DiffNet(training_labels, db_path='./train/pics/*/')
-    net.restore('diffnet500/', global_step=10)
+    net.restore('diffnet_test/')
     start_time = time.time()
     for i, query in enumerate(queries):
         # Finding similar images from db based on query

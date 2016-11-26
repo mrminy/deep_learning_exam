@@ -130,9 +130,9 @@ class DiffNet:
             # Launch the graph
             # config = tf.ConfigProto()
             # config.gpu_options.allow_growth = True
-            config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
+            # config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
             # self.sess = tf.Session(graph=self.graph, config=config)
-            self.sess = tf.Session(graph=self.graph, config=config)
+            self.sess = tf.Session(graph=self.graph)
             self.sess.run(self.init)
 
     def restore(self, path, global_step=None):
@@ -196,7 +196,7 @@ class DiffNet:
 
         self.load_image_features()
 
-        one_hot_indexes_path = './training_one_hot_indexes-'
+        one_hot_indexes_path = './precomputed_labels/015_threshold_one_hot_indexes-'
 
         indexes_exists = isfile(one_hot_indexes_path + str(0) + '.pickle')
         if not indexes_exists:
@@ -211,8 +211,8 @@ class DiffNet:
         # y_data = None
         for epoch in range(training_epochs):
             # Iterating the saved one_hot dicts
-            for d in range(0, 11):
-                with open('./training_one_hot_indexes-' + str(d) + '.pickle', 'rb') as f:
+            for d in range(0, 10):
+                with open(one_hot_indexes_path + str(d) + '.pickle', 'rb') as f:
                     y_data = pickle.load(f)
                     # y_data = self.load_one_hots(d)
                     print("Epoch:", epoch + 1, "- Loading:", d)
@@ -246,7 +246,7 @@ class DiffNet:
             self.saver.save(self.sess, save_path + self.model_name)
 
         # Running one example to check accuracy and similar images
-        with open('./training_one_hot_indexes-' + str(random.randint(0, 10)) + '.pickle', 'rb') as f:
+        with open(one_hot_indexes_path + str(random.randint(0, 10)) + '.pickle', 'rb') as f:
             y_data = pickle.load(f)
             y_data_labels = np.array(list(y_data.keys()))
             idexes = np.arange(len(y_data_labels))
@@ -278,6 +278,28 @@ class DiffNet:
             y_axis = np.array(self.cost_history)
             plt.plot(y_axis)
             plt.show()
+
+    def close(self):
+        if self.sess is not None:
+            self.sess.close()
+        self.sess = None
+
+    def feedforward(self, query_img_name, path='./validate/pics/*/'):
+        if self.feature_extractor is None:
+            print("Loading Inception-v3")
+            self.feature_extractor = inception.ImageFeatureExtractor()  # Inception-v3
+
+        # Find features for query img
+        query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
+        if query_features is None:
+            print("Could not extract features from image", query_img_name)
+            return []
+        output = self.sess.run(self.y_pred, feed_dict={self.Q: [query_features], self.keep_prob: 1.})
+        # Selecting which images that is similar enough
+        eq_threshold = output[0].max() - 2 * output[0].std()
+        one_hot = np.zeros(len(output[0]))
+        one_hot[np.where(output[0] >= eq_threshold)[0]] = 1
+        return one_hot
 
     def query(self, query_img_name, path='./validate/pics/*/', show_n_similar_imgs=0):
         """
@@ -312,7 +334,8 @@ class DiffNet:
                 image.show()
 
         # Selecting which images that is similar enough
-        eq_threshold = output[0].max() - 2 * output[0].std()
+        # eq_threshold = output[0].max() - 2 * output[0].std()
+        eq_threshold = output[0].max() - 4 * output[0].std()
         similar_imgs = self.all_labels[np.where(output[0] >= eq_threshold)[0]]
         if similar_imgs is None:
             similar_imgs = []

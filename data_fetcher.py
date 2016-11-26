@@ -322,6 +322,7 @@ def generate_training_set_one_hot_indexes(db, score_threshold=0.15):
             print(j, "of", len(labels), "-", img_name)
         indexes = []
         for i, test_label in enumerate(labels):
+            # if img_name != test_label:
             score = calculate_score(img_name, test_label, db)
             if score > score_threshold:
                 indexes.append(i)
@@ -338,7 +339,8 @@ def generate_training_set_one_hot_indexes(db, score_threshold=0.15):
 if __name__ == '__main__':
     start_time = time.time()
     training_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
-    generate_training_set_one_hot_indexes(training_labels)
+    print(len(load_label_list(training_labels)))
+    # generate_training_set_one_hot_indexes(training_labels)
     # all_labels = {}
     # for i in range(0, 10):
     #     training_labels = pickle.load(open('./training_one_hot_indexes-' + str(i) + '.pickle', 'rb'))

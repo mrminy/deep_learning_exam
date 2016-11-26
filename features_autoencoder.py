@@ -1,3 +1,4 @@
+import csv
 import pickle
 import random
 
@@ -8,9 +9,13 @@ from PIL import Image
 from matplotlib import pyplot as plt
 from os.path import isfile
 
+from sklearn.cluster import FeatureAgglomeration
+from sklearn.manifold import TSNE
+
 import inception
 from data_fetcher import load_label_list, generate_training_set_one_hots_numpy, find_img_path, \
     generate_training_set_one_hot_indexes
+from one_hot_full_trainingset import DiffNet
 
 
 class FeaturesAutoencoder:
@@ -136,9 +141,9 @@ class FeaturesAutoencoder:
             # Launch the graph
             # config = tf.ConfigProto()
             # config.gpu_options.allow_growth = True
-            # config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
+            config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
             # self.sess = tf.Session(graph=self.graph, config=config)
-            self.sess = tf.Session(graph=self.graph)
+            self.sess = tf.Session(graph=self.graph, config=config)
             self.sess.run(self.init)
 
     def restore(self, path, global_step=None):
@@ -284,56 +289,44 @@ class FeaturesAutoencoder:
             plt.plot(y_axis)
             plt.show()
 
-    def cluster(self, query_img_name, path='./validate/pics/*/', show_n_similar_imgs=0):
-        """
-        Insert a query image and get a cluster of similar images in return
-        :param query_img_name: image name
-        :param path: folder path to the image
-        :param show_n_similar_imgs: number of examples to show for the query
-        :return: an array of similar images
-        """
-        pass
-        # TODO
-        # if self.feature_extractor is None:
-        #     print("Loading Inception-v3")
-        #     self.feature_extractor = inception.ImageFeatureExtractor()  # Inception-v3
-        #
-        # # self.load_image_features()
-        #
-        # # Find features for query img
-        # query_features = self.feature_extractor.run_inference_on_image(query_img_name, path=path)
-        # if query_features is None:
-        #     print("Could not extract features from image", query_img_name)
-        #     return []
-        # output = self.sess.run(self.y_pred, feed_dict={self.Q: [query_features], self.keep_prob: 1.})
-        #
-        # # Showing similar images
-        # if show_n_similar_imgs > 0:
-        #     np_all_labels = np.array(self.all_labels)
-        #     print("Query:", query_img_name)
-        #     selected = np_all_labels[output[0].argsort()[-show_n_similar_imgs:][::-1]]
-        #     print("Top", show_n_similar_imgs, "similar images:", selected)
-        #     for found in selected:
-        #         img_path = find_img_path('./train/pics/*/', found)
-        #         image = Image.open(img_path)
-        #         image.show()
-        #
-        # # Selecting which images that is similar enough
-        # eq_threshold = output[0].max() - 2 * output[0].std()
-        # similar_imgs = self.all_labels[np.where(output[0] >= eq_threshold)[0]]
-        # if similar_imgs is None:
-        #     similar_imgs = []
-        # # print(len(similar_imgs))
-        # return similar_imgs
+    def cluster(self, cluster_images, cluster_db_path, save_csv=False):
+        compressions = []
+
+        # Finding features
+        diffnet = DiffNet(self.db, db_path=self.db_path)
+        diffnet.restore('diffnet500/', global_step=10)
+        print("Calculating features for", len(cluster_images), "images")
+        for img in cluster_images:
+            print("Finding features for:", img)
+            one_hot = diffnet.feedforward(img, cluster_db_path)
+            output = self.sess.run(self.compressed, feed_dict={self.Q: [one_hot], self.keep_prob: 1.})
+            compressions.append(output[0])
+
+        # Clustering
+        print("Performing clustering...")
+        compressions = np.array(compressions)
+        # tsne = TSNE(n_components=1, learning_rate=100)
+        # X_tsne = tsne.fit_transform(compressions)
+        fa = FeatureAgglomeration(n_clusters=10)
+        X_clusters = fa.fit_transform(compressions)
+
+        print("Collecting data...")
+        csv_dict_arr = []
+        for i, img in enumerate(cluster_images):
+            csv_dict_arr.append({'1.img': img, '2.class': np.argmax(X_clusters[i]), '3.features': compressions[i]})
+
+        # Saving
+        if save_csv:
+            keys = load_label_list(csv_dict_arr[0])
+            with open('cluster_result.csv', 'w') as output_file:
+                dict_writer = csv.DictWriter(output_file, keys, delimiter=';')
+                dict_writer.writeheader()
+                dict_writer.writerows(csv_dict_arr)
+
+        return csv_dict_arr
 
 
 if __name__ == '__main__':
-    # Use your_code.py instead!
-    pass
-    # start_time = time.time()
-    #
-    # # train_features_name = '2048_features/train_db_features.pickle'
-    # # test_features_name = '2048_features/test_db_features.pickle'
     start_time = time.time()
     train_features_path = '1008_features/train_db_features.pickle'
 
@@ -342,7 +335,12 @@ if __name__ == '__main__':
 
     # Training
     net = FeaturesAutoencoder(training_labels, db_path='./train/pics/*/', db_features_path=train_features_path)
-    net.train(training_epochs=20, learning_rate=.003, batch_size=64, save=True, show_cost=True, show_example=False,
-              save_path='feature_autoencoder/')
-    print("Time used:", time.time() - start_time)
+    # net.train(training_epochs=20, learning_rate=.003, batch_size=64, save=True, show_cost=True, show_example=False,
+    #           save_path='feature_autoencoder/')
+    net.restore('./feature_autoencoder/', global_step=9)
 
+    testing_labels = pickle.load(open('./validate/pickle/combined.pickle', 'rb'))
+    cluster_lbs = load_label_list(testing_labels)[:1000]
+    cluster = net.cluster(cluster_lbs, './validate/pics/*/', save_csv=True)
+
+    print("Time used:", time.time() - start_time)

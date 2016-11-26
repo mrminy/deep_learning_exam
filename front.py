@@ -2,6 +2,9 @@ import os.path
 import random
 import glob
 import pickle
+
+import time
+
 from your_code import train, test
 
 
@@ -135,6 +138,7 @@ def generate_dict_from_text_file(filename):
 
 
 if __name__ == "__main__":
+    start_time = time.time()
 
     # First calls here to make sure we have generated a list of all IDS and their labels stored in a pickle
     train_labels = generate_dict_from_directory()
@@ -149,9 +153,10 @@ if __name__ == "__main__":
     test_ids = list(test_labels.keys())
     all_labels = {**test_labels, **train_labels}
     no_test_images = len(test_ids)
-    queries = []
-    for i in range(1000):
-        queries.append(test_ids[random.randint(0, no_test_images - 1)])
+    queries = test_ids
+    # for i in range(1000):
+    #     queries.append(test_ids[random.randint(0, no_test_images - 1)])
+
     results = test(queries=queries, location='./validate')
 
     # Run the score function
@@ -164,7 +169,9 @@ if __name__ == "__main__":
             image_score = 0.0
             print('No result generated for ' + image)
         total_score += image_score
-        print('%s scores %8.6f selected %d' % (image, image_score, len(results[image])))
+        print('%s scores %8.6f cluster size %d' % (image, image_score, len(results[image])))
 
     print(50 * '=' + '\n' + 'Average score over %d images: %10.8f' % (len(queries), total_score / len(queries))
           + '\n' + 50 * '=')
+
+    print("Time used:", time.time() - start_time)
