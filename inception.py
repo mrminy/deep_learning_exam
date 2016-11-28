@@ -1,3 +1,8 @@
+"""
+Modified version of Inception code from Tensorflow.
+https://github.com/tensorflow/tensorflow/blob/master/tensorflow/models/image/imagenet/classify_image.py
+"""
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -19,12 +24,6 @@ class ImageFeatureExtractor:
     def __init__(self):
         self.FLAGS = tf.app.flags.FLAGS
 
-        # classify_image_graph_def.pb:
-        #   Binary representation of the GraphDef protocol buffer.
-        # imagenet_synset_to_human_label_map.txt:
-        #   Map from synset ID to a human readable string.
-        # imagenet_2012_challenge_label_map_proto.pbtxt:
-        #   Text representation of a protocol buffer mapping a label to synset ID.
         tf.app.flags.DEFINE_string(
             'model_dir', '/tmp/imagenet',
             """Path to classify_image_graph_def.pb, """
@@ -36,10 +35,7 @@ class ImageFeatureExtractor:
         tf.app.flags.DEFINE_integer('num_top_predictions', 10,
                                     """Display this many predictions.""")
 
-        # pylint: disable=line-too-long
         self.DATA_URL = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz'
-
-        # pylint: enable=line-too-long
 
         self.maybe_download_and_extract()
 
@@ -50,7 +46,7 @@ class ImageFeatureExtractor:
         self.graph = None
 
     def create_graph(self):
-        """Creates a graph from saved GraphDef file and returns a saver."""
+        """Creates a graph from saved GraphDef file."""
         # Creates graph from saved graph_def.pb.
         graph_f = tf.gfile.FastGFile(os.path.join(self.FLAGS.model_dir, 'classify_image_graph_def.pb'), 'rb')
         self.graph_def = tf.GraphDef()
@@ -58,7 +54,7 @@ class ImageFeatureExtractor:
         self.graph = tf.import_graph_def(self.graph_def, name='')
 
     def run_inference_on_image(self, image, path='validate/pics/*/', print_prediction=False):
-        """Runs inference on an image.
+        """Runs inference on one image.
 
         Args:
           image: Image file name.
@@ -66,23 +62,14 @@ class ImageFeatureExtractor:
           print_prediction:
 
         Returns:
-          Nothing
+          Features for the image
         """
         image = find_img_path(path, image)
         if image is not None and tf.gfile.Exists(image):
             image_data = tf.gfile.FastGFile(image, 'rb').read()
             if self.sess is None:
                 self.create_session()
-                # Some useful tensors:
-                # 'softmax:0': A tensor containing the normalized prediction across
-                #   1008 labels.
-                # 'pool_3:0': A tensor containing the next-to-last layer containing 2048
-                #   float description of the image.
-                # 'DecodeJpeg/contents:0': A tensor containing a string providing JPEG
-                #   encoding of the image.
-                # Runs the softmax tensor by feeding the image_data as input to the graph.
             layer = self.sess.graph.get_tensor_by_name('softmax:0')
-            # layer = self.sess.graph.get_tensor_by_name('pool_3:0')
             predictions = self.sess.run(layer, {'DecodeJpeg/contents:0': image_data})
             predictions = np.squeeze(predictions)
 
@@ -115,17 +102,13 @@ class ImageFeatureExtractor:
         image_list = load_label_list(images)
 
         layer = self.sess.graph.get_tensor_by_name('softmax:0')
-        # layer = self.sess.graph.get_tensor_by_name('pool_3:0')
         for i, image in enumerate(image_list):
             if i % 1000 == 0:
                 print("Extracting features from:", i + 1)
             image_full = find_img_path(path, image)
             if image_full is not None and tf.gfile.Exists(image_full):
                 image_data = tf.gfile.FastGFile(image_full, 'rb').read()
-
-                # predictions = self.sess.run(softmax_tensor, {'DecodeJpeg/contents:0': image_data}) # Softmax of 1008 labels
-                predictions = self.sess.run(layer, {
-                    'DecodeJpeg/contents:0': image_data})  # Second to last layer with 2048 image features
+                predictions = self.sess.run(layer, {'DecodeJpeg/contents:0': image_data})
                 predictions = np.squeeze(predictions)
                 preds[image] = predictions
             else:
@@ -136,9 +119,6 @@ class ImageFeatureExtractor:
         return preds
 
     def create_session(self):
-        # config = tf.ConfigProto()
-        # config.gpu_options.allow_growth = True
-        # config = tf.ConfigProto(log_device_placement=True, device_count={'GPU': 0})
         self.sess = tf.Session(graph=self.graph)
 
     def maybe_download_and_extract(self):
@@ -222,14 +202,3 @@ class NodeLookup(object):
         if node_id not in self.node_lookup:
             return ''
         return self.node_lookup[node_id]
-
-
-def main():
-    img_extractor = ImageFeatureExtractor()
-    imgs = np.array(['0e9bcd083efa989c', '0fb1e771f532e7f5', '02f24e18eae95802'])
-    img_extractor.run_inference_on_image('0e9bcd083efa989c', print_prediction=True)
-    # img_extractor.run_inference_on_images(imgs, path='validate/pics/*/')
-
-
-if __name__ == '__main__':
-    main()

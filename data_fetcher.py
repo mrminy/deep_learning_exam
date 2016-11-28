@@ -1,13 +1,10 @@
-import random
-
-import time
-from resizeimage import resizeimage
-
-# from front import generate_dict_from_directory
-import numpy as np
-import pickle
-from PIL import Image
 import glob
+import pickle
+import time
+
+import numpy as np
+from PIL import Image
+from resizeimage import resizeimage
 
 
 # def check_nr_of_labels():
@@ -79,22 +76,22 @@ def find_img_path(partial_path, img_name):
     return None
 
 
-def load_image(img_name, train=True, path=None):
-    arr = []
-    if path is None:
-        path = 'train/pics/*/'
-        if not train:
-            path = 'validate/pics/*/'
-    for filename in glob.glob(path + img_name + '.jpg'):
-        arr.append(Image.open(filename))
-    if len(arr) >= 1:
-        img = pre_process_image(arr[0].copy())
-        return np.true_divide(np.array(img).flatten(), 255)
-    return None
+# def load_image(img_name, train=True, path=None):
+#     arr = []
+#     if path is None:
+#         path = 'train/pics/*/'
+#         if not train:
+#             path = 'validate/pics/*/'
+#     for filename in glob.glob(path + img_name + '.jpg'):
+#         arr.append(Image.open(filename))
+#     if len(arr) >= 1:
+#         img = pre_process_image(arr[0].copy())
+#         return np.true_divide(np.array(img).flatten(), 255)
+#     return None
 
 
-def pre_process_image(img):
-    return resizeimage.resize_cover(img, [64, 48])
+# def pre_process_image(img):
+#     return resizeimage.resize_cover(img, [64, 48])
 
 
 # def make_images(train=True, save_file='train_images_small.npy'):
@@ -129,13 +126,13 @@ def pre_process_image(img):
 #     return one_hots
 
 
-def load_images(path='test_images.npy'):
-    return np.load(path)
+# def load_images(path='test_images.npy'):
+#     return np.load(path)
 
 
-def load_img_feature_vector(path='2048_features/train_db_features.pickle'):
-    with open('/home/mikkel/deep_learning_exam/' + path, 'rb') as handle:
-        return pickle.load(handle)
+# def load_img_feature_vector(path='2048_features/train_db_features.pickle'):
+#     with open('/home/mikkel/deep_learning_exam/' + path, 'rb') as handle:
+#         return pickle.load(handle)
 
 
 # def load_data(numpy=False, data_path='2048_features/train_db_features.pickle', labels_path='learn_one_hot.npy'):
@@ -171,42 +168,42 @@ def load_img_feature_vector(path='2048_features/train_db_features.pickle'):
 # print(len(score_db))
 # np.save('train_score_db.npy', score_db)
 
-def calculate_score_batch(query_batch, test_batch, db, one_hot=False, score_threshold=0.05, q_features=None,
-                          t_features=None):
-    q_batch = []
-    t_batch = []
-    ones = 0
-    zeros = 0
-    diff_threshold = 2
-    y = []
-    for i, q in enumerate(query_batch):
-        # score = calculate_score(q, test_batch[i], db)
-        score = np.correlate(q_features[i], t_features[i])
-        if one_hot:
-            if score > score_threshold and ones + 1 - zeros <= diff_threshold:
-                score = np.array([0, 1])
-                y.append(score)
-                ones += 1
-                q_batch.append(query_batch[i])
-                t_batch.append(test_batch[i])
-            elif zeros + 1 - ones <= diff_threshold:
-                score = np.array([1, 0])
-                y.append(score)
-                zeros += 1
-                q_batch.append(query_batch[i])
-                t_batch.append(test_batch[i])
-        else:
-            # score = np.array([1-score, score])
-            # if score == 0.0 and random.random() > 0.8:
-            #     score = random.random() / 2
-            score = [min(1.0, score[0] * 50)]
-            y.append(score)
-    q_features = np.array(q_features)
-    t_features = np.array(t_features)
-    q_features /= q_features.max()
-    t_features /= t_features.max()
-    q_features = np.concatenate((q_features, t_features), axis=1)
-    return q_features / q_features.max(), t_features / t_features.max(), np.array(y)
+# def calculate_score_batch(query_batch, test_batch, db, one_hot=False, score_threshold=0.05, q_features=None,
+#                           t_features=None):
+#     q_batch = []
+#     t_batch = []
+#     ones = 0
+#     zeros = 0
+#     diff_threshold = 2
+#     y = []
+#     for i, q in enumerate(query_batch):
+#         # score = calculate_score(q, test_batch[i], db)
+#         score = np.correlate(q_features[i], t_features[i])
+#         if one_hot:
+#             if score > score_threshold and ones + 1 - zeros <= diff_threshold:
+#                 score = np.array([0, 1])
+#                 y.append(score)
+#                 ones += 1
+#                 q_batch.append(query_batch[i])
+#                 t_batch.append(test_batch[i])
+#             elif zeros + 1 - ones <= diff_threshold:
+#                 score = np.array([1, 0])
+#                 y.append(score)
+#                 zeros += 1
+#                 q_batch.append(query_batch[i])
+#                 t_batch.append(test_batch[i])
+#         else:
+#             # score = np.array([1-score, score])
+#             # if score == 0.0 and random.random() > 0.8:
+#             #     score = random.random() / 2
+#             score = [min(1.0, score[0] * 50)]
+#             y.append(score)
+#     q_features = np.array(q_features)
+#     t_features = np.array(t_features)
+#     q_features /= q_features.max()
+#     t_features /= t_features.max()
+#     q_features = np.concatenate((q_features, t_features), axis=1)
+#     return q_features / q_features.max(), t_features / t_features.max(), np.array(y)
 
 
 def calculate_score(query, test, db):
@@ -241,54 +238,54 @@ def calculate_score(query, test, db):
     return 0.0
 
 
-def generate_word_base(db):
-    save_name = './all_labels.pickle'
-    labels = []
-    try:
-        labels = pickle.load(open(save_name, 'rb'))
-    except IOError:
-        for img_name in load_label_list(db):
-            for tpl in db[img_name]:
-                lbl = tpl[0]
-                if lbl not in labels:
-                    labels.append(lbl)
-        with open(save_name, 'wb') as handle:
-            pickle.dump(labels, handle)
-    return labels
+# def generate_word_base(db):
+#     save_name = './all_labels.pickle'
+#     labels = []
+#     try:
+#         labels = pickle.load(open(save_name, 'rb'))
+#     except IOError:
+#         for img_name in load_label_list(db):
+#             for tpl in db[img_name]:
+#                 lbl = tpl[0]
+#                 if lbl not in labels:
+#                     labels.append(lbl)
+#         with open(save_name, 'wb') as handle:
+#             pickle.dump(labels, handle)
+#     return labels
 
 
-def generate_one_hots_dict(db, labels, save=False):
-    save_name = './train_one_hot.pickle'
-    one_hot_dict = {}
-    try:
-        one_hot_dict = pickle.load(open(save_name, 'rb'))
-    except IOError:
-        feature_size = len(labels)
+# def generate_one_hots_dict(db, labels, save=False):
+#     save_name = './train_one_hot.pickle'
+#     one_hot_dict = {}
+#     try:
+#         one_hot_dict = pickle.load(open(save_name, 'rb'))
+#     except IOError:
+#         feature_size = len(labels)
+#
+#         for img_name in load_label_list(db):
+#             one_hot = np.zeros(feature_size)
+#             for tpl in db[img_name]:
+#                 label = tpl[0]
+#                 index = labels.index(label)
+#                 one_hot[index] = 1
+#             one_hot_dict[img_name] = one_hot
+#         with open(save_name, 'wb') as handle:
+#             pickle.dump(one_hot_dict, handle)
+#     return one_hot_dict
 
-        for img_name in load_label_list(db):
-            one_hot = np.zeros(feature_size)
-            for tpl in db[img_name]:
-                label = tpl[0]
-                index = labels.index(label)
-                one_hot[index] = 1
-            one_hot_dict[img_name] = one_hot
-        with open(save_name, 'wb') as handle:
-            pickle.dump(one_hot_dict, handle)
-    return one_hot_dict
 
-
-def generate_one_hots_numpy(label_list, all_labels, db):
-    one_hots = []
-    feature_size = len(all_labels)
-    for img_name in label_list:
-        one_hot = np.zeros(feature_size)
-        for tpl in db[img_name]:
-            label = tpl[0]
-            if label in all_labels:
-                index = all_labels.index(label)
-                one_hot[index] = 1
-        one_hots.append(one_hot)
-    return np.array(one_hots)
+# def generate_one_hots_numpy(label_list, all_labels, db):
+#     one_hots = []
+#     feature_size = len(all_labels)
+#     for img_name in label_list:
+#         one_hot = np.zeros(feature_size)
+#         for tpl in db[img_name]:
+#             label = tpl[0]
+#             if label in all_labels:
+#                 index = all_labels.index(label)
+#                 one_hot[index] = 1
+#         one_hots.append(one_hot)
+#     return np.array(one_hots)
 
 
 def generate_training_set_one_hots_numpy(label_list, feature_size, one_hot_indexes):
@@ -304,13 +301,13 @@ def generate_training_set_one_hots_numpy(label_list, feature_size, one_hot_index
     return np.array(one_hots)
 
 
-def generate_training_set_one_hots_numpy_simple(label_list, feature_size):
-    one_hots = []
-    for img_name in label_list:
-        one_hot = np.zeros(feature_size)
-        one_hot[np.where(label_list == img_name)] = 1
-        one_hots.append(one_hot)
-    return np.array(one_hots)
+# def generate_training_set_one_hots_numpy_simple(label_list, feature_size):
+#     one_hots = []
+#     for img_name in label_list:
+#         one_hot = np.zeros(feature_size)
+#         one_hot[np.where(label_list == img_name)] = 1
+#         one_hots.append(one_hot)
+#     return np.array(one_hots)
 
 
 def generate_training_set_one_hot_indexes(db, score_threshold=0.15):
@@ -338,23 +335,7 @@ def generate_training_set_one_hot_indexes(db, score_threshold=0.15):
 
 if __name__ == '__main__':
     start_time = time.time()
+    print("Generating one-hot labels... ")
     training_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
-    print(len(load_label_list(training_labels)))
-    # generate_training_set_one_hot_indexes(training_labels)
-    # all_labels = {}
-    # for i in range(0, 10):
-    #     training_labels = pickle.load(open('./training_one_hot_indexes-' + str(i) + '.pickle', 'rb'))
-    #     all_labels = {**all_labels, **training_labels}
-
-    # labels2 = generate_word_base(training_labels)
-    # one_hots = generate_one_hots_dict(training_labels, labels2)
-
-    # generate_pair_similarity_index(training_labels)
-
-    # make_one_hot_labels(train=False, save_file='test_one_hot.npy')
-    # make_images(train=False, save_file='test_images_small.npy')
-    # path = 'data/small_size/train_images_small.npy'
-    # image_set = load_images(path=path)
-    # image_set = np.true_divide(image_set, 255)
-    # np.save(path, image_set)
-    print("done saving zeros", time.time() - start_time)
+    generate_training_set_one_hot_indexes(training_labels)
+    print("done saving ", time.time() - start_time)

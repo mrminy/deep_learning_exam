@@ -141,19 +141,22 @@ if __name__ == "__main__":
     start_time = time.time()
 
     # First calls here to make sure we have generated a list of all IDS and their labels stored in a pickle
-    train_labels = generate_dict_from_directory()
+    # train_labels = generate_dict_from_directory()
+    train_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
 
     # Now, do training -- OPTIONAL
-    #
     # train()
 
     # Generate random queries, just to run the "test"-function. These are elements from the TEST-SET folder
-    test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle',
-                                               directory='./validate/txt/')
+    # test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle', directory='./validate/txt/')
+    test_labels = pickle.load(open('./validate/pickle/combined.pickle', 'rb'))
     test_ids = list(test_labels.keys())
     all_labels = {**test_labels, **train_labels}
     no_test_images = len(test_ids)
-    queries = test_ids
+    queries = []
+
+    queries = test_ids  # use this to run the full validation set
+    # Use this to run n random queries
     # for i in range(1000):
     #     queries.append(test_ids[random.randint(0, no_test_images - 1)])
 
