@@ -30,7 +30,7 @@ class FeaturesAutoencoder:
         self.db_path = db_path
         self.db_features_name = db_features_path
 
-        self.one_hot_indexes_path = './old_features/old_one_hot_indexes/training_one_hot_indexes-'
+        self.one_hot_indexes_path = './precomputed_labels/015_threshold_one_hot_indexes-'
 
         self.all_labels = load_label_list(self.db)
 
