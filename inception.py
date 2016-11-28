@@ -113,6 +113,7 @@ class ImageFeatureExtractor:
                 preds[image] = predictions
             else:
                 # Did not find any image
+                print("Did not find image", image, "during feature extracting!")
                 preds[image] = None
         with open(save_name, 'wb') as handle:
             pickle.dump(preds, handle)

@@ -18,7 +18,6 @@ def train(location='./train/', save_model=True, small_training_set=False, show_e
     train_features_path = '1008_features/train_db_features.pickle'
 
     training_labels = pickle.load(open(location + 'pickle/combined.pickle', 'rb'))
-    # training_labels = list(training_labels.keys())
 
     # Training
     net = my_code.DiffNet(training_labels, db_path=location + 'pics/*/', db_features_path=train_features_path)
@@ -63,7 +62,7 @@ def test(queries=list(), location='./test', restore_paht='./model_checkpoints/')
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-small_training_set', default=False, type=bool,
-                        help='If you do not have all 100k labels, this must be True!', dest='small_training_set')
+                        help='Train only the first 10k', dest='small_training_set')
     parser.add_argument('-save_model', default=True, type=bool, help='Save the model or not', dest='save_model')
     parser.add_argument('-show_examples', default=False, type=bool, help='Show examples at the end of training or not',
                         dest='show_examples')

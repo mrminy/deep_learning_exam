@@ -275,7 +275,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-train', default=False, type=bool, help='If the model should be trained or not', dest='train')
     parser.add_argument('-small_training_set', default=False, type=bool,
-                        help='If you do not have all 100k labels, this must be True!', dest='small_training_set')
+                        help='If you do not have all 100k labels, only the first 10k, this must be True!',
+                        dest='small_training_set')
     parser.add_argument('-save_csv', default=True, type=bool,
                         help='If the results should be saved to a csv file or not', dest='save_csv')
     parser.add_argument('-test_path', default="validate", help='Path to pickle files that should be clustered',

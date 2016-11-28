@@ -127,6 +127,9 @@ class DiffNet:
             except IOError:
                 pass
             if self.db_features is None:
+                if self.feature_extractor is None:
+                    print("Loading Inception-v3")
+                    self.feature_extractor = inception.ImageFeatureExtractor()  # Inception-v3
                 print("Running feature extracting on db images")
                 self.db_features = self.feature_extractor.run_inference_on_images(self.db, path=self.db_path,
                                                                                   save_name=self.db_features_name)
