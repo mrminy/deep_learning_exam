@@ -1,3 +1,4 @@
+import argparse
 import os.path
 import random
 import glob
@@ -138,6 +139,18 @@ def generate_dict_from_text_file(filename):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-train', default=False, type=bool, help='Train the model before testing', dest='train_model')
+    parser.add_argument('-run_1000_samples', default=False, type=bool,
+                        help='Only run a 1000 samples instead of full test set',
+                        dest='run_1000_samples')
+    parser.add_argument('-test_path', default="validate", help='Path to pickle files that should be tested',
+                        dest='test_path')
+    parser.add_argument('-restore_path', default="./model_checkpoints/", help='Path to pre-trained model',
+                        dest='restore_path')
+
+    args = parser.parse_args()
+
     start_time = time.time()
 
     # First calls here to make sure we have generated a list of all IDS and their labels stored in a pickle
@@ -145,22 +158,24 @@ if __name__ == "__main__":
     train_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
 
     # Now, do training -- OPTIONAL
-    # train()
+    if args.train_model:
+        train()
 
     # Generate random queries, just to run the "test"-function. These are elements from the TEST-SET folder
-    # test_labels = generate_dict_from_directory(pickle_file='./validate/pickle/combined.pickle', directory='./validate/txt/')
-    test_labels = pickle.load(open('./validate/pickle/combined.pickle', 'rb'))
+    test_labels = pickle.load(open('./' + args.test_path + '/pickle/combined.pickle', 'rb'))
     test_ids = list(test_labels.keys())
     all_labels = {**test_labels, **train_labels}
     no_test_images = len(test_ids)
     queries = []
 
-    queries = test_ids  # use this to run the full validation set
-    # Use this to run n random queries
-    # for i in range(1000):
-    #     queries.append(test_ids[random.randint(0, no_test_images - 1)])
+    if not args.run_1000_samples:
+        queries = test_ids  # use this to run the full validation set
+    else:
+        # Use this to run n random queries
+        for i in range(1000):
+            queries.append(test_ids[random.randint(0, no_test_images - 1)])
 
-    results = test(queries=queries, location='./validate')
+    results = test(queries=queries, location='./' + args.test_path, restore_paht=args.restore_path)
 
     # Run the score function
     total_score = 0.0

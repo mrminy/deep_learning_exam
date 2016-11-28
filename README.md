@@ -15,6 +15,11 @@ This trains the semantic image query system (note that this saves the model duri
 
 `python3 your_code.py`
 
+Note that if you do not have downloaded the full set of files, this is needed to run with only 10k labels:
+
+`python3 your_code.py -small_training_set True`
+
+
 **To query semantic image query system:**
 This sends one image to the system and receives some number of semantically similar images 
 (optional to uncomment line 144 in front.py to train the model before restoring).
@@ -25,6 +30,10 @@ This sends one image to the system and receives some number of semantically simi
 This trains the last deep autoencoder for the clustering system.
 
 `python3 features_autoencoder.py -train True`
+
+Note that if you do not have downloaded the full set of files, this is needed to run with only 10k labels:
+
+`python3 features_autoencoder.py -train True -small_training_set True`
 
 **To cluster semantic image clustering system:**
 This sends a set of images to the system that should be clustered. Switch 'validate' to '<my_folder>' for testing.  

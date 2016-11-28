@@ -40,8 +40,8 @@ class FeaturesAutoencoder:
         self.graph = tf.Graph()
 
         # tf placeholders
-        self.Q = None  # Feature input
-        self.Y = None  # Feature output
+        self.Q = None  # One-hot input
+        self.Y = None  # One-hot output
         self.y_pred = None
         self.sess = None
         self.keep_prob = None  # for dropout
@@ -49,10 +49,10 @@ class FeaturesAutoencoder:
         self.compressed = None
 
         # Network Parameters
-        self.n_input = len(load_label_list(self.db))  # 1008 features from last layer in Inception-v3
-        self.n_output = self.n_input  # Equality score for each image in db
-        self.n_hidden_1 = 500  # encoder/decoder hidden layer
-        self.n_compressed = 50  # Compressed layer
+        self.n_input = len(load_label_list(self.db))  # Typically 100k one-hot index input
+        self.n_output = self.n_input  # The same as input
+        self.n_hidden_1 = 500  # encoder/decoder size for the hidden layers
+        self.n_compressed = 50  # Compressed layer (middle layer)
 
         self.model_name = 'feature_auto_encoder.ckpt'
         self.cost_history = []
@@ -66,8 +66,8 @@ class FeaturesAutoencoder:
         """
         print("Building graph...")
         with self.graph.as_default():
-            self.Q = tf.placeholder("float", [None, int(self.n_input)])  # query/input placeholder
-            self.Y = tf.placeholder("float", [None, self.n_output])  # similarity prediction
+            self.Q = tf.placeholder("float", [None, int(self.n_input)])
+            self.Y = tf.placeholder("float", [None, self.n_output])
             self.keep_prob = tf.placeholder(tf.float32)  # For dropout
 
             weights = {
@@ -98,6 +98,7 @@ class FeaturesAutoencoder:
             # Prediction
             self.y_pred = out
 
+            # Mean squared error
             self.loss_function = tf.reduce_mean(tf.square(self.Y - self.y_pred))
 
             # Optimizer
@@ -180,7 +181,6 @@ class FeaturesAutoencoder:
         if small_training_set:
             max_one_hot_files = 1
 
-        # y_data = None
         for epoch in range(training_epochs):
             # Iterating the saved one_hot dicts
             for d in range(0, max_one_hot_files):
@@ -274,6 +274,8 @@ class FeaturesAutoencoder:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-train', default=False, type=bool, help='If the model should be trained or not', dest='train')
+    parser.add_argument('-small_training_set', default=False, type=bool,
+                        help='If you do not have all 100k labels, this must be True!', dest='small_training_set')
     parser.add_argument('-save_csv', default=True, type=bool,
                         help='If the results should be saved to a csv file or not', dest='save_csv')
     parser.add_argument('-test_path', default="validate", help='Path to pickle files that should be clustered',
@@ -288,13 +290,14 @@ if __name__ == '__main__':
 
     training_labels = pickle.load(open('./train/pickle/combined.pickle', 'rb'))
 
-    # Training
     net = FeaturesAutoencoder(training_labels, db_path='./train/pics/*/', db_features_path=train_features_path)
 
     if args.train:
+        # Training for 20 epochs
         net.train(training_epochs=20, learning_rate=.003, batch_size=64, save=True, show_cost=True, show_example=False,
-                  save_path=args.restore_path)
+                  save_path=args.restore_path, small_training_set=args.small_training_set)
     else:
+        # Restoring pre-trained model
         net.restore(args.restore_path)
 
     testing_labels = pickle.load(open('./' + args.test_path + '/pickle/combined.pickle', 'rb'))

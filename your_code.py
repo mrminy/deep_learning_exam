@@ -1,3 +1,4 @@
+import argparse
 import pickle
 import time
 import one_hot_full_trainingset as my_code
@@ -28,7 +29,7 @@ def train(location='./train/', save_model=True, small_training_set=False, show_e
     print("Time used:", time.time() - start_time)
 
 
-def test(queries=list(), location='./test'):
+def test(queries=list(), location='./test', restore_paht='./model_checkpoints/'):
     """
     Test your system with the input. For each input, generate a list of IDs that is returned
     :param queries: list of image-IDs. Each element is assumed to be an entry in the test set. Hence, the image
@@ -45,7 +46,7 @@ def test(queries=list(), location='./test'):
 
     # Restoring previously trained net
     net = my_code.DiffNet(training_labels, db_path='./train/pics/*/')
-    net.restore('model_checkpoints/')
+    net.restore(restore_paht)
     start_time = time.time()
     for i, query in enumerate(queries):
         # Finding similar images from db based on query
@@ -60,5 +61,13 @@ def test(queries=list(), location='./test'):
 
 
 if __name__ == '__main__':
-    # When small_training_set=True it means that only 10k images are used during training (because of limitations in Itslearning)
-    train(save_model=True, small_training_set=True, show_example=False)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-small_training_set', default=False, type=bool,
+                        help='If you do not have all 100k labels, this must be True!', dest='small_training_set')
+    parser.add_argument('-save_model', default=True, type=bool, help='Save the model or not', dest='save_model')
+    parser.add_argument('-show_examples', default=False, type=bool, help='Show examples at the end of training or not',
+                        dest='show_examples')
+
+    args = parser.parse_args()
+
+    train(save_model=args.save_model, small_training_set=args.small_training_set, show_example=args.show_examples)
